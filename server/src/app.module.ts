@@ -5,7 +5,6 @@ import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { MongoDBModule } from '@app/common';
-import { UsersModule } from './users/users.module';
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -41,7 +40,6 @@ import { UsersModule } from './users/users.module';
       }),
     }),
     MongoDBModule,
-    UsersModule
   ],
   controllers: [],
   providers: [],
