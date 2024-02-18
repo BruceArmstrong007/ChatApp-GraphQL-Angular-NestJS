@@ -26,6 +26,12 @@ type Mutation {
   updateUser(updateUserInput: UpdateUserInput!): User!
 }
 
+type Profile {
+  _id: ID!
+  filename: String!
+  url: String!
+}
+
 type Query {
   auth(id: Int!): Auth!
   user(id: Int!): User!
@@ -45,6 +51,11 @@ input UpdateUserInput {
 }
 
 type User {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  _id: ID!
+  email: String!
+  name: String
+  password: String!
+  profile: Profile
+  username: String!
+  verified: Boolean!
 }
