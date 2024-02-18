@@ -1,26 +1,42 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserInput } from './dto/create-user.input';
+import { SearchUserInput } from './dto/search-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
+import { UserRepository } from './database/user.repository';
+import { CreateUserInput } from './dto/create-user.input';
 
 @Injectable()
 export class UsersService {
-  create(createUserInput: CreateUserInput) {
-    return 'This action adds a new user';
+  constructor(private readonly userRepo: UserRepository) {}
+
+  async create(createUserInput: CreateUserInput) {
+    return await this.userRepo.createUser(
+      createUserInput.email,
+      createUserInput.username,
+      createUserInput.password,
+    );
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async search(searchUserInput: SearchUserInput) {
+    return await this.userRepo.searchUsers(
+      searchUserInput.value,
+      searchUserInput.type,
+    );
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(searchUserInput: SearchUserInput) {
+    return await this.userRepo.findUser(
+      searchUserInput.value,
+      searchUserInput.type,
+    );
   }
 
-  update(id: number, updateUserInput: UpdateUserInput) {
-    return `This action updates a #${id} user`;
+  async update(updateUserInput: UpdateUserInput) {
+    const id = updateUserInput.id;
+    delete updateUserInput.id;
+    return await this.userRepo.updateUser(id, updateUserInput);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: string) {
+    return await this.userRepo.deleteUser(id);
   }
 }

@@ -13,8 +13,10 @@ input CreateAuthInput {
 }
 
 input CreateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  confirmPassword: String!
+  email: String!
+  password: String!
+  username: String!
 }
 
 type Mutation {
@@ -45,9 +47,11 @@ input UpdateAuthInput {
 }
 
 input UpdateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  confirmPassword: String
+  email: String
   id: Int!
+  password: String
+  username: String
 }
 
 type User {

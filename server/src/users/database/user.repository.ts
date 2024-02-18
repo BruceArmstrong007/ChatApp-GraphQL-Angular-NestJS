@@ -4,8 +4,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
-import { Types } from 'mongoose';
 import { User } from './user.schema';
+
+export type SearchKeys = 'email' | 'username' | 'id' | 'name';
+
 @Injectable()
 export class UserRepository {
   protected readonly logger = new Logger(UserRepository.name);
@@ -15,55 +17,9 @@ export class UserRepository {
     private readonly configService: ConfigService,
   ) {}
 
-  async findByUsername(username: string): Promise<User | null> {
-    return await this.userModel
-      .findOne({ username })
-      .select('-password')
-      .exec();
-  }
-
-  async findByEmail(email: string): Promise<User | null> {
-    return await this.userModel.findOne({ email }).select('-password').exec();
-  }
-
-  async findByID(id: string): Promise<User | null> {
-    return await this.userModel.findById(id).select('-password').exec();
-  }
-
-  async findUsers(
-    key: string,
-    type: string,
-    username: string,
-  ): Promise<User[] | null> {
-    const regex = new RegExp(key, 'i');
-    let find: any = { username: { $ne: username } };
-    switch (type) {
-      case 'name':
-        find = { ...find, name: regex };
-        break;
-      case 'username':
-        find = { ...find, username: regex };
-        break;
-      default:
-        find = { ...find, name: regex };
-    }
-    return await this.userModel
-      .find(find)
-      .select('-password')
-      .select('-verified')
-      .exec();
-  }
-
-  async userProfile(username: string): Promise<User | null> {
-    return await this.userModel
-      .findOne({ username })
-      .select('-password')
-      .exec();
-  }
-
   async createUser(
-    username: string,
     email: string,
+    username: string,
     unHashedPass: string,
   ): Promise<User> {
     const name = 'User-' + uuidv4();
@@ -80,6 +36,52 @@ export class UserRepository {
     return await newUser.save();
   }
 
+  async searchUsers(value: string, type: SearchKeys): Promise<User[] | null> {
+    const regex = new RegExp(value, 'i');
+    let find = {};
+    switch (type) {
+      case 'name':
+        find = { name: regex };
+        break;
+      case 'username':
+        find = { username: regex };
+        break;
+      default:
+        find = { name: regex };
+    }
+    return await this.userModel
+      .find(find)
+      .select('-password')
+      .select('-verified')
+      .exec();
+  }
+
+  async findUser(value: string, type: SearchKeys): Promise<User | null> {
+    const regex = new RegExp(value, 'i');
+    let find = {};
+    switch (type) {
+      case 'name':
+        find = { name: regex };
+        break;
+      case 'username':
+        find = { username: regex };
+        break;
+      case 'id':
+        find = { _id: regex };
+        break;
+      case 'email':
+        find = { email: regex };
+        break;
+      default:
+        find = { name: regex };
+    }
+    return await this.userModel
+      .findOne(find)
+      .select('-password')
+      .select('-verified')
+      .exec();
+  }
+
   async updateUser(
     userID: string,
     updates: Partial<User>,
@@ -89,41 +91,7 @@ export class UserRepository {
       .exec();
   }
 
-  async uploadProfile(userID: string, filename: string, url: string) {
-    await this.userModel
-      .findByIdAndUpdate(userID, { profile: { filename, url } }, { new: true })
-      .exec();
-  }
-
-  async resetPassword(username: string, unHashedPass: string) {
-    const password = await bcrypt.hash(
-      unHashedPass,
-      Number(this.configService.get('HASH_SALT')),
-    );
-    await this.userModel
-      .findOneAndUpdate({ username: username }, { password }, { new: true })
-      .exec();
-  }
-
-  async deleteUser(username: string): Promise<User | null> {
-    return await this.userModel.findOneAndDelete({ username: username }).exec();
-  }
-
-  async comparePassword(id: string, password: string) {
-    const user: User = await this.userModel.findById(id).exec();
-    if (await bcrypt.compare(password, user.password)) {
-      return true;
-    }
-    return false;
-  }
-
-  async getUsers(users: Types.ObjectId[]): Promise<any> {
-    return await this.userModel
-      .find({
-        _id: { $in: users },
-      })
-      .select('-password')
-      .select('-verified')
-      .exec();
+  async deleteUser(id: string): Promise<User | null> {
+    return await this.userModel.findByIdAndDelete(id).exec();
   }
 }
