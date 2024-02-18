@@ -5,12 +5,14 @@ import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { MongoDBModule } from '@app/common';
+import { AuthorsResolver } from './resolver/author.resolver';
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       playground: false,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      context: ({ req, res }) => ({ req, res }),
       sortSchema: true,
     }),
     ConfigModule.forRoot({
@@ -18,8 +20,8 @@ import { MongoDBModule } from '@app/common';
       envFilePath: '.env',
       validationSchema: Joi.object({
         PORT: Joi.string().required(),
-        CLIENT_URI_1: Joi.string().required(),
-        CLIENT_URI_2: Joi.string().required(),
+        CLIENT_URI1: Joi.string().required(),
+        CLIENT_URI2: Joi.string().required(),
         JWT_SECRET: Joi.string().required(),
         JWT_EXPIRATION: Joi.string().required(),
         MAIL_SERVICE: Joi.string().required(),
@@ -42,6 +44,6 @@ import { MongoDBModule } from '@app/common';
     MongoDBModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [AuthorsResolver],
 })
 export class AppModule {}
