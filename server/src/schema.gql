@@ -2,19 +2,49 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Author {
-  firstName: String
-  id: Int!
-  lastName: String
-  posts: [Post!]!
+type Auth {
+  """Example field (placeholder)"""
+  exampleField: Int!
 }
 
-type Post {
-  id: Int!
-  title: String!
-  votes: Int
+input CreateAuthInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Mutation {
+  createAuth(createAuthInput: CreateAuthInput!): Auth!
+  createUser(createUserInput: CreateUserInput!): User!
+  removeAuth(id: Int!): Auth!
+  removeUser(id: Int!): User!
+  updateAuth(updateAuthInput: UpdateAuthInput!): Auth!
+  updateUser(updateUserInput: UpdateUserInput!): User!
 }
 
 type Query {
-  author(id: Int!): Author!
+  auth(id: Int!): Auth!
+  user(id: Int!): User!
+  users: [User!]!
+}
+
+input UpdateAuthInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+type User {
+  """Example field (placeholder)"""
+  exampleField: Int!
 }
