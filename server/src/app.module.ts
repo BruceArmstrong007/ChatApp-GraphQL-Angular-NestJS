@@ -5,12 +5,13 @@ import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { MongoDBModule } from '@app/common';
-import { AuthorsResolver } from './resolver/author.resolver';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      playground: false,
+      playground: true,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       context: ({ req, res }) => ({ req, res }),
       sortSchema: true,
@@ -42,8 +43,10 @@ import { AuthorsResolver } from './resolver/author.resolver';
       }),
     }),
     MongoDBModule,
+    AuthModule,
+    UsersModule
   ],
   controllers: [],
-  providers: [AuthorsResolver],
+  providers: [],
 })
 export class AppModule {}
