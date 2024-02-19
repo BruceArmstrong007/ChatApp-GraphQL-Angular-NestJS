@@ -19,39 +19,30 @@ export class UsersResolver {
 
   @Query(() => [User], { name: 'users' })
   async search(
-    @Args()
+    @Args('searchUsersData')
     searchUsersInput: SearchUserInput,
   ) {
     return await this.usersService.search(searchUsersInput);
   }
 
-  @Query(() => User, { name: 'user' })
+  @Query(() => User, { name: 'user', nullable: true })
   async findOne(
-    @Args()
+    @Args('findUserData')
     searchUserInput: SearchUserInput,
   ) {
     return await this.usersService.findOne(searchUserInput);
   }
 
   @Mutation(() => User)
-  updateUser(
+  async updateUser(
     @Args('updateUserData')
     updateUserInput: UpdateUserInput,
   ) {
-    let input: Record<string, any> = { ...updateUserInput };
-    if (input.profile_filename && input.profile_url) {
-      input = {
-        ...input,
-        profile: { filename: input.profile_filename, url: input.profile_url },
-      };
-      delete input.profile_filename;
-      delete input.profile_url;
-    }
-    return this.usersService.update(input);
+    return await this.usersService.update(updateUserInput);
   }
 
   @Mutation(() => User)
-  removeUser(@Args('id', { type: () => String }) id: string) {
-    return this.usersService.remove(id);
+  async removeUser(@Args('id', { type: () => String }) id: string) {
+    return await this.usersService.remove(id);
   }
 }

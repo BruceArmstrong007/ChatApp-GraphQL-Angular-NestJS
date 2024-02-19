@@ -3,7 +3,6 @@ import { SearchUserInput } from './dto/search-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { UserRepository } from './database/user.repository';
 import { CreateUserInput } from './dto/create-user.input';
-import { User } from './database/user.schema';
 
 @Injectable()
 export class UsersService {
@@ -31,10 +30,19 @@ export class UsersService {
     );
   }
 
-  async update(updateUserInput: Partial<User>) {
-    const id = updateUserInput.id;
-    delete updateUserInput.id;
-    return await this.userRepo.updateUser(id, updateUserInput);
+  async update(updateUserInput: UpdateUserInput) {
+    let input: Record<string, any> = { ...updateUserInput };
+    if (input.profile_filename && input.profile_url) {
+      input = {
+        ...input,
+        profile: { filename: input.profile_filename, url: input.profile_url },
+      };
+      delete input.profile_filename;
+      delete input.profile_url;
+    }
+    const id = input._id;
+    delete input._id;
+    return await this.userRepo.updateUser(id, input);
   }
 
   async remove(id: string) {

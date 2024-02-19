@@ -29,15 +29,19 @@ type Mutation {
 }
 
 type Profile {
-  _id: ID!
   filename: String!
   url: String!
 }
 
 type Query {
   auth(id: Int!): Auth!
-  user: User!
-  users: [User!]!
+  user(findUserData: SearchUserInput!): User
+  users(searchUsersData: SearchUserInput!): [User!]!
+}
+
+input SearchUserInput {
+  type: String!
+  value: String!
 }
 
 input UpdateAuthInput {
@@ -47,9 +51,8 @@ input UpdateAuthInput {
 }
 
 input UpdateUserInput {
+  _id: String!
   bio: String
-  email: String
-  id: String!
   name: String
   profile_filename: String
   profile_url: String
@@ -58,8 +61,9 @@ input UpdateUserInput {
 
 type User {
   _id: ID!
+  bio: String
   email: String!
-  name: String
+  name: String!
   password: String!
   profile: Profile
   username: String!

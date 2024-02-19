@@ -6,8 +6,6 @@ import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
 import { User } from './user.schema';
 
-export type SearchKeys = 'email' | 'username' | '_id' | 'name';
-
 @Injectable()
 export class UserRepository {
   protected readonly logger = new Logger(UserRepository.name);
@@ -36,7 +34,7 @@ export class UserRepository {
     return await newUser.save();
   }
 
-  async searchUsers(value: string, type: SearchKeys): Promise<User[] | null> {
+  async searchUsers(value: string, type: string): Promise<User[] | null> {
     const regex = new RegExp(value, 'i');
     let find = {};
     switch (type) {
@@ -56,7 +54,7 @@ export class UserRepository {
       .exec();
   }
 
-  async findUser(value: string, type: SearchKeys): Promise<User | null> {
+  async findUser(value: string, type: string): Promise<User | null> {
     const regex = new RegExp(value, 'i');
     let find = {};
     switch (type) {
@@ -67,7 +65,7 @@ export class UserRepository {
         find = { username: regex };
         break;
       case '_id':
-        find = { _id: regex };
+        find = { _id: value };
         break;
       case 'email':
         find = { email: regex };

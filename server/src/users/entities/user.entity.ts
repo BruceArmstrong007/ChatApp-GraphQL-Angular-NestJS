@@ -16,6 +16,9 @@ export class User {
   password: string;
 
   @Field({ nullable: true })
+  bio: string;
+
+  @Field()
   name: string;
 
   @Field(() => Profile, { nullable: true })
