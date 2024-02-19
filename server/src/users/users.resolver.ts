@@ -38,7 +38,16 @@ export class UsersResolver {
     @Args('updateUserData')
     updateUserInput: UpdateUserInput,
   ) {
-    return this.usersService.update(updateUserInput);
+    let input: Record<string, any> = { ...updateUserInput };
+    if (input.profile_filename && input.profile_url) {
+      input = {
+        ...input,
+        profile: { filename: input.profile_filename, url: input.profile_url },
+      };
+      delete input.profile_filename;
+      delete input.profile_url;
+    }
+    return this.usersService.update(input);
   }
 
   @Mutation(() => User)

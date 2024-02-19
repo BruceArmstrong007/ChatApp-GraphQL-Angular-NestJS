@@ -1,4 +1,5 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { Type } from 'class-transformer';
 import {
   IsString,
   IsNotEmpty,
@@ -6,6 +7,8 @@ import {
   IsEmail,
   IsOptional,
   MinLength,
+  IsObject,
+  ValidateNested,
 } from 'class-validator';
 
 @ObjectType({ isAbstract: true })
@@ -44,16 +47,33 @@ export class UpdateUserInput {
   @Field({ nullable: true })
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   profile_url?: string;
 
   @Field({ nullable: true })
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   profile_filename?: string;
 
   constructor(private assign: Partial<UpdateUserInput>) {
+    Object.assign(this, assign);
+  }
+}
+
+
+@ObjectType({ isAbstract: true })
+@InputType({ isAbstract: true })
+export class UserProfile {
+  @Field()
+  @IsString()
+  @IsNotEmpty()
+  filename: string;
+
+  @Field()
+  @IsString()
+  @IsNotEmpty()
+  url: string;
+  
+  constructor(private assign: Partial<UserProfile>) {
     Object.assign(this, assign);
   }
 }
