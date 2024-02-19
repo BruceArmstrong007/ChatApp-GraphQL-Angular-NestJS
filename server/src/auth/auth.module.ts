@@ -4,6 +4,8 @@ import { AuthResolver } from './auth.resolver';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { MailModule } from './mail/mail.module';
+import { Token, TokenSchema } from './database/token.schema';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   providers: [AuthResolver, AuthService],
@@ -18,6 +20,7 @@ import { MailModule } from './mail/mail.module';
       inject: [ConfigService],
     }),
     MailModule,
+    MongooseModule.forFeature([{ name: Token.name, schema: TokenSchema }]),
   ],
   exports: [AuthService],
 })
