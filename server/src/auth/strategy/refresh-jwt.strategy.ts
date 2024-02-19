@@ -19,7 +19,7 @@ export class RefreshJwtStrategy extends PassportStrategy(Strategy, 'refresh') {
   }
 
   async validate(payloadData: CurrentUserType) {
-      const payload = payloadData['_doc'];
+    const payload = payloadData['_doc'];
     if (!payload?.verified)
       throw new UnauthorizedException('User is not verified.');
     return payload;
