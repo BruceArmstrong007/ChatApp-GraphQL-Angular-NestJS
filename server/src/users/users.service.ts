@@ -3,7 +3,6 @@ import { SearchUserInput } from './dto/search-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { UserRepository } from './database/user.repository';
 import { CreateUserInput } from './dto/create-user.input';
-import { User } from './database/user.schema';
 
 @Injectable()
 export class UsersService {

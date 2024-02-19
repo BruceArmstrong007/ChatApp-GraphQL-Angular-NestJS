@@ -73,11 +73,7 @@ export class UserRepository {
       default:
         find = { name: regex };
     }
-    return await this.userModel
-      .findOne(find)
-      .select('-password')
-      .select('-verified')
-      .exec();
+    return await this.userModel.findOne(find).select('-password').exec();
   }
 
   async updateUser(
