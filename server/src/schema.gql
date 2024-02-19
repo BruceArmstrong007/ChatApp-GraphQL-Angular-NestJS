@@ -3,8 +3,8 @@
 # ------------------------------------------------------
 
 type Auth {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  accessToken: String!
+  user: User
 }
 
 input CreateUserInput {

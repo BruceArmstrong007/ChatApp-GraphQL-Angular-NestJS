@@ -1,17 +1,23 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthResolver } from './auth.resolver';
-import { JwtModule } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { MailModule } from './mail/mail.module';
 import { Token, TokenSchema } from './database/token.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from 'src/users/users.module';
-import { PassportModule } from '@nestjs/passport';
 import { LocalAuthStrategy } from './strategy/local-auth.strategy';
+import { AuthRepository } from './database/auth.repository';
 
 @Module({
-  providers: [AuthResolver, AuthService, LocalAuthStrategy],
+  providers: [
+    AuthResolver,
+    AuthRepository,
+    AuthService,
+    LocalAuthStrategy,
+    JwtService,
+  ],
   imports: [
     JwtModule.registerAsync({
       useFactory: (configService: ConfigService) => ({
@@ -23,10 +29,9 @@ import { LocalAuthStrategy } from './strategy/local-auth.strategy';
       inject: [ConfigService],
     }),
     MailModule,
-    PassportModule,
     MongooseModule.forFeature([{ name: Token.name, schema: TokenSchema }]),
     forwardRef(() => UsersModule),
   ],
-  exports: [AuthService],
+  exports: [AuthService, AuthRepository],
 })
 export class AuthModule {}

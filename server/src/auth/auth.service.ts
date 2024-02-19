@@ -1,56 +1,39 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAuthInput, LoginAuthInput } from './dto/login-auth.input';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { Response } from 'express';
+import { CurrentUserType } from '@app/common';
+import { ConfigService } from '@nestjs/config';
+import { AuthRepository } from './database/auth.repository';
+import { GraphQLExecutionContext } from '@nestjs/graphql';
 
 @Injectable()
 export class AuthService {
-  // create(createAuthInput: CreateAuthInput) {
-  //   return 'This action adds a new auth';
-  // }
+  constructor(
+    private readonly config: ConfigService,
+    private readonly authRepo: AuthRepository,
+  ) {}
 
-  // findAll() {
-  //   return `This action returns all auth`;
-  // }
+  async login(user: CurrentUserType, context: GraphQLExecutionContext) {
+    if (!user.verified) {
+      throw new BadRequestException("User's email is not verified.");
+    }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} auth`;
-  // }
+    const payload = { ...user };
 
-  // update(id: number, updateAuthInput: UpdateAuthInput) {
-  //   return `This action updates a #${id} auth`;
-  // }
+    const { accessToken, refreshToken } = await this.authRepo.generateJWT(payload);
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} auth`;
-  // }
+    const expires = Number(this.config.get('COOKIE_EXPIRATION'));
+    await context['res'].cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      maxAge: expires,
+    });
+    await context['res'].cookie('isLoggedIn', true, {
+      sameSite: 'none',
+      secure: true,
+      maxAge: expires,
+    });
 
-  async login(loginAuthInput: LoginAuthInput) {
-    console.log(loginAuthInput);
-    return await loginAuthInput;
-    // if (!user?.verified) {
-    //   throw new BadRequestException("User's email is not verified.");
-    // }
-    // const payload = {
-    //   userID: user._id,
-    //   username: user.username,
-    //   email: user.email,
-    //   verified: user.verified,
-    // };
-    // const { accessToken, refreshToken } =
-    //   await this.authRepository.generateJWT(payload);
-
-    // const expires = Number(this.config.get('COOKIE_EXPIRATION'));
-    // response.cookie('refreshToken', refreshToken, {
-    //   httpOnly: true,
-    //   secure: true,
-    //   sameSite: 'none',
-    //   maxAge: expires
-    // });
-    // response.cookie('isLoggedIn', true, {
-    //   sameSite: 'none',
-    //   secure: true,
-    //   maxAge: expires
-    // });
-
-    // response.status(200).json({ accessToken });
+    return await { accessToken, user };
   }
 }
