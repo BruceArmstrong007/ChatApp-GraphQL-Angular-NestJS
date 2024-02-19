@@ -92,4 +92,12 @@ export class UserRepository {
   async deleteUser(id: string): Promise<User | null> {
     return await this.userModel.findByIdAndDelete(id).exec();
   }
+
+  async comparePassword(id: string, password: string) {
+    const user: User = await this.userModel.findById(id).exec();
+    if (await bcrypt.compare(password, user.password)) {
+      return true;
+    }
+    return false;
+  }
 }
