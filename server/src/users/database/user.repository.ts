@@ -6,7 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
 import { User } from './user.schema';
 
-export type SearchKeys = 'email' | 'username' | 'id' | 'name';
+export type SearchKeys = 'email' | 'username' | '_id' | 'name';
 
 @Injectable()
 export class UserRepository {
@@ -66,7 +66,7 @@ export class UserRepository {
       case 'username':
         find = { username: regex };
         break;
-      case 'id':
+      case '_id':
         find = { _id: regex };
         break;
       case 'email':

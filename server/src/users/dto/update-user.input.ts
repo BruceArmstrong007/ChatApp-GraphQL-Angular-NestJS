@@ -16,38 +16,38 @@ export class UpdateUserInput {
   @IsNotEmpty()
   id: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   @IsNotEmpty()
   @MaxLength(25)
   username?: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @IsEmail()
   @IsNotEmpty()
   email?: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   @MinLength(1)
   @MaxLength(50)
   name?: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   bio?: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   @IsNotEmpty()
   profile_url?: string;
 
-  @Field()
+  @Field({ nullable: true })
   @IsOptional()
   @IsString()
   @IsNotEmpty()

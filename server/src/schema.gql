@@ -47,13 +47,13 @@ input UpdateAuthInput {
 }
 
 input UpdateUserInput {
-  bio: String!
-  email: String!
+  bio: String
+  email: String
   id: String!
-  name: String!
-  profile_filename: String!
-  profile_url: String!
-  username: String!
+  name: String
+  profile_filename: String
+  profile_url: String
+  username: String
 }
 
 type User {
