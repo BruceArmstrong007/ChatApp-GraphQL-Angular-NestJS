@@ -1,0 +1,8 @@
+mutation register($createUserData: CreateUserInput!){
+  register(
+    createUserData: $createUserData) {
+    _id
+    username
+    email
+  }
+}
