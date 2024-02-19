@@ -20,8 +20,8 @@ input LoginAuthInput {
 }
 
 type Mutation {
-  createUser(createUserData: CreateUserInput!): User!
   login(loginAuthData: LoginAuthInput!): Auth!
+  register(createUserData: CreateUserInput!): User!
   removeUser(id: String!): User!
   updateUser(updateUserData: UpdateUserInput!): User!
 }

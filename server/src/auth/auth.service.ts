@@ -1,5 +1,4 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { Response } from 'express';
 import { CurrentUserType } from '@app/common';
 import { ConfigService } from '@nestjs/config';
 import { AuthRepository } from './database/auth.repository';
@@ -19,7 +18,8 @@ export class AuthService {
 
     const payload = { ...user };
 
-    const { accessToken, refreshToken } = await this.authRepo.generateJWT(payload);
+    const { accessToken, refreshToken } =
+      await this.authRepo.generateJWT(payload);
 
     const expires = Number(this.config.get('COOKIE_EXPIRATION'));
     await context['res'].cookie('refreshToken', refreshToken, {

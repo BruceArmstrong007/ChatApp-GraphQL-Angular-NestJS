@@ -9,7 +9,7 @@ import { CreateUserInput } from './dto/create-user.input';
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
-  @Mutation(() => User)
+  @Mutation(() => User, { name: 'register' })
   async createUser(
     @Args('createUserData')
     createUserInput: CreateUserInput,
