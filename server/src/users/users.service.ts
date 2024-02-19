@@ -3,7 +3,6 @@ import { SearchUserInput } from './dto/search-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { UserRepository } from './database/user.repository';
 import { CreateUserInput } from './dto/create-user.input';
-import { User } from './database/user.schema';
 
 @Injectable()
 export class UsersService {
@@ -50,15 +49,23 @@ export class UsersService {
     return await this.userRepo.deleteUser(id);
   }
 
-  async validateUser(body: Partial<User>) {
-    const user = await this.userRepo.findUser(body?.username, 'username');
+  async validateUser(username: string, password: string) {
+    const user = await this.userRepo.findUser(username, 'username');
     if (!user) {
       throw new BadRequestException('User doesnot exist.');
     }
-    if (await this.userRepo.comparePassword(user._id, body?.password)) {
+    if (await this.userRepo.comparePassword(user._id, password)) {
       return user;
     } else {
       throw new BadRequestException('Invalid username or password.');
     }
+  }
+
+  async verifyUser(id: string) {
+    return await this.userRepo.verifyUser(id);
+  }
+
+  async resetPassword(id: string, password: string) {
+    return await this.userRepo.resetPassword(id, password);
   }
 }

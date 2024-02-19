@@ -73,19 +73,12 @@ export class UserRepository {
       default:
         find = { name: regex };
     }
-    return await this.userModel
-      .findOne(find)
-      .select('-password')
-      .select('-verified')
-      .exec();
+    return await this.userModel.findOne(find).select('-password').exec();
   }
 
-  async updateUser(
-    userID: string,
-    updates: Partial<User>,
-  ): Promise<User | null> {
+  async updateUser(id: string, updates: Partial<User>): Promise<User | null> {
     return await this.userModel
-      .findByIdAndUpdate(userID, updates, { new: true })
+      .findByIdAndUpdate(id, updates, { new: true })
       .exec();
   }
 
@@ -99,5 +92,21 @@ export class UserRepository {
       return true;
     }
     return false;
+  }
+
+  async verifyUser(id: string) {
+    return await this.userModel
+      .findByIdAndUpdate(id, { verified: true }, { new: true })
+      .exec();
+  }
+
+  async resetPassword(id: string, unHashedPass: string) {
+    const password = await bcrypt.hash(
+      unHashedPass,
+      Number(this.configService.get('HASH_SALT')),
+    );
+    return await this.userModel
+      .findByIdAndUpdate(id, { password }, { new: true })
+      .exec();
   }
 }

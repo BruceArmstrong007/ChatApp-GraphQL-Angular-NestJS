@@ -1,35 +1,78 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  Args,
+  GraphQLExecutionContext,
+  Context,
+} from '@nestjs/graphql';
+import { Login, Message, Refresh } from './entities/auth.entity';
+import { UseGuards } from '@nestjs/common';
+import { LocalAuthGuard } from './guard/local-auth.guard';
 import { AuthService } from './auth.service';
-import { Auth } from './entities/auth.entity';
-import { CreateAuthInput } from './dto/create-auth.input';
-import { UpdateAuthInput } from './dto/update-auth.input';
+import { CurrentUser, CurrentUserType } from '@app/common';
+import { LoginAuthInput } from './dto/login-auth.input';
+import { RefreshJwtGuard } from './guard/refresh-jwt.guard';
+import {
+  EmailVerificationInput,
+  EmailVerificationLinkInput,
+} from './dto/email-verification.input';
+import {
+  ResetPasswordInput,
+  ResetPasswordLinkInput,
+} from './dto/reset-password.input';
 
-@Resolver(() => Auth)
+@Resolver()
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
-  @Mutation(() => Auth)
-  createAuth(@Args('createAuthInput') createAuthInput: CreateAuthInput) {
-    return this.authService.create(createAuthInput);
+  @Query(() => Login)
+  @UseGuards(LocalAuthGuard)
+  async login(
+    @Args('loginAuthData') loginAuthInput: LoginAuthInput,
+    @Context() context: GraphQLExecutionContext,
+    @CurrentUser() user: CurrentUserType,
+  ) {
+    return await this.authService.login(user, context);
   }
 
-  @Query(() => [Auth], { name: 'auth' })
-  findAll() {
-    return this.authService.findAll();
+  @Query(() => Refresh)
+  @UseGuards(RefreshJwtGuard)
+  async refresh(@CurrentUser() user: CurrentUserType) {
+    return await this.authService.refresh(user);
   }
 
-  @Query(() => Auth, { name: 'auth' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.authService.findOne(id);
+  @Mutation(() => Message)
+  async emailVerificationLink(
+    @Args('emailVerificationLinkData')
+    emailVerificationLinkInput: EmailVerificationLinkInput,
+  ) {
+    return await this.authService.emailVerificationLink(
+      emailVerificationLinkInput,
+    );
   }
 
-  @Mutation(() => Auth)
-  updateAuth(@Args('updateAuthInput') updateAuthInput: UpdateAuthInput) {
-    return this.authService.update(updateAuthInput.id, updateAuthInput);
+  @Mutation(() => Message)
+  async emailVerification(
+    @Args('emailVerificationData')
+    emailVerificationInput: EmailVerificationInput,
+  ) {
+    return await this.authService.emailVerification(emailVerificationInput);
   }
 
-  @Mutation(() => Auth)
-  removeAuth(@Args('id', { type: () => Int }) id: number) {
-    return this.authService.remove(id);
+  @Mutation(() => Message)
+  async resetPasswordLink(
+    @Args('resetPasswordLinkData')
+    resetPasswordLinkInput: ResetPasswordLinkInput,
+  ) {
+    return await this.authService.resetPasswordLink(resetPasswordLinkInput);
+  }
+
+  @Mutation(() => Message)
+  async resetPassword(
+    @Args('resetPasswordData')
+    resetPasswordInput: ResetPasswordInput,
+  ) {
+    return await this.authService.resetPassword(resetPasswordInput);
   }
 }

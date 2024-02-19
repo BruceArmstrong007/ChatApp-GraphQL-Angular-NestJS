@@ -2,16 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Auth {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input CreateAuthInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
 input CreateUserInput {
   confirmPassword: String!
   email: String!
@@ -19,12 +9,36 @@ input CreateUserInput {
   username: String!
 }
 
+input EmailVerificationInput {
+  email: String!
+  token: String!
+}
+
+input EmailVerificationLinkInput {
+  email: String!
+}
+
+type Login {
+  accessToken: String!
+  user: User
+}
+
+input LoginAuthInput {
+  password: String!
+  username: String!
+}
+
+type Message {
+  message: String!
+}
+
 type Mutation {
-  createAuth(createAuthInput: CreateAuthInput!): Auth!
-  createUser(createUserData: CreateUserInput!): User!
-  removeAuth(id: Int!): Auth!
+  emailVerification(emailVerificationData: EmailVerificationInput!): Message!
+  emailVerificationLink(emailVerificationLinkData: EmailVerificationLinkInput!): Message!
+  register(createUserData: CreateUserInput!): User!
   removeUser(id: String!): User!
-  updateAuth(updateAuthInput: UpdateAuthInput!): Auth!
+  resetPassword(resetPasswordData: ResetPasswordInput!): Message!
+  resetPasswordLink(resetPasswordLinkData: ResetPasswordLinkInput!): Message!
   updateUser(updateUserData: UpdateUserInput!): User!
 }
 
@@ -34,20 +48,30 @@ type Profile {
 }
 
 type Query {
-  auth(id: Int!): Auth!
+  login(loginAuthData: LoginAuthInput!): Login!
+  refresh: Refresh!
   user(findUserData: SearchUserInput!): User
   users(searchUsersData: SearchUserInput!): [User!]!
+}
+
+type Refresh {
+  accessToken: String!
+}
+
+input ResetPasswordInput {
+  confirmPassword: String!
+  email: String!
+  password: String!
+  token: String!
+}
+
+input ResetPasswordLinkInput {
+  email: String!
 }
 
 input SearchUserInput {
   type: String!
   value: String!
-}
-
-input UpdateAuthInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
 }
 
 input UpdateUserInput {

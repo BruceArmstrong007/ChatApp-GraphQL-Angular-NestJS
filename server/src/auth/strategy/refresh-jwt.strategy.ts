@@ -2,6 +2,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { CurrentUserType } from '@app/common';
 
 @Injectable()
 export class RefreshJwtStrategy extends PassportStrategy(Strategy, 'refresh') {
@@ -17,7 +18,8 @@ export class RefreshJwtStrategy extends PassportStrategy(Strategy, 'refresh') {
     });
   }
 
-  async validate(payload: any) {
+  async validate(payloadData: CurrentUserType) {
+    const payload = payloadData['_doc'];
     if (!payload?.verified)
       throw new UnauthorizedException('User is not verified.');
     return payload;

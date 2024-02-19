@@ -1,7 +1,24 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field } from '@nestjs/graphql';
+import { User } from 'src/users/entities/user.entity';
 
 @ObjectType()
-export class Auth {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+export class Login {
+  @Field()
+  accessToken: string;
+
+  @Field(() => User, { nullable: true })
+  user: User;
+}
+
+
+@ObjectType()
+export class Refresh {
+  @Field()
+  accessToken: string;
+}
+
+@ObjectType()
+export class Message {
+  @Field()
+  message: string;
 }
