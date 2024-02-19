@@ -7,11 +7,6 @@ type Auth {
   exampleField: Int!
 }
 
-input CreateAuthInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
 input CreateUserInput {
   confirmPassword: String!
   email: String!
@@ -19,12 +14,15 @@ input CreateUserInput {
   username: String!
 }
 
+input LoginAuthInput {
+  password: String!
+  username: String!
+}
+
 type Mutation {
-  createAuth(createAuthInput: CreateAuthInput!): Auth!
   createUser(createUserData: CreateUserInput!): User!
-  removeAuth(id: Int!): Auth!
+  login(loginAuthData: LoginAuthInput!): Auth!
   removeUser(id: String!): User!
-  updateAuth(updateAuthInput: UpdateAuthInput!): Auth!
   updateUser(updateUserData: UpdateUserInput!): User!
 }
 
@@ -34,7 +32,6 @@ type Profile {
 }
 
 type Query {
-  auth(id: Int!): Auth!
   user(findUserData: SearchUserInput!): User
   users(searchUsersData: SearchUserInput!): [User!]!
 }
@@ -42,12 +39,6 @@ type Query {
 input SearchUserInput {
   type: String!
   value: String!
-}
-
-input UpdateAuthInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
 }
 
 input UpdateUserInput {
