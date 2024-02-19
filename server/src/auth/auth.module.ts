@@ -9,6 +9,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from 'src/users/users.module';
 import { LocalAuthStrategy } from './strategy/local-auth.strategy';
 import { AuthRepository } from './database/auth.repository';
+import { RefreshJwtStrategy } from './strategy/refresh-jwt.strategy';
 
 @Module({
   providers: [
@@ -16,6 +17,7 @@ import { AuthRepository } from './database/auth.repository';
     AuthRepository,
     AuthService,
     LocalAuthStrategy,
+    RefreshJwtStrategy,
     JwtService,
   ],
   imports: [

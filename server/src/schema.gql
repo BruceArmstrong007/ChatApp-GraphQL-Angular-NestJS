@@ -2,16 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Auth {
-  accessToken: String!
-  user: User
-}
-
 input CreateUserInput {
   confirmPassword: String!
   email: String!
   password: String!
   username: String!
+}
+
+type Login {
+  accessToken: String!
+  user: User
 }
 
 input LoginAuthInput {
@@ -20,7 +20,7 @@ input LoginAuthInput {
 }
 
 type Mutation {
-  login(loginAuthData: LoginAuthInput!): Auth!
+  login(loginAuthData: LoginAuthInput!): Login!
   register(createUserData: CreateUserInput!): User!
   removeUser(id: String!): User!
   updateUser(updateUserData: UpdateUserInput!): User!
@@ -32,8 +32,13 @@ type Profile {
 }
 
 type Query {
+  refresh: Refresh!
   user(findUserData: SearchUserInput!): User
   users(searchUsersData: SearchUserInput!): [User!]!
+}
+
+type Refresh {
+  accessToken: String!
 }
 
 input SearchUserInput {

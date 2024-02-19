@@ -36,4 +36,9 @@ export class AuthService {
 
     return await { accessToken, user };
   }
+
+  async refresh(user: CurrentUserType) {
+    const payload = { ...user };
+    return await this.authRepo.generateRefreshToken(payload);
+  }
 }

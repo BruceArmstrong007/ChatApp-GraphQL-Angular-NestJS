@@ -6,13 +6,14 @@ import {
   GraphQLExecutionContext,
   Context,
 } from '@nestjs/graphql';
-import { Auth } from './entities/auth.entity';
+import { Login, Refresh } from './entities/auth.entity';
 import { UsersService } from 'src/users/users.service';
 import { Inject, UseGuards, forwardRef } from '@nestjs/common';
 import { LocalAuthGuard } from './guard/local-auth.guard';
 import { AuthService } from './auth.service';
 import { CurrentUser, CurrentUserType } from '@app/common';
 import { LoginAuthInput } from './dto/login-auth.input';
+import { RefreshJwtGuard } from './guard/refresh-jwt.guard';
 
 @Resolver()
 export class AuthResolver {
@@ -22,7 +23,7 @@ export class AuthResolver {
     private readonly userService: UsersService,
   ) {}
 
-  @Mutation(() => Auth)
+  @Mutation(() => Login)
   @UseGuards(LocalAuthGuard)
   async login(
     @Args('loginAuthData') loginAuthInput: LoginAuthInput,
@@ -30,5 +31,11 @@ export class AuthResolver {
     @CurrentUser() user: CurrentUserType,
   ) {
     return await this.authService.login(user, context);
+  }
+
+  @Query(() => Refresh)
+  @UseGuards(RefreshJwtGuard)
+  async refresh(@CurrentUser() user: CurrentUserType) {
+    return await this.authService.refresh(user);
   }
 }
