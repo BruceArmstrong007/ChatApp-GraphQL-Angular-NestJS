@@ -20,7 +20,6 @@ input LoginAuthInput {
 }
 
 type Mutation {
-  login(loginAuthData: LoginAuthInput!): Login!
   register(createUserData: CreateUserInput!): User!
   removeUser(id: String!): User!
   updateUser(updateUserData: UpdateUserInput!): User!
@@ -32,6 +31,7 @@ type Profile {
 }
 
 type Query {
+  login(loginAuthData: LoginAuthInput!): Login!
   refresh: Refresh!
   user(findUserData: SearchUserInput!): User
   users(searchUsersData: SearchUserInput!): [User!]!

@@ -23,7 +23,7 @@ export class AuthResolver {
     private readonly userService: UsersService,
   ) {}
 
-  @Mutation(() => Login)
+  @Query(() => Login)
   @UseGuards(LocalAuthGuard)
   async login(
     @Args('loginAuthData') loginAuthInput: LoginAuthInput,
@@ -38,4 +38,5 @@ export class AuthResolver {
   async refresh(@CurrentUser() user: CurrentUserType) {
     return await this.authService.refresh(user);
   }
+
 }
