@@ -17,7 +17,7 @@ import { MailModule } from './mail/mail.module';
       }),
       inject: [ConfigService],
     }),
-    MailModule
+    MailModule,
   ],
   exports: [AuthService],
 })
