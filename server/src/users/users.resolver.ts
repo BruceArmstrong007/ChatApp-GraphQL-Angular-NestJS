@@ -10,22 +10,34 @@ export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
   @Mutation(() => User)
-  async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
+  async createUser(
+    @Args('createUserData')
+    createUserInput: CreateUserInput,
+  ) {
     return await this.usersService.create(createUserInput);
   }
 
   @Query(() => [User], { name: 'users' })
-  async search(@Args('searchUserInput') searchUserInput: SearchUserInput) {
-    return await this.usersService.search(searchUserInput);
+  async search(
+    @Args()
+    searchUsersInput: SearchUserInput,
+  ) {
+    return await this.usersService.search(searchUsersInput);
   }
 
   @Query(() => User, { name: 'user' })
-  async findOne(@Args('searchUserInput') searchUserInput: SearchUserInput) {
+  async findOne(
+    @Args()
+    searchUserInput: SearchUserInput,
+  ) {
     return await this.usersService.findOne(searchUserInput);
   }
 
   @Mutation(() => User)
-  updateUser(@Args('updateUserInput') updateUserInput: UpdateUserInput) {
+  updateUser(
+    @Args('updateUserData')
+    updateUserInput: UpdateUserInput,
+  ) {
     return this.usersService.update(updateUserInput);
   }
 

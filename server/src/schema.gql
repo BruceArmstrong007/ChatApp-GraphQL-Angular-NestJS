@@ -21,11 +21,11 @@ input CreateUserInput {
 
 type Mutation {
   createAuth(createAuthInput: CreateAuthInput!): Auth!
-  createUser(createUserInput: CreateUserInput!): User!
+  createUser(createUserData: CreateUserInput!): User!
   removeAuth(id: Int!): Auth!
-  removeUser(id: Int!): User!
+  removeUser(id: String!): User!
   updateAuth(updateAuthInput: UpdateAuthInput!): Auth!
-  updateUser(updateUserInput: UpdateUserInput!): User!
+  updateUser(updateUserData: UpdateUserInput!): User!
 }
 
 type Profile {
@@ -36,7 +36,7 @@ type Profile {
 
 type Query {
   auth(id: Int!): Auth!
-  user(id: Int!): User!
+  user: User!
   users: [User!]!
 }
 
@@ -47,11 +47,13 @@ input UpdateAuthInput {
 }
 
 input UpdateUserInput {
-  confirmPassword: String
-  email: String
-  id: Int!
-  password: String
-  username: String
+  bio: String!
+  email: String!
+  id: String!
+  name: String!
+  profile_filename: String!
+  profile_url: String!
+  username: String!
 }
 
 type User {
