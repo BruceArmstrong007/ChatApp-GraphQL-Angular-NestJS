@@ -6,7 +6,7 @@ export const getCurrentUserByContext = (context: ExecutionContext) => {
     return context.switchToHttp().getRequest().user;
   }
   const ctx = GqlExecutionContext.create(context);
-  return ctx.getContext().req.user;
+  return ctx.getContext().user;
 };
 
 export const CurrentUser = createParamDecorator(
@@ -15,8 +15,11 @@ export const CurrentUser = createParamDecorator(
 );
 
 export type CurrentUserType = {
-  userID: string,
+  _id: string;
   username: string;
   email: string;
+  name: string;
   verified: boolean;
+  createdAt: string;
+  updatedAt: string;
 };
