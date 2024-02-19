@@ -9,6 +9,15 @@ input CreateUserInput {
   username: String!
 }
 
+input EmailVerificationInput {
+  email: String!
+  token: String!
+}
+
+input EmailVerificationLinkInput {
+  email: String!
+}
+
 type Login {
   accessToken: String!
   user: User
@@ -19,9 +28,17 @@ input LoginAuthInput {
   username: String!
 }
 
+type Message {
+  message: String!
+}
+
 type Mutation {
+  emailVerification(emailVerificationData: EmailVerificationInput!): Message!
+  emailVerificationLink(emailVerificationLinkData: EmailVerificationLinkInput!): Message!
   register(createUserData: CreateUserInput!): User!
   removeUser(id: String!): User!
+  resetPassword(resetPasswordData: ResetPasswordInput!): Message!
+  resetPasswordLink(resetPasswordLinkData: ResetPasswordLinkInput!): Message!
   updateUser(updateUserData: UpdateUserInput!): User!
 }
 
@@ -39,6 +56,17 @@ type Query {
 
 type Refresh {
   accessToken: String!
+}
+
+input ResetPasswordInput {
+  confirmPassword: String!
+  email: String!
+  password: String!
+  token: String!
+}
+
+input ResetPasswordLinkInput {
+  email: String!
 }
 
 input SearchUserInput {

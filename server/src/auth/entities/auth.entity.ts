@@ -16,3 +16,9 @@ export class Refresh {
   @Field()
   accessToken: string;
 }
+
+@ObjectType()
+export class Message {
+  @Field()
+  message: string;
+}

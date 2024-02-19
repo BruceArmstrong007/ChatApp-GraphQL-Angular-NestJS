@@ -60,4 +60,12 @@ export class UsersService {
       throw new BadRequestException('Invalid username or password.');
     }
   }
+
+  async verifyUser(id: string) {
+    return await this.userRepo.verifyUser(id);
+  }
+
+  async resetPassword(id: string, password: string) {
+    return await this.userRepo.resetPassword(id, password);
+  }
 }

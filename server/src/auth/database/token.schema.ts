@@ -15,7 +15,6 @@ export class Token extends Document {
 
   @Prop({
     required: true,
-    unique: true,
     trim: true,
   })
   email: string;

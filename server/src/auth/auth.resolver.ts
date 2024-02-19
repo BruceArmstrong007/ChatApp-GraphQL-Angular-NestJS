@@ -6,22 +6,25 @@ import {
   GraphQLExecutionContext,
   Context,
 } from '@nestjs/graphql';
-import { Login, Refresh } from './entities/auth.entity';
-import { UsersService } from 'src/users/users.service';
-import { Inject, UseGuards, forwardRef } from '@nestjs/common';
+import { Login, Message, Refresh } from './entities/auth.entity';
+import { UseGuards } from '@nestjs/common';
 import { LocalAuthGuard } from './guard/local-auth.guard';
 import { AuthService } from './auth.service';
 import { CurrentUser, CurrentUserType } from '@app/common';
 import { LoginAuthInput } from './dto/login-auth.input';
 import { RefreshJwtGuard } from './guard/refresh-jwt.guard';
+import {
+  EmailVerificationInput,
+  EmailVerificationLinkInput,
+} from './dto/email-verification.input';
+import {
+  ResetPasswordInput,
+  ResetPasswordLinkInput,
+} from './dto/reset-password.input';
 
 @Resolver()
 export class AuthResolver {
-  constructor(
-    private readonly authService: AuthService,
-    @Inject(forwardRef(() => UsersService))
-    private readonly userService: UsersService,
-  ) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Query(() => Login)
   @UseGuards(LocalAuthGuard)
@@ -39,4 +42,37 @@ export class AuthResolver {
     return await this.authService.refresh(user);
   }
 
+  @Mutation(() => Message)
+  async emailVerificationLink(
+    @Args('emailVerificationLinkData')
+    emailVerificationLinkInput: EmailVerificationLinkInput,
+  ) {
+    return await this.authService.emailVerificationLink(
+      emailVerificationLinkInput,
+    );
+  }
+
+  @Mutation(() => Message)
+  async emailVerification(
+    @Args('emailVerificationData')
+    emailVerificationInput: EmailVerificationInput,
+  ) {
+    return await this.authService.emailVerification(emailVerificationInput);
+  }
+
+  @Mutation(() => Message)
+  async resetPasswordLink(
+    @Args('resetPasswordLinkData')
+    resetPasswordLinkInput: ResetPasswordLinkInput,
+  ) {
+    return await this.authService.resetPasswordLink(resetPasswordLinkInput);
+  }
+
+  @Mutation(() => Message)
+  async resetPassword(
+    @Args('resetPasswordData')
+    resetPasswordInput: ResetPasswordInput,
+  ) {
+    return await this.authService.resetPassword(resetPasswordInput);
+  }
 }
