@@ -5,21 +5,24 @@
 //   $m3-yellow-palette, $m3-cyan-palette, $m3-magenta-palette, $m3-orange-palette,
 //   $m3-chartreuse-palette, $m3-azure-palette, $m3-violet-palette, $m3-rose-palette;
 
-
-$m3-dark-theme: matx.define-theme((
-  color: (
-    theme-type: dark,
-    primary: matx.$m3-violet-palette,
-    tertiary: matx.$m3-blue-palette,
+$m3-dark-theme: matx.define-theme(
+  (
+    color: (
+      theme-type: dark,
+      primary: matx.$m3-violet-palette,
+      tertiary: matx.$m3-blue-palette,
+    ),
   )
-));
+);
 
-$m3-light-theme: matx.define-theme((
-  color: (
-    primary: matx.$m3-violet-palette,
-    tertiary: matx.$m3-blue-palette,
-    )
-));
+$m3-light-theme: matx.define-theme(
+  (
+    color: (
+      primary: matx.$m3-violet-palette,
+      tertiary: matx.$m3-blue-palette,
+    ),
+  )
+);
 
 .dark-theme {
   @include mat.all-component-themes($m3-dark-theme);
@@ -30,6 +33,44 @@ $m3-light-theme: matx.define-theme((
 }
 
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body {
+  overflow: auto;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 3px;
+}
 
+::-webkit-scrollbar:hover  {
+  width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 2px grey;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-track:hover {
+  box-shadow: inset 0 0 2px grey;
+  border-radius: 2px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgb(69, 69, 69);
+  border-radius: 2px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(99, 99, 99);
+}
