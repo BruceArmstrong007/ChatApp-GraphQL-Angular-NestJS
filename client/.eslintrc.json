@@ -49,7 +49,10 @@
       ],
       "extends": [
         "plugin:@ngrx/all-requiring-type-checking"
-      ]
+      ],
+      "parserOptions": {
+        "project": "./tsconfig.json"  // Change this path to your desired tsconfig.json location
+      }
     }
   ]
 }
