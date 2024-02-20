@@ -19,5 +19,10 @@ const routes: Routes = [
     loadComponent: () =>
       import('./routes/verify-account/verify-account.component'),
   },
+  {
+    path: '**',
+    redirectTo: 'login',
+    pathMatch: 'full',
+  },
 ];
 export default routes;
