@@ -12,7 +12,8 @@
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:prettier/recommended"
       ],
       "rules": {
         "@angular-eslint/directive-selector": [
@@ -51,7 +52,7 @@
         "plugin:@ngrx/all-requiring-type-checking"
       ],
       "parserOptions": {
-        "project": "./tsconfig.json"  // Change this path to your desired tsconfig.json location
+        "project": "./tsconfig.json"
       }
     }
   ]
