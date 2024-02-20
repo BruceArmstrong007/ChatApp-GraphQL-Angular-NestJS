@@ -9,6 +9,10 @@ import { InMemoryCache } from '@apollo/client/core';
 import { HttpLink } from 'apollo-angular/http';
 import { environment } from '../environments/environment';
 import { provideServiceWorker } from '@angular/service-worker';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { provideRouterStore } from '@ngrx/router-store';
+import { provideEffects } from '@ngrx/effects';
+import { provideStore } from '@ngrx/store';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -31,6 +35,10 @@ export const appConfig: ApplicationConfig = {
     provideServiceWorker('ngsw-worker.js', {
         enabled: !isDevMode(),
         registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
+    provideRouterStore(),
+    provideEffects(),
+    provideStore()
 ],
 };
