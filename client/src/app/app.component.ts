@@ -1,29 +1,51 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import {MatButtonModule} from '@angular/material/button';
-import {MatSidenavModule} from '@angular/material/sidenav';
 import { RegisterGQL } from '../generated-types';
+import { NgClass } from '@angular/common';
+import { ThemeService } from './shared/services/theme.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MatSidenavModule, MatButtonModule],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  imports: [RouterOutlet, NgClass],
+  template: `<div
+    class="layoutSize"
+    [ngClass]="{
+      'dark-theme': theme.darkMode(),
+      'light-theme': !theme.darkMode()
+    }"
+  >
+    <router-outlet />
+  </div> `,
+  styles: `
+  .layoutSize{
+    width: 100%;
+    height: 100dvh;
+  }
+  `,
 })
-export class AppComponent {
-  showFiller = false;
+class AppComponent {
+  readonly theme = inject(ThemeService);
 
-  constructor(private readonly registerUser: RegisterGQL) {
-
+  constructor() {
+    setInterval(() => {
+      this.theme.switchMode();
+    }, 2000)
   }
 
-  register() {
-    this.registerUser.mutate({createUserData:{
-      username:"demo1",
-      email:"demo1@example.com",
-       password: "ssssssss22",
-        confirmPassword: "ssssssss22"
-    }}).subscribe(() => {})
-  }
+  // constructor(private readonly registerUser: RegisterGQL) {}
+  // register() {
+  //   this.registerUser
+  //     .mutate({
+  //       createUserData: {
+  //         username: 'demo1',
+  //         email: 'demo1@example.com',
+  //         password: 'ssssssss22',
+  //         confirmPassword: 'ssssssss22',
+  //       },
+  //     })
+  //     .subscribe(() => {});
+  // }
 }
+
+export default AppComponent;
