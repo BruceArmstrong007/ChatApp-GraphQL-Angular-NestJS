@@ -5,7 +5,7 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-auth',
   standalone: true,
   imports: [RouterOutlet],
-  template: ``,
+  template: `<router-outlet />`,
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
