@@ -30,7 +30,7 @@ class AppComponent implements OnDestroy {
   constructor() {
     this.intervalID = setInterval(() => {
       this.theme.switchMode();
-    }, 2000);
+    }, 5000);
   }
 
   ngOnDestroy() {
