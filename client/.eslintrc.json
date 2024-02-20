@@ -52,7 +52,7 @@
         "plugin:@ngrx/all-requiring-type-checking"
       ],
       "parserOptions": {
-        "project": "./tsconfig.json"
+        "project": "./client/tsconfig.json"
       }
     }
   ]
