@@ -7,10 +7,10 @@ import {
   Context,
 } from '@nestjs/graphql';
 import { Login, Message, Refresh } from './entities/auth.entity';
-import { UseFilters, UseGuards } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
 import { LocalAuthGuard } from './guard/local-auth.guard';
 import { AuthService } from './auth.service';
-import { ApiExceptionFilter, CurrentUser, CurrentUserType } from '@app/common';
+import { CurrentUser, CurrentUserType } from '@app/common';
 import { LoginAuthInput } from './dto/login-auth.input';
 import { RefreshJwtGuard } from './guard/refresh-jwt.guard';
 import {
@@ -23,7 +23,6 @@ import {
 } from './dto/reset-password.input';
 
 @Resolver()
-@UseFilters(ApiExceptionFilter)
 export class AuthResolver {
   constructor(private readonly authService: AuthService) {}
 
