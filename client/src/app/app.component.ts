@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { RegisterGQL } from '../generated-types';
 import { NgClass } from '@angular/common';
@@ -24,13 +24,17 @@ import { ThemeService } from './shared/services/theme.service';
   }
   `,
 })
-class AppComponent {
+class AppComponent implements OnDestroy {
   readonly theme = inject(ThemeService);
-
+  intervalID: any;
   constructor() {
-    setInterval(() => {
+    this.intervalID = setInterval(() => {
       this.theme.switchMode();
-    }, 2000)
+    }, 2000);
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.intervalID);
   }
 
   // constructor(private readonly registerUser: RegisterGQL) {}
