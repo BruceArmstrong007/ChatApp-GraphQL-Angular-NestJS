@@ -5,7 +5,7 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-chat',
   standalone: true,
   imports: [RouterOutlet],
-  template: `<router-outlet />`,
+  template: `Chat Route <router-outlet />`,
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
