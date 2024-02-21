@@ -1,0 +1,8 @@
+query login($LoginAuthData: LoginAuthInput!) {
+  login(loginAuthData: $LoginAuthData) {
+    accessToken,
+    user {
+      name,
+    }
+  }
+}
