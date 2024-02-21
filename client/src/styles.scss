@@ -1,6 +1,9 @@
 @use '@angular/material' as mat;
 @use '@angular/material-experimental' as matx;
 
+@include mat.core();
+
+
 //   $m3-red-palette, $m3-green-palette, $m3-blue-palette,
 //   $m3-yellow-palette, $m3-cyan-palette, $m3-magenta-palette, $m3-orange-palette,
 //   $m3-chartreuse-palette, $m3-azure-palette, $m3-violet-palette, $m3-rose-palette;
@@ -33,13 +36,22 @@ $m3-light-theme: matx.define-theme(
 }
 
 .dark-theme {
-  @include mat.all-component-themes($m3-dark-theme);
   @include apply-bg($m3-dark-theme);
+  @include mat.all-component-themes($m3-dark-theme);
+  .button-warn {
+    @include mat.button-color($m3-dark-theme, $color-variant: tertiary);
+  }
+  color: mat.get-theme-color($m3-dark-theme, neutral-variant, 95);
 }
 
+
 .light-theme {
-  @include mat.all-component-themes($m3-light-theme);
   @include apply-bg($m3-light-theme);
+  @include mat.all-component-themes($m3-light-theme);
+  .button-warn {
+    @include mat.button-color($m3-light-theme, $color-variant: error);
+  }
+  color: mat.get-theme-color($m3-light-theme, neutral-variant, 10);
 }
 
 * {
@@ -73,8 +85,8 @@ body {
   border-radius: 2px;
 }
 
-/* Handle */get
-::-webkit-scrollbar-thumb {
+/* Handle */
+get ::-webkit-scrollbar-thumb {
   background: rgb(69, 69, 69);
   border-radius: 2px;
 }
