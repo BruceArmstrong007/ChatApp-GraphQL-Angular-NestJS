@@ -9,19 +9,18 @@ import { ThemeService } from './shared/services/theme.service';
   standalone: true,
   imports: [RouterOutlet, NgClass],
   template: `<div
-    class="layoutSize"
+    class="layout layoutSize"
     [ngClass]="{
       'dark-theme': theme.darkMode(),
       'light-theme': !theme.darkMode()
-    }"
-  >
+    }">
     <router-outlet />
   </div> `,
   styles: `
-  .layoutSize{
-    width: 100%;
-    height: 100dvh;
-  }
+    .layoutSize {
+      width: 100%;
+      height: 100dvh;
+    }
   `,
 })
 class AppComponent implements OnDestroy {
