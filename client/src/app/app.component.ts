@@ -3,11 +3,12 @@ import { RouterOutlet } from '@angular/router';
 import { RegisterGQL } from '../generated-types';
 import { NgClass } from '@angular/common';
 import { ThemeService } from './shared/services/theme.service';
+import { BackgroundComponent } from './shared/components/background/background.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NgClass],
+  imports: [RouterOutlet, NgClass, BackgroundComponent],
   template: `<div
     class="layout layoutSize"
     [ngClass]="{
@@ -15,11 +16,13 @@ import { ThemeService } from './shared/services/theme.service';
       'light-theme': !theme.darkMode()
     }">
     <router-outlet />
+    <app-background />
   </div> `,
   styles: `
     .layoutSize {
       width: 100%;
       height: 100dvh;
+      position: relative;
     }
   `,
 })
