@@ -1,35 +1,96 @@
 @use '@angular/material' as mat;
 @use '@angular/material-experimental' as matx;
 
+@include mat.core();
+
 //   $m3-red-palette, $m3-green-palette, $m3-blue-palette,
 //   $m3-yellow-palette, $m3-cyan-palette, $m3-magenta-palette, $m3-orange-palette,
 //   $m3-chartreuse-palette, $m3-azure-palette, $m3-violet-palette, $m3-rose-palette;
 
-
-$m3-dark-theme: matx.define-theme((
-  color: (
-    theme-type: dark,
-    primary: matx.$m3-violet-palette,
-    tertiary: matx.$m3-blue-palette,
+$m3-dark-theme: matx.define-theme(
+  (
+    color: (
+      theme-type: dark,
+      primary: matx.$m3-violet-palette,
+      tertiary: matx.$m3-blue-palette,
+    ),
   )
-));
+);
 
-$m3-light-theme: matx.define-theme((
-  color: (
-    primary: matx.$m3-violet-palette,
-    tertiary: matx.$m3-blue-palette,
-    )
-));
+$m3-light-theme: matx.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: matx.$m3-violet-palette,
+      tertiary: matx.$m3-blue-palette,
+    ),
+  )
+);
+
+@mixin apply-common($theme) {
+  @if mat.get-theme-type($theme) == dark {
+    background: mat.get-theme-color($theme, neutral-variant, 20);
+  } @else {
+    background: mat.get-theme-color($theme, neutral-variant, 80);
+  }
+  .button-warn {
+    @include mat.button-color($theme, $color-variant: error);
+    @include mat.button-base($theme);
+    @include mat.button-theme($theme, $color-variant: error);
+    @include mat.button-density($theme);
+  }
+}
 
 .dark-theme {
+  @include apply-common($m3-dark-theme);
   @include mat.all-component-themes($m3-dark-theme);
+  color: mat.get-theme-color($m3-dark-theme, neutral-variant, 95);
 }
 
-.light-theme {
+ .light-theme {
+  @include apply-common($m3-light-theme);
   @include mat.all-component-themes($m3-light-theme);
+  color: mat.get-theme-color($m3-light-theme, neutral-variant, 10);
 }
 
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+body {
+  overflow: auto;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 3px;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+::-webkit-scrollbar:hover {
+  width: 3px;
+}
 
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 2px grey;
+  border-radius: 2px;
+}
+::-webkit-scrolget lbar-track:hover {
+  box-shadow: inset 0 0 2px grey;
+  border-radius: 2px;
+}
+
+/* Handle */
+get ::-webkit-scrollbar-thumb {
+  background: rgb(69, 69, 69);
+  border-radius: 2px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(99, 99, 99);
+}

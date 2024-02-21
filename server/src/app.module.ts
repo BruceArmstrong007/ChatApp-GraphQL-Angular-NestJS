@@ -15,6 +15,15 @@ import { UsersModule } from './users/users.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       context: ({ req, res }) => ({ req, res }),
       sortSchema: true,
+      formatError: (error: any) => {
+        const graphQLFormattedError = {
+          message:
+            error.extensions?.exception?.response?.message || error.message,
+          code: error.extensions?.code || 'SERVER_ERROR',
+          name: error.extensions?.exception?.name || error.name,
+        };
+        return graphQLFormattedError;
+      },
     }),
     ConfigModule.forRoot({
       isGlobal: true,
@@ -44,7 +53,7 @@ import { UsersModule } from './users/users.module';
     }),
     MongoDBModule,
     AuthModule,
-    UsersModule
+    UsersModule,
   ],
   controllers: [],
   providers: [],
