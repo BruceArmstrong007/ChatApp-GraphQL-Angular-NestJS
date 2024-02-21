@@ -29,6 +29,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideStore({
       router: routerReducer,
+      auth: authFeature.reducer,
     }),
     provideRouterStore({ serializer: CustomRouterStateSerializer }),
     provideEffects(),
