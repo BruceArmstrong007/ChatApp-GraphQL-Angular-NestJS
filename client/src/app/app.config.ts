@@ -1,4 +1,8 @@
-import { ApplicationConfig, importProvidersFrom, isDevMode } from '@angular/core';
+import {
+  ApplicationConfig,
+  importProvidersFrom,
+  isDevMode,
+} from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -10,35 +14,48 @@ import { HttpLink } from 'apollo-angular/http';
 import { environment } from '../environments/environment';
 import { provideServiceWorker } from '@angular/service-worker';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { provideRouterStore } from '@ngrx/router-store';
+import { provideRouterStore, routerReducer } from '@ngrx/router-store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CustomRouterStateSerializer } from './state/router/router-serializer';
+import { authFeature } from './state/auth/auth.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes, withComponentInputBinding()),
     provideAnimationsAsync(),
-    importProvidersFrom(ApolloModule),
+    importProvidersFrom(ApolloModule, MatSnackBarModule),
     provideHttpClient(),
-    {
-        provide: APOLLO_OPTIONS,
-        useFactory: (httpLink: HttpLink) => {
-            return {
-                cache: new InMemoryCache(),
-                link: httpLink.create({
-                    uri: environment.apiURL,
-                }),
-            };
-        },
-        deps: [HttpLink]
-    },
-    provideServiceWorker('ngsw-worker.js', {
-        enabled: !isDevMode(),
-        registrationStrategy: 'registerWhenStable:30000'
+    provideStore({
+      router: routerReducer,
     }),
-    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
-    provideRouterStore(),
+    provideRouterStore({ serializer: CustomRouterStateSerializer }),
     provideEffects(),
-    provideStore()
-],
+    isDevMode()
+      ? provideStoreDevtools({
+          maxAge: 25,
+          logOnly: !isDevMode(),
+          autoPause: true,
+          trace: false,
+          traceLimit: 75,
+        })
+      : [],
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
+    {
+      provide: APOLLO_OPTIONS,
+      useFactory: (httpLink: HttpLink) => {
+        return {
+          cache: new InMemoryCache(),
+          link: httpLink.create({
+            uri: environment.apiURL,
+          }),
+        };
+      },
+      deps: [HttpLink],
+    },
+  ],
 };
