@@ -2,7 +2,7 @@ import { Component, OnDestroy, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { RegisterGQL } from '../generated-types';
 import { NgClass } from '@angular/common';
-import { ThemeService } from './shared/services/theme.service';
+import { ThemeService } from './shared/services/theme/theme.service';
 import { BackgroundComponent } from './shared/components/background/background.component';
 
 @Component({
