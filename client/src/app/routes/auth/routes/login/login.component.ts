@@ -14,6 +14,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { loginState } from './login.state';
 import { Login, LoginForm } from './login.types';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -27,18 +28,19 @@ import { Login, LoginForm } from './login.types';
     MatButtonModule,
     MatGridListModule,
     MatCardModule,
+    RouterLink,
   ],
   template: `
     <form
       [formGroup]="form"
       (ngSubmit)="submit()"
-      class="form-container flex-center justify-center">
+      class="form-container flex justify-center">
       <mat-card class="card">
         <mat-card-header>
           <mat-card-title>Login Form</mat-card-title>
           <mat-card-subtitle>Please Enter your credentials</mat-card-subtitle>
         </mat-card-header>
-        <mat-card-content class="card-content">
+        <mat-card-content class="flex card-content">
           <mat-form-field>
             <mat-label>Username</mat-label>
             <input
@@ -49,7 +51,7 @@ import { Login, LoginForm } from './login.types';
             @if (usernameControl.hasError('required')) {
               <mat-error>Username is <strong>required</strong></mat-error>
             }
-            <mat-icon matSuffix fontIcon="email" />
+            <mat-icon matSuffix fontIcon="face" />
           </mat-form-field>
           <mat-form-field>
             <mat-label>Password</mat-label>
@@ -87,8 +89,14 @@ import { Login, LoginForm } from './login.types';
                   : 'visibility_off'
               " />
           </mat-form-field>
+          <sub>
+            Not Registered ?
+            <a [routerLink]="['../register']">
+              Click here to register your account</a
+            >
+          </sub>
         </mat-card-content>
-        <mat-card-actions class="flex-center justify-between">
+        <mat-card-actions class="flex justify-between">
           <button
             type="button"
             (click)="reset()"
@@ -105,23 +113,12 @@ import { Login, LoginForm } from './login.types';
   `,
   styles: `
     .card-content {
-      display: flex;
-      gap: 1;
       flex-direction: column;
+      gap: 1;
       justify-content: center;
-      align-items: center;
       padding: 20px 0;
     }
-    .flex-center {
-      display: flex;
-      align-items: center;
-    }
-    .justify-between {
-      justify-content: space-between;
-    }
-    .justify-center {
-      justify-content: center;
-    }
+
     .card {
       width: 500px;
     }
