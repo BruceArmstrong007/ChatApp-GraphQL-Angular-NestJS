@@ -1,6 +1,5 @@
 import { Component, OnDestroy, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { RegisterGQL } from '../generated-types';
 import { NgClass } from '@angular/common';
 import { ThemeService } from './shared/services/theme/theme.service';
 import { BackgroundComponent } from './shared/components/background/background.component';
@@ -38,20 +37,6 @@ class AppComponent implements OnDestroy {
   ngOnDestroy() {
     clearInterval(this.intervalID);
   }
-
-  // constructor(private readonly registerUser: RegisterGQL) {}
-  // register() {
-  //   this.registerUser
-  //     .mutate({
-  //       createUserData: {
-  //         username: 'demo1',
-  //         email: 'demo1@example.com',
-  //         password: 'ssssssss22',
-  //         confirmPassword: 'ssssssss22',
-  //       },
-  //     })
-  //     .subscribe(() => {});
-  // }
 }
 
 export default AppComponent;
