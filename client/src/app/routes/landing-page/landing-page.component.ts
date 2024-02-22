@@ -11,7 +11,7 @@ import { RouterLink } from '@angular/router';
       <div>
         <h3 class="app-title">MyChat</h3>
         <p class="app-description">Connect with people around the world!</p>
-        <div class="flex justify-between">
+        <div class="flex justify-evenly">
           <button
             routerLink="../auth/login"
             type="button"
