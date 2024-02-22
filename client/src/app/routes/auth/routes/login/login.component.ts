@@ -38,7 +38,7 @@ import { RouterLink } from '@angular/router';
       <mat-card class="card">
         <mat-card-header>
           <mat-card-title>Login Form</mat-card-title>
-          <mat-card-subtitle>Please Enter your credentials</mat-card-subtitle>
+          <mat-card-subtitle>Please enter your credentials</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content class="flex card-content">
           <mat-form-field>
@@ -54,9 +54,12 @@ import { RouterLink } from '@angular/router';
             @if (usernameControl.hasError('minlength')) {
               <mat-error
                 >Username should have atleast
-                <strong>{{
-                  usernameControl.getError('minlength').requiredLength
-                }}</strong></mat-error
+                <strong
+                  >{{
+                    usernameControl.getError('minlength').requiredLength
+                  }}
+                  characters</strong
+                ></mat-error
               >
             }
             <mat-icon matSuffix fontIcon="face" />
