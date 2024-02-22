@@ -101,9 +101,9 @@ import { RouterLink } from '@angular/router';
               " />
           </mat-form-field>
           <sub>
-            Not Registered ?
-            <a [routerLink]="['../register']">
-              Click here to register your account</a
+            Forgot your password ?
+            <a [routerLink]="['../reset-password']">
+              Click here to reset your password</a
             >
           </sub>
         </mat-card-content>
