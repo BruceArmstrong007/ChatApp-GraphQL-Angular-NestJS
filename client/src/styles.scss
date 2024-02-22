@@ -94,3 +94,17 @@ get ::-webkit-scrollbar-thumb {
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(99, 99, 99);
 }
+
+
+/* Common Flex classes */
+
+.flex {
+  display: flex !important;
+  align-items: center !important;
+}
+.justify-between {
+  justify-content: space-between !important;
+}
+.justify-center {
+  justify-content: center !important;
+}
