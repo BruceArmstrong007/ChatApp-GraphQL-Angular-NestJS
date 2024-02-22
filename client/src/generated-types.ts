@@ -180,6 +180,20 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', _id: string, username: string, email: string } };
 
+export type ResetPasswordLinkMutationVariables = Exact<{
+  resetPasswordLinkData: ResetPasswordLinkInput;
+}>;
+
+
+export type ResetPasswordLinkMutation = { __typename?: 'Mutation', resetPasswordLink: { __typename?: 'Message', message: string } };
+
+export type ResetPasswordMutationVariables = Exact<{
+  resetPasswordData: ResetPasswordInput;
+}>;
+
+
+export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword: { __typename?: 'Message', message: string } };
+
 export type EmailVerificationLinkMutationVariables = Exact<{
   emailVerificationLinkData: EmailVerificationLinkInput;
 }>;
@@ -230,6 +244,42 @@ export const RegisterDocument = gql`
   })
   export class RegisterGQL extends Apollo.Mutation<RegisterMutation, RegisterMutationVariables> {
     document = RegisterDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ResetPasswordLinkDocument = gql`
+    mutation resetPasswordLink($resetPasswordLinkData: ResetPasswordLinkInput!) {
+  resetPasswordLink(resetPasswordLinkData: $resetPasswordLinkData) {
+    message
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ResetPasswordLinkGQL extends Apollo.Mutation<ResetPasswordLinkMutation, ResetPasswordLinkMutationVariables> {
+    document = ResetPasswordLinkDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ResetPasswordDocument = gql`
+    mutation resetPassword($resetPasswordData: ResetPasswordInput!) {
+  resetPassword(resetPasswordData: $resetPasswordData) {
+    message
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ResetPasswordGQL extends Apollo.Mutation<ResetPasswordMutation, ResetPasswordMutationVariables> {
+    document = ResetPasswordDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
