@@ -43,7 +43,7 @@ $dark-theme: create-theme(
   @if mat.get-theme-type($theme) == dark {
     background: mat.get-theme-color($theme, neutral-variant, 20);
   } @else {
-    background: mat.get-theme-color($theme, neutral-variant, 80);
+    background: mat.get-theme-color($theme, neutral-variant, 90);
   }
 
   @include matx.color-variants-back-compat($theme);
