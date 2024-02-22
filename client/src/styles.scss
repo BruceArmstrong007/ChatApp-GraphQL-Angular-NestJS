@@ -41,9 +41,9 @@ $dark-theme: create-theme(
 
 @mixin apply-common($theme) {
   @if mat.get-theme-type($theme) == dark {
-    background: mat.get-theme-color($theme, neutral-variant, 10);
+    background: mat.get-theme-color($theme, neutral-variant, 20);
   } @else {
-    background: mat.get-theme-color($theme, neutral-variant, 90);
+    background: mat.get-theme-color($theme, neutral-variant, 80);
   }
 
   @include matx.color-variants-back-compat($theme);
