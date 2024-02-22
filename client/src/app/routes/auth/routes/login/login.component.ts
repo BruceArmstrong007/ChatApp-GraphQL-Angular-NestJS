@@ -51,6 +51,14 @@ import { RouterLink } from '@angular/router';
             @if (usernameControl.hasError('required')) {
               <mat-error>Username is <strong>required</strong></mat-error>
             }
+            @if (usernameControl.hasError('minlength')) {
+              <mat-error
+                >Username should have atleast
+                <strong>{{
+                  usernameControl.getError('minlength').requiredLength
+                }}</strong></mat-error
+              >
+            }
             <mat-icon matSuffix fontIcon="face" />
           </mat-form-field>
           <mat-form-field>
