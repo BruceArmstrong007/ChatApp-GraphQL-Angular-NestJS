@@ -39,6 +39,12 @@ $m3-light-theme: matx.define-theme(
     @include mat.button-theme($theme, $color-variant: error);
     @include mat.button-density($theme);
   }
+  .button-success {
+    @include mat.button-color($theme, $color-variant: tertiary);
+    @include mat.button-base($theme);
+    @include mat.button-theme($theme, $color-variant: tertiary);
+    @include mat.button-density($theme);
+  }
 }
 
 .dark-theme {
@@ -47,7 +53,7 @@ $m3-light-theme: matx.define-theme(
   color: mat.get-theme-color($m3-dark-theme, neutral-variant, 95);
 }
 
- .light-theme {
+.light-theme {
   @include apply-common($m3-light-theme);
   @include mat.all-component-themes($m3-light-theme);
   color: mat.get-theme-color($m3-light-theme, neutral-variant, 10);
@@ -89,12 +95,10 @@ get ::-webkit-scrollbar-thumb {
   background: rgb(69, 69, 69);
   border-radius: 2px;
 }
-
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(99, 99, 99);
 }
-
 
 /* Common Flex classes */
 
@@ -107,4 +111,11 @@ get ::-webkit-scrollbar-thumb {
 }
 .justify-center {
   justify-content: center !important;
+}
+.justify-evenly {
+  justify-content: space-evenly !important;
+  color: rgb(0, 162, 255);
+}
+.flex-column {
+  flex-direction: columnn !important;
 }
