@@ -9,7 +9,6 @@ import { RegisterGQL, RegisterMutation } from '../../../../../generated-types';
 import { catchError, of, switchMap, tap } from 'rxjs';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { Register } from './register.types';
 import { MutationResult } from 'apollo-angular';
 
@@ -27,7 +26,6 @@ export const registerState = signalStore(
   withMethods(state => {
     const register = inject(RegisterGQL);
     const router = inject(Router);
-    const store = inject(Store);
     return {
       togglePassword: () =>
         patchState(state, { passwordVisibility: !state.passwordVisibility() }),
@@ -35,7 +33,7 @@ export const registerState = signalStore(
         patchState(state, {
           confirmPasswordVisibility: !state.confirmPasswordVisibility(),
         }),
-      registerGlobalCache: rxMethod<Register>(c$ =>
+      register: rxMethod<Register>(c$ =>
         c$.pipe(
           tap(() => {
             patchState(state, setLoading());
@@ -48,7 +46,15 @@ export const registerState = signalStore(
               .pipe(
                 tap((response: MutationResult<RegisterMutation>) => {
                   patchState(state, setLoaded());
-                  router.navigate(['/']);
+                  const encoded = btoa(
+                    JSON.stringify({ email: c.email, token: null })
+                  );
+                  state.openAlert(
+                    'Registeration Successful',
+                    'Please verify your email account!.',
+                    'SUCCESS'
+                  );
+                  router.navigateByUrl(`/auth/verify-account?token=${encoded}`);
                   state.openAlert(
                     'Registeration Successful',
                     'Successfully Registered!.',
