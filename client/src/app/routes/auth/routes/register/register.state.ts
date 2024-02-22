@@ -56,7 +56,7 @@ export const registerState = signalStore(
                   );
                   router.navigateByUrl(`/auth/verify-account?token=${encoded}`);
                   state.openAlert(
-                    'Registeration Successful',
+                    'Registration Successful',
                     'Successfully Registered!.',
                     'SUCCESS'
                   );
