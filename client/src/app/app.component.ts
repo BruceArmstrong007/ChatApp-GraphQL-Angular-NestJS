@@ -15,8 +15,8 @@ import { BackgroundComponent } from './shared/components/background/background.c
       'dark-theme': theme.darkMode(),
       'light-theme': !theme.darkMode()
     }">
-    <router-outlet />
     <app-background />
+    <router-outlet />
   </div> `,
   styles: `
     .layoutSize {
