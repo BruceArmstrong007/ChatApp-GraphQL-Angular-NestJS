@@ -1,63 +1,79 @@
 @use '@angular/material' as mat;
 @use '@angular/material-experimental' as matx;
 
+// Disable legacy API compatibility, since dev-app is fully migrated to theme inspection API.
+
+$theme-ignore-duplication-warnings: true;
+$theme-legacy-inspection-api-compatibility: false;
+
 @include mat.core();
 
 //   $m3-red-palette, $m3-green-palette, $m3-blue-palette,
 //   $m3-yellow-palette, $m3-cyan-palette, $m3-magenta-palette, $m3-orange-palette,
 //   $m3-chartreuse-palette, $m3-azure-palette, $m3-violet-palette, $m3-rose-palette;
 
-$m3-dark-theme: matx.define-theme(
-  (
-    color: (
-      theme-type: dark,
-      primary: matx.$m3-violet-palette,
-      tertiary: matx.$m3-blue-palette,
-    ),
-  )
+// Create a theme with the specified color type and density.
+@function create-theme($type: light, $density: 0) {
+  @return matx.define-theme(
+    (
+      color: (
+        theme-type: $type,
+        primary: matx.$m3-green-palette,
+        tertiary: matx.$m3-violet-palette,
+      ),
+      density: (
+        scale: $density,
+      ),
+    )
+  );
+}
+
+// Define the default (light) theme.
+$light-theme: create-theme(
+  $type: light,
 );
 
-$m3-light-theme: matx.define-theme(
-  (
-    color: (
-      theme-type: light,
-      primary: matx.$m3-violet-palette,
-      tertiary: matx.$m3-blue-palette,
-    ),
-  )
+// Create our dark theme.
+$dark-theme: create-theme(
+  $type: dark,
 );
 
 @mixin apply-common($theme) {
   @if mat.get-theme-type($theme) == dark {
-    background: mat.get-theme-color($theme, neutral-variant, 20);
+    background: mat.get-theme-color($theme, neutral-variant, 10);
   } @else {
-    background: mat.get-theme-color($theme, neutral-variant, 80);
+    background: mat.get-theme-color($theme, neutral-variant, 90);
   }
-  .button-warn {
-    @include mat.button-color($theme, $color-variant: error);
-    @include mat.button-base($theme);
-    @include mat.button-theme($theme, $color-variant: error);
-    @include mat.button-density($theme);
-  }
-  .button-success {
-    @include mat.button-color($theme, $color-variant: tertiary);
-    @include mat.button-base($theme);
-    @include mat.button-theme($theme, $color-variant: tertiary);
-    @include mat.button-density($theme);
-  }
+
+  @include matx.color-variants-back-compat($theme);
+  @include mat.typography-hierarchy($theme, $back-compat: true);
 }
 
 .dark-theme {
-  @include apply-common($m3-dark-theme);
-  @include mat.all-component-themes($m3-dark-theme);
-  color: mat.get-theme-color($m3-dark-theme, neutral-variant, 95);
+  @include apply-common($dark-theme);
+  @include mat.all-component-themes($dark-theme);
+  @include mat.all-component-colors($dark-theme);
+  @include mat.all-component-densities($dark-theme);
+  color: mat.get-theme-color($dark-theme, neutral-variant, 95);
 }
 
 .light-theme {
-  @include apply-common($m3-light-theme);
-  @include mat.all-component-themes($m3-light-theme);
-  color: mat.get-theme-color($m3-light-theme, neutral-variant, 10);
+  @include apply-common($light-theme);
+  @include mat.all-component-themes($light-theme);
+  @include mat.all-component-colors($light-theme);
+  @include mat.all-component-densities($light-theme);
+  color: mat.get-theme-color($light-theme, neutral-variant, 10);
 }
+
+
+$density-scales: (-1, -2, -3, -4, minimum, maximum);
+@each $scale in $density-scales {
+  .demo-density-#{$scale} {
+    $density-theme: create-theme($density: $scale);
+    @include mat.all-component-densities($density-theme);
+  }
+}
+
 
 * {
   -moz-box-sizing: border-box;
