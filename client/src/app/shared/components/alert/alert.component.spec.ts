@@ -1,6 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AlertComponent } from './alert.component';
+import {
+  MAT_SNACK_BAR_DATA,
+  MatSnackBarModule,
+  MatSnackBarRef,
+} from '@angular/material/snack-bar';
 
 describe('AlertComponent', () => {
   let component: AlertComponent;
@@ -8,10 +13,19 @@ describe('AlertComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AlertComponent]
-    })
-    .compileComponents();
-    
+      imports: [AlertComponent, MatSnackBarModule],
+      providers: [
+        {
+          provide: MAT_SNACK_BAR_DATA,
+          useValue: {},
+        },
+        {
+          provide: MatSnackBarRef,
+          useValue: {},
+        },
+      ],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(AlertComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
