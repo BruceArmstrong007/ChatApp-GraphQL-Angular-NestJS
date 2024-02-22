@@ -12,18 +12,14 @@ import { RouterLink } from '@angular/router';
         <h3 class="app-title">My Chat</h3>
         <p class="app-description">Connect with people around the world!</p>
         <div class="flex justify-between">
-          <button
-            routerLink="../auth/login"
-            type="button"
-            mat-raised-button
-            class="button-error">
+          <button routerLink="../auth/login" type="button" mat-raised-button>
             Login
           </button>
           <button
             routerLink="../auth/register"
             type="button"
             mat-raised-button
-            class="button-primary">
+            class="button-success">
             Register
           </button>
         </div>
