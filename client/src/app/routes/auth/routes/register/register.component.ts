@@ -173,16 +173,10 @@ import { CustomValidationService } from '../../../../shared/services/validator/c
           </sub>
         </mat-card-content>
         <mat-card-actions class="flex justify-between">
-          <button
-            type="button"
-            (click)="reset()"
-            mat-button
-            class="button-warn">
+          <button type="button" (click)="reset()" mat-button color="warn">
             Reset
           </button>
-          <button type="submit" mat-raised-button class="button-success">
-            Register
-          </button>
+          <button type="submit" mat-raised-button>Register</button>
         </mat-card-actions>
       </mat-card>
     </form>
@@ -268,7 +262,6 @@ class RegisterComponent {
     console.log(this.form);
 
     if (this.form.invalid) return;
-    console.log(this.form.value);
     this.registerState.register(this.form.value as Register);
   }
 

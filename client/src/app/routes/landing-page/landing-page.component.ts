@@ -9,17 +9,17 @@ import { RouterLink } from '@angular/router';
   template: `
     <div class="flex container justify-center">
       <div>
-        <h3 class="app-title">My Chat</h3>
+        <h3 class="app-title">MyChat</h3>
         <p class="app-description">Connect with people around the world!</p>
-        <div class="flex justify-between">
-          <button routerLink="../auth/login" type="button" mat-raised-button>
-            Login
-          </button>
+        <div class="flex justify-evenly">
           <button
-            routerLink="../auth/register"
+            routerLink="../auth/login"
             type="button"
             mat-raised-button
-            class="button-success">
+            color="accent">
+            Login
+          </button>
+          <button routerLink="../auth/register" type="button" mat-raised-button>
             Register
           </button>
         </div>
@@ -37,15 +37,15 @@ import { RouterLink } from '@angular/router';
       height: 50%;
     }
     .app-title {
-      font-size: 100px;
+      font-size: 50px;
       font-weight: 400;
       margin: 20px 0px;
-      color: rgb(0, 162, 255);
+      color: rgb(0, 102, 255);
     }
     .app-description {
       font-size: 30px;
       font-weight: 400;
-      color: rgb(0, 162, 255);
+      color: rgb(0, 102, 255);
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -108,11 +108,7 @@ import { RouterLink } from '@angular/router';
           </sub>
         </mat-card-content>
         <mat-card-actions class="flex justify-between">
-          <button
-            type="button"
-            (click)="reset()"
-            mat-button
-            class="button-warn">
+          <button type="button" (click)="reset()" mat-button color="warn">
             Reset
           </button>
           <button type="submit" mat-raised-button class="button-success">
@@ -171,7 +167,6 @@ class LoginComponent {
 
   submit() {
     if (this.form.invalid) return;
-    console.log(this.form.value);
     this.loginState.login(this.form.value as Login);
   }
 

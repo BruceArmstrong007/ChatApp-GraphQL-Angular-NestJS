@@ -28,6 +28,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       overflow: hidden;
       padding: 0;
       margin: 0;
+      z-index: 0;
     }
 
     .circles li {
