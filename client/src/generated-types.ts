@@ -166,13 +166,6 @@ export type User = {
   verified: Scalars['Boolean']['output'];
 };
 
-export type RegisterMutationVariables = Exact<{
-  createUserData: CreateUserInput;
-}>;
-
-
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', _id: string, username: string, email: string } };
-
 export type LoginQueryVariables = Exact<{
   LoginAuthData: LoginAuthInput;
 }>;
@@ -180,26 +173,13 @@ export type LoginQueryVariables = Exact<{
 
 export type LoginQuery = { __typename?: 'Query', login: { __typename?: 'Login', accessToken: string, user?: { __typename?: 'User', name: string } | null } };
 
-export const RegisterDocument = gql`
-    mutation register($createUserData: CreateUserInput!) {
-  register(createUserData: $createUserData) {
-    _id
-    username
-    email
-  }
-}
-    `;
+export type RegisterMutationVariables = Exact<{
+  createUserData: CreateUserInput;
+}>;
 
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class RegisterGQL extends Apollo.Mutation<RegisterMutation, RegisterMutationVariables> {
-    document = RegisterDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
+
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', _id: string, username: string, email: string } };
+
 export const LoginDocument = gql`
     query login($LoginAuthData: LoginAuthInput!) {
   login(loginAuthData: $LoginAuthData) {
@@ -216,6 +196,26 @@ export const LoginDocument = gql`
   })
   export class LoginGQL extends Apollo.Query<LoginQuery, LoginQueryVariables> {
     document = LoginDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RegisterDocument = gql`
+    mutation register($createUserData: CreateUserInput!) {
+  register(createUserData: $createUserData) {
+    _id
+    username
+    email
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RegisterGQL extends Apollo.Mutation<RegisterMutation, RegisterMutationVariables> {
+    document = RegisterDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
