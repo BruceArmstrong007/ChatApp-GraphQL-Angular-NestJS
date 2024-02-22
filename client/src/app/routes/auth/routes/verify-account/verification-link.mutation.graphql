@@ -1,0 +1,7 @@
+mutation emailVerificationLink(
+  $emailVerificationLinkData: EmailVerificationLinkInput!
+) {
+  emailVerificationLink(emailVerificationLinkData: $emailVerificationLinkData) {
+    message
+  }
+}
