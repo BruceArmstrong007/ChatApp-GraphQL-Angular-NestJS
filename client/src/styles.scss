@@ -131,8 +131,12 @@ get ::-webkit-scrollbar-thumb {
 }
 .justify-evenly {
   justify-content: space-evenly !important;
-  color: rgb(0, 162, 255);
 }
+
+.justify-end {
+  justify-content: end !important;
+}
+
 .flex-column {
   flex-direction: column !important;
 }

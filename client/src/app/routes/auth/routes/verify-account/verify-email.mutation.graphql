@@ -1,0 +1,7 @@
+mutation emailVerification(
+  $emailVerificationData: EmailVerificationInput!
+) {
+  emailVerification(emailVerificationData: $emailVerificationData) {
+    message
+  }
+}

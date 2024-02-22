@@ -180,6 +180,34 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', _id: string, username: string, email: string } };
 
+export type ResetPasswordLinkMutationVariables = Exact<{
+  resetPasswordLinkData: ResetPasswordLinkInput;
+}>;
+
+
+export type ResetPasswordLinkMutation = { __typename?: 'Mutation', resetPasswordLink: { __typename?: 'Message', message: string } };
+
+export type ResetPasswordMutationVariables = Exact<{
+  resetPasswordData: ResetPasswordInput;
+}>;
+
+
+export type ResetPasswordMutation = { __typename?: 'Mutation', resetPassword: { __typename?: 'Message', message: string } };
+
+export type EmailVerificationLinkMutationVariables = Exact<{
+  emailVerificationLinkData: EmailVerificationLinkInput;
+}>;
+
+
+export type EmailVerificationLinkMutation = { __typename?: 'Mutation', emailVerificationLink: { __typename?: 'Message', message: string } };
+
+export type EmailVerificationMutationVariables = Exact<{
+  emailVerificationData: EmailVerificationInput;
+}>;
+
+
+export type EmailVerificationMutation = { __typename?: 'Mutation', emailVerification: { __typename?: 'Message', message: string } };
+
 export const LoginDocument = gql`
     query login($LoginAuthData: LoginAuthInput!) {
   login(loginAuthData: $LoginAuthData) {
@@ -216,6 +244,78 @@ export const RegisterDocument = gql`
   })
   export class RegisterGQL extends Apollo.Mutation<RegisterMutation, RegisterMutationVariables> {
     document = RegisterDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ResetPasswordLinkDocument = gql`
+    mutation resetPasswordLink($resetPasswordLinkData: ResetPasswordLinkInput!) {
+  resetPasswordLink(resetPasswordLinkData: $resetPasswordLinkData) {
+    message
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ResetPasswordLinkGQL extends Apollo.Mutation<ResetPasswordLinkMutation, ResetPasswordLinkMutationVariables> {
+    document = ResetPasswordLinkDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ResetPasswordDocument = gql`
+    mutation resetPassword($resetPasswordData: ResetPasswordInput!) {
+  resetPassword(resetPasswordData: $resetPasswordData) {
+    message
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ResetPasswordGQL extends Apollo.Mutation<ResetPasswordMutation, ResetPasswordMutationVariables> {
+    document = ResetPasswordDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EmailVerificationLinkDocument = gql`
+    mutation emailVerificationLink($emailVerificationLinkData: EmailVerificationLinkInput!) {
+  emailVerificationLink(emailVerificationLinkData: $emailVerificationLinkData) {
+    message
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EmailVerificationLinkGQL extends Apollo.Mutation<EmailVerificationLinkMutation, EmailVerificationLinkMutationVariables> {
+    document = EmailVerificationLinkDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const EmailVerificationDocument = gql`
+    mutation emailVerification($emailVerificationData: EmailVerificationInput!) {
+  emailVerification(emailVerificationData: $emailVerificationData) {
+    message
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EmailVerificationGQL extends Apollo.Mutation<EmailVerificationMutation, EmailVerificationMutationVariables> {
+    document = EmailVerificationDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
