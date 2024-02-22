@@ -9,7 +9,6 @@ export class CustomValidationService {
     return (control: AbstractControl) => {
       if (control.value[key1] !== control.value[key2]) {
         return control?.get(key2)?.setErrors({
-          ...(control?.get(key2)?.errors || {}),
           mismatch: true,
         });
       }
