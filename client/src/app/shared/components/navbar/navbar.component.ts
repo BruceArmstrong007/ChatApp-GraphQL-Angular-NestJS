@@ -21,16 +21,7 @@ import { ThemeService } from '../../services/theme/theme.service';
             theme.darkMode() ? 'light_mode' : 'dark_mode'
           }}</mat-icon>
         </button>
-        <button
-          type="button"
-          mat-button
-          routerLink="./register"
-          color="success">
-          Register
-        </button>
-        <button type="button" mat-button routerLink="./login" color="accent">
-          Login
-        </button>
+        <ng-content />
       </div>
     </mat-toolbar>
   `,
@@ -46,7 +37,4 @@ import { ThemeService } from '../../services/theme/theme.service';
 })
 export class NavbarComponent {
   readonly theme = inject(ThemeService);
-  evnet() {
-    console.log('clicked');
-  }
 }
