@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './shared/guards/auth.guard';
 import { chatGuard } from './shared/guards/chat.guard';
+import { profileGuard } from './shared/guards/profile.guard';
 
 export const routes: Routes = [
   {
@@ -11,7 +12,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    canActivate: [chatGuard],
+    canActivate: [chatGuard, profileGuard],
     loadComponent: () => import('./routes/chat/chat.component'),
     loadChildren: () => import('./routes/chat/chat.routes'),
   },
