@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Signal,
   effect,
   inject,
 } from '@angular/core';
@@ -18,13 +17,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { Params, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { CustomValidationService } from '../../../../shared/services/validator/custom-validation.service';
 import { resetPasswordState } from './reset-password.state';
 import { ResetPassword, ResetPasswordForm } from './reset-password.types';
-import { selectQueryParams } from '../../../../state/router/router-selector';
-import { Store } from '@ngrx/store';
 import { NgIf } from '@angular/common';
+import { UrlParserService } from '../../service/url-parser.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -216,7 +214,6 @@ import { NgIf } from '@angular/common';
 })
 class ResetPasswordComponent {
   readonly resetPasswordState = inject(resetPasswordState);
-  readonly store = inject(Store);
   private readonly passwordValidator = inject(CustomValidationService);
   readonly form = new FormGroup<ResetPasswordForm>(
     {
@@ -253,12 +250,13 @@ class ResetPasswordComponent {
     },
     this.passwordValidator.MatchValidator('password', 'confirmPassword')
   );
+  private readonly urlParser = inject(UrlParserService);
 
   constructor() {
+    const params = this.urlParser.parseURL();
     // router Store selection
-    const param: Signal<Params> = this.store.selectSignal(selectQueryParams);
-    if (param()['token']) {
-      this.form.patchValue({ ...JSON.parse(atob(param()['token'])) });
+    if (params) {
+      this.form.patchValue({ ...JSON.parse(atob(params)) });
       this.resetPasswordState.disableEmailField();
       this.resetPasswordState.setToken();
     }
