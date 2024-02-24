@@ -5,19 +5,17 @@ export class User {
 
   email: string;
 
-  password: string;
-
-  bio: string;
+  bio: string | null | undefined;
 
   name: string;
 
   profile: Profile;
-
-  verified: boolean;
 }
 
-export class Profile {
-  url: string;
-
-  filename: string;
-}
+export type Profile =
+  | {
+      url: string;
+      filename: string;
+    }
+  | null
+  | undefined;
