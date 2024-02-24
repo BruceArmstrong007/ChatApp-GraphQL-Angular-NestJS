@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Signal,
   effect,
   inject,
 } from '@angular/core';
@@ -18,11 +17,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { Params, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { verifyAccountState } from './verify-account.state';
 import { VerifyAccount, VerifyAccountForm } from './verify-account.types';
-import { selectQueryParams } from '../../../../state/router/router-selector';
-import { Store } from '@ngrx/store';
+import { UrlParserService } from '../../service/url-parser.service';
 
 @Component({
   selector: 'app-verify-account',
@@ -130,7 +128,6 @@ import { Store } from '@ngrx/store';
 })
 class VerifyAccountComponent {
   readonly verifyAccountState = inject(verifyAccountState);
-  readonly store = inject(Store);
   readonly form = new FormGroup<VerifyAccountForm>({
     email: new FormControl('', {
       validators: Validators.compose([
@@ -147,12 +144,13 @@ class VerifyAccountComponent {
       nonNullable: true,
     }),
   });
+  private readonly urlParser = inject(UrlParserService);
 
   constructor() {
     // router Store selection
-    const param: Signal<Params> = this.store.selectSignal(selectQueryParams);
-    if (param()['token']) {
-      this.form.patchValue({ ...JSON.parse(atob(param()['token'])) });
+    const parsedData = this.urlParser.parseURL();
+    if (parsedData) {
+      this.form.patchValue({ ...JSON.parse(atob(parsedData)) });
       this.verifyAccountState.disableEmailField();
     }
 
@@ -177,7 +175,7 @@ class VerifyAccountComponent {
   }
 
   submit() {
-    if (this.form.invalid) return;
+    if (this.form.invalid || !this.form.controls.token.getRawValue()) return;
     this.verifyAccountState.verifyEmail(
       this.form.getRawValue() as VerifyAccount
     );

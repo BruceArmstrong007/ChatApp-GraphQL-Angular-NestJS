@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { loginState } from './login.state';
+import { RouterTestingModule } from '@angular/router/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import LoginComponent from './login.component';
 import {
@@ -26,6 +27,7 @@ describe('LoginComponent', () => {
         LoginComponent,
         MatSnackBarModule,
         ApolloModule,
+        RouterTestingModule,
         BrowserAnimationsModule,
       ],
       providers: [
@@ -53,7 +55,58 @@ describe('LoginComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have a valid form on submit', () => {
+  it('should not submit the form if username is invalid', () => {
+    const formValues = {
+      username: 'asf',
+      password: 'testpasdasd22',
+    };
+
+    component.form.setValue(formValues);
+    expect(component.form.valid).toBeFalsy();
+    expect(component.form.controls.username.valid).toBeFalsy();
+    expect(component.form.controls.password.valid).toBeTruthy();
+
+    spyOn(component.loginState, 'login');
+    component.submit();
+
+    expect(component.loginState.login).not.toHaveBeenCalledWith(formValues);
+  });
+
+  it('should not submit the form if password is invalid', () => {
+    const formValues = {
+      username: 'testasdsad',
+      password: 'testpas',
+    };
+
+    component.form.setValue(formValues);
+    expect(component.form.valid).toBeFalsy();
+    expect(component.form.controls.username.valid).toBeTruthy();
+    expect(component.form.controls.password.valid).toBeFalsy();
+
+    spyOn(component.loginState, 'login');
+    component.submit();
+
+    expect(component.loginState.login).not.toHaveBeenCalledWith(formValues);
+  });
+
+  it('should not submit the form if both username and password in the form are invalid', () => {
+    const formValues = {
+      username: 'sa',
+      password: 'test',
+    };
+
+    component.form.setValue(formValues);
+    expect(component.form.valid).toBeFalsy();
+    expect(component.form.controls.username.valid).toBeFalsy();
+    expect(component.form.controls.password.valid).toBeFalsy();
+
+    spyOn(component.loginState, 'login');
+    component.submit();
+
+    expect(component.loginState.login).not.toHaveBeenCalledWith(formValues);
+  });
+
+  it('should submit the form if form is valid', () => {
     const formValues = {
       username: 'testuser',
       password: 'testpassword1',
@@ -64,7 +117,7 @@ describe('LoginComponent', () => {
 
     spyOn(component.loginState, 'login');
     component.submit();
-
+    36;
     expect(component.loginState.login).toHaveBeenCalledWith(formValues);
   });
 
