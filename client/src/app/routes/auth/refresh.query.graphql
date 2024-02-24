@@ -1,0 +1,6 @@
+
+query refresh {
+  refresh {
+   accessToken
+  }
+}

@@ -166,6 +166,11 @@ export type User = {
   verified: Scalars['Boolean']['output'];
 };
 
+export type RefreshQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RefreshQuery = { __typename?: 'Query', refresh: { __typename?: 'Refresh', accessToken: string } };
+
 export type LoginQueryVariables = Exact<{
   LoginAuthData: LoginAuthInput;
 }>;
@@ -215,6 +220,24 @@ export type UserQueryVariables = Exact<{
 
 export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', _id: string, name: string, username: string, email: string, bio?: string | null, profile?: { __typename?: 'Profile', url: string, filename: string } | null } | null };
 
+export const RefreshDocument = gql`
+    query refresh {
+  refresh {
+    accessToken
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RefreshGQL extends Apollo.Query<RefreshQuery, RefreshQueryVariables> {
+    document = RefreshDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const LoginDocument = gql`
     query login($LoginAuthData: LoginAuthInput!) {
   login(loginAuthData: $LoginAuthData) {
