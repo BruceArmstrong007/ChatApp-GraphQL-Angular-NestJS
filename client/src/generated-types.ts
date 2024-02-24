@@ -208,6 +208,13 @@ export type EmailVerificationMutationVariables = Exact<{
 
 export type EmailVerificationMutation = { __typename?: 'Mutation', emailVerification: { __typename?: 'Message', message: string } };
 
+export type UserQueryVariables = Exact<{
+  FindUserData: SearchUserInput;
+}>;
+
+
+export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', _id: string, name: string, username: string, email: string, bio?: string | null, profile?: { __typename?: 'Profile', url: string, filename: string } | null } | null };
+
 export const LoginDocument = gql`
     query login($LoginAuthData: LoginAuthInput!) {
   login(loginAuthData: $LoginAuthData) {
@@ -316,6 +323,32 @@ export const EmailVerificationDocument = gql`
   })
   export class EmailVerificationGQL extends Apollo.Mutation<EmailVerificationMutation, EmailVerificationMutationVariables> {
     document = EmailVerificationDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UserDocument = gql`
+    query user($FindUserData: SearchUserInput!) {
+  user(findUserData: $FindUserData) {
+    _id
+    name
+    username
+    email
+    profile {
+      url
+      filename
+    }
+    bio
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UserGQL extends Apollo.Query<UserQuery, UserQueryVariables> {
+    document = UserDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
