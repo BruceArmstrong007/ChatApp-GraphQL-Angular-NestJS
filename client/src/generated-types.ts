@@ -15,6 +15,8 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
+  DateTime: { input: any; output: any; }
 };
 
 export type CreateUserInput = {
@@ -97,12 +99,15 @@ export type MutationUpdateUserArgs = {
 
 export type Profile = {
   __typename?: 'Profile';
+  createdAt: Scalars['DateTime']['output'];
   filename: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
   url: Scalars['String']['output'];
 };
 
 export type Query = {
   __typename?: 'Query';
+  currentUser?: Maybe<User>;
   login: Login;
   refresh: Refresh;
   user?: Maybe<User>;
@@ -158,13 +163,20 @@ export type User = {
   __typename?: 'User';
   _id: Scalars['ID']['output'];
   bio?: Maybe<Scalars['String']['output']>;
+  createdAt: Scalars['DateTime']['output'];
   email: Scalars['String']['output'];
   name: Scalars['String']['output'];
   password: Scalars['String']['output'];
   profile?: Maybe<Profile>;
+  updatedAt: Scalars['DateTime']['output'];
   username: Scalars['String']['output'];
   verified: Scalars['Boolean']['output'];
 };
+
+export type RefreshQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RefreshQuery = { __typename?: 'Query', refresh: { __typename?: 'Refresh', accessToken: string } };
 
 export type LoginQueryVariables = Exact<{
   LoginAuthData: LoginAuthInput;
@@ -208,6 +220,36 @@ export type EmailVerificationMutationVariables = Exact<{
 
 export type EmailVerificationMutation = { __typename?: 'Mutation', emailVerification: { __typename?: 'Message', message: string } };
 
+export type CurrentuserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CurrentuserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', _id: string, name: string, username: string, email: string, bio?: string | null, verified: boolean, createdAt: any, updatedAt: any, profile?: { __typename?: 'Profile', url: string, filename: string, createdAt: any, updatedAt: any } | null } | null };
+
+export type UserQueryVariables = Exact<{
+  FindUserData: SearchUserInput;
+}>;
+
+
+export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', _id: string, name: string, username: string, email: string, bio?: string | null, verified: boolean, createdAt: any, updatedAt: any, profile?: { __typename?: 'Profile', url: string, filename: string, createdAt: any, updatedAt: any } | null } | null };
+
+export const RefreshDocument = gql`
+    query refresh {
+  refresh {
+    accessToken
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RefreshGQL extends Apollo.Query<RefreshQuery, RefreshQueryVariables> {
+    document = RefreshDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const LoginDocument = gql`
     query login($LoginAuthData: LoginAuthInput!) {
   login(loginAuthData: $LoginAuthData) {
@@ -316,6 +358,68 @@ export const EmailVerificationDocument = gql`
   })
   export class EmailVerificationGQL extends Apollo.Mutation<EmailVerificationMutation, EmailVerificationMutationVariables> {
     document = EmailVerificationDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CurrentuserDocument = gql`
+    query currentuser {
+  currentUser {
+    _id
+    name
+    username
+    email
+    profile {
+      url
+      filename
+      createdAt
+      updatedAt
+    }
+    bio
+    verified
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CurrentuserGQL extends Apollo.Query<CurrentuserQuery, CurrentuserQueryVariables> {
+    document = CurrentuserDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UserDocument = gql`
+    query user($FindUserData: SearchUserInput!) {
+  user(findUserData: $FindUserData) {
+    _id
+    name
+    username
+    email
+    profile {
+      url
+      filename
+      createdAt
+      updatedAt
+    }
+    bio
+    verified
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UserGQL extends Apollo.Query<UserQuery, UserQueryVariables> {
+    document = UserDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

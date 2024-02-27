@@ -259,8 +259,6 @@ class RegisterComponent {
   }
 
   submit() {
-    console.log(this.form);
-
     if (this.form.invalid) return;
     this.registerState.register(this.form.value as Register);
   }

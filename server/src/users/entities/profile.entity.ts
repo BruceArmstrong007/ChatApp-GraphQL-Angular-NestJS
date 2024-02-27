@@ -7,4 +7,12 @@ export class Profile {
 
   @Field()
   url: string;
+
+
+
+  @Field()
+  createdAt: Date;
+
+  @Field()
+  updatedAt: Date;
 }

@@ -1,11 +1,15 @@
+import { SearchUserInput } from 'src/users/dto/search-user.input';
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
-import { SearchUserInput } from './dto/search-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { CreateUserInput } from './dto/create-user.input';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
+import { CurrentUser, CurrentUserType } from '@app/common';
 
 @Resolver(() => User)
+@UseGuards(JwtAuthGuard)
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
@@ -30,7 +34,20 @@ export class UsersResolver {
     @Args('findUserData')
     searchUserInput: SearchUserInput,
   ) {
-    return await this.usersService.findOne(searchUserInput);
+    const user = await this.usersService.findOne(searchUserInput);
+    return await user;
+  }
+
+  @Query(() => User, { name: 'currentUser', nullable: true })
+  async currentUser(@CurrentUser() currentUser: CurrentUserType) {
+    
+    const user = await this.usersService.findOne(
+      new SearchUserInput({
+        value: currentUser._id,
+        type: '_id',
+      }),
+    );
+    return await user;
   }
 
   @Mutation(() => User)

@@ -8,7 +8,7 @@ import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { LoginGQL, LoginQuery } from '../../../../../generated-types';
 import { catchError, of, switchMap, tap } from 'rxjs';
 import { inject } from '@angular/core';
-import { AccessToken, Login } from './login.types';
+import { Login } from './login.types';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { authActions } from '../../../../state/auth/auth.action';
@@ -43,17 +43,16 @@ export const loginState = signalStore(
               .pipe(
                 tap((response: ApolloQueryResult<LoginQuery>) => {
                   patchState(state, setLoaded());
-                  const token: AccessToken = {
-                    accessToken: response.data.login.accessToken,
-                  };
                   localStorage.setItem('isLoggedIn', 'true');
-                  store.dispatch(authActions.setToken(token));
-                  router.navigate(['/']);
+                  store.dispatch(
+                    authActions.setRefreshToken(response.data.login)
+                  );
                   state.openAlert(
                     'Login Successful',
                     'Successfully logged in!.',
                     'SUCCESS'
                   );
+                  router.navigate(['/']);
                 }),
                 catchError(error => {
                   const errorMsg = error.message;

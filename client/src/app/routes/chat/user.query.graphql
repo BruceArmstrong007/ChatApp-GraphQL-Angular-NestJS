@@ -1,0 +1,18 @@
+query user($FindUserData: SearchUserInput!) {
+  user(findUserData: $FindUserData) {
+    _id
+    name
+    username
+    email
+    profile {
+      url
+      filename
+      createdAt
+      updatedAt
+    }
+    bio
+    verified
+    createdAt
+    updatedAt
+  }
+}
