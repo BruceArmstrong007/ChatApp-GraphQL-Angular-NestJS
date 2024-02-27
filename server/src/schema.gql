@@ -9,6 +9,11 @@ input CreateUserInput {
   username: String!
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 input EmailVerificationInput {
   email: String!
   token: String!
@@ -43,11 +48,14 @@ type Mutation {
 }
 
 type Profile {
+  createdAt: DateTime!
   filename: String!
+  updatedAt: DateTime!
   url: String!
 }
 
 type Query {
+  currentUser: User
   login(loginAuthData: LoginAuthInput!): Login!
   refresh: Refresh!
   user(findUserData: SearchUserInput!): User
@@ -86,10 +94,12 @@ input UpdateUserInput {
 type User {
   _id: ID!
   bio: String
+  createdAt: DateTime!
   email: String!
   name: String!
   password: String!
   profile: Profile
+  updatedAt: DateTime!
   username: String!
   verified: Boolean!
 }

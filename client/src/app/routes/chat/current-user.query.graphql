@@ -1,5 +1,5 @@
-query user($FindUserData: SearchUserInput!) {
-  user(findUserData: $FindUserData) {
+query currentuser {
+  currentUser {
     _id
     name
     username
