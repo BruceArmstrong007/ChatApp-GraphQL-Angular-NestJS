@@ -21,9 +21,15 @@ export class User {
   @Field()
   name: string;
 
-  @Field(() => Profile, { nullable: true })
-  profile: Profile;
-
   @Field()
   verified: boolean;
+
+  @Field()
+  createdAt: Date;
+
+  @Field()
+  updatedAt: Date;
+
+  @Field(() => Profile, { nullable: true })
+  profile: Profile;
 }
