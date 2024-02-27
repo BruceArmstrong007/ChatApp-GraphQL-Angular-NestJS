@@ -5,8 +5,8 @@ export const authActions = createActionGroup({
   source: 'Auth Actions',
   events: {
     ResetState: emptyProps(),
-    RefreshToken: emptyProps,
+    RefreshToken: emptyProps(),
     SetRefreshToken: props<AccessToken>(),
-    RefreshTokenFailure: emptyProps()
+    RefreshTokenFailure: emptyProps(),
   },
 });
