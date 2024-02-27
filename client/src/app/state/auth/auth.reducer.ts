@@ -11,14 +11,7 @@ export const authFeature = createFeature({
   reducer: createReducer(
     initialState,
     on(
-      authActions.refreshToken,
-      (state, action): AuthState => ({
-        ...state,
-        accessToken: action.accessToken,
-      })
-    ),
-    on(
-      authActions.setToken,
+      authActions.setRefreshToken,
       (state, action): AuthState => ({
         ...state,
         accessToken: action.accessToken,
