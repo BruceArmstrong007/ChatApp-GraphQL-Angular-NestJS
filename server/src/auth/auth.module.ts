@@ -10,6 +10,7 @@ import { UsersModule } from 'src/users/users.module';
 import { LocalAuthStrategy } from './strategy/local-auth.strategy';
 import { AuthRepository } from './database/auth.repository';
 import { RefreshJwtStrategy } from './strategy/refresh-jwt.strategy';
+import { JwtAuthStrategy } from './strategy/jwt-auth.strategy';
 
 @Module({
   providers: [
@@ -18,6 +19,7 @@ import { RefreshJwtStrategy } from './strategy/refresh-jwt.strategy';
     AuthService,
     LocalAuthStrategy,
     RefreshJwtStrategy,
+    JwtAuthStrategy,
     JwtService,
   ],
   imports: [
