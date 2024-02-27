@@ -1,6 +1,8 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { User } from './user.model';
 
+type NonNullableUser = NonNullable<User>;
+
 export const userActions = createActionGroup({
   source: 'User Actions',
   events: {
@@ -10,7 +12,7 @@ export const userActions = createActionGroup({
     LogoutSuccess: emptyProps(),
     LogoutFailure: emptyProps(),
     UpdateUser: props<{
-      request: Pick<User, 'name' | 'bio' | 'username'>;
+      request: Pick<NonNullableUser, 'name' | 'bio' | 'username'>;
     }>(),
     UpdateUserSuccess: emptyProps(),
     UpdateUserFailure: emptyProps(),

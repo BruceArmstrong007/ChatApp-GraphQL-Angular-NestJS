@@ -5,13 +5,19 @@ export interface UserState {
 export type User =
   | {
       _id: string;
+      email: string | null | undefined;
       name: string;
       username: string;
-      bio: string;
-      profile: {
-        url: string;
-        filename: string;
-      };
+      bio: string | null | undefined;
+      profile:
+        | {
+            url: string;
+            filename: string;
+            createdAt: string;
+            updatedAt: string;
+          }
+        | null
+        | undefined;
       verified: boolean;
       createdAt: string;
       updatedAt: string;
