@@ -3,11 +3,8 @@
 
 @include mat.core();
 
-
-
 $theme-ignore-duplication-warnings: true;
 $theme-legacy-inspection-api-compatibility: false;
-
 
 //   $m3-red-palette, $m3-green-palette, $m3-blue-palette,
 //   $m3-yellow-palette, $m3-cyan-palette, $m3-magenta-palette, $m3-orange-palette,
@@ -133,12 +130,20 @@ get ::-webkit-scrollbar-thumb {
   justify-content: space-evenly !important;
 }
 
+.justify-start {
+  justify-content: start !important;
+}
+
 .justify-end {
   justify-content: end !important;
 }
 
 .flex-column {
   flex-direction: column !important;
+}
+
+.items-center {
+  align-items: center;
 }
 
 .w-full {
@@ -165,6 +170,14 @@ get ::-webkit-scrollbar-thumb {
   gap: 2 !important;
 }
 
+.gap-5 {
+  gap: 5px !important;
+}
+
+.gap-10 {
+  gap: 10px !important;
+}
+
 .cursor-pointer {
   cursor: pointer !important;
 }
@@ -172,3 +185,12 @@ get ::-webkit-scrollbar-thumb {
 .z-index-1 {
   z-index: 100 !important;
 }
+
+.px-20 {
+  padding: 0px 20px !important;
+}
+
+.p-5 {
+  padding: 10px !important;
+}
+
