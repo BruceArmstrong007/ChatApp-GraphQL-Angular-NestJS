@@ -1,0 +1,16 @@
+mutation updateUser($updateUserData: UpdateUserInput!) {
+  updateUser(updateUserData: $updateUserData) {
+    _id
+    username
+    name
+    dob
+    age
+    location
+    gender
+    bio
+    profile {
+      filename
+      url
+    }
+  }
+}

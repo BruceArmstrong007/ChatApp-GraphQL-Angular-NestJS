@@ -107,7 +107,7 @@ export type Profile = {
 
 export type Query = {
   __typename?: 'Query';
-  currentUser?: Maybe<User>;
+  currentUser: User;
   login: Login;
   refresh: Refresh;
   user?: Maybe<User>;
@@ -152,7 +152,11 @@ export type SearchUserInput = {
 
 export type UpdateUserInput = {
   _id: Scalars['String']['input'];
+  age?: InputMaybe<Scalars['Float']['input']>;
   bio?: InputMaybe<Scalars['String']['input']>;
+  dob?: InputMaybe<Scalars['String']['input']>;
+  gender?: InputMaybe<Scalars['String']['input']>;
+  location?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   profile_filename?: InputMaybe<Scalars['String']['input']>;
   profile_url?: InputMaybe<Scalars['String']['input']>;
@@ -162,9 +166,13 @@ export type UpdateUserInput = {
 export type User = {
   __typename?: 'User';
   _id: Scalars['ID']['output'];
+  age?: Maybe<Scalars['Float']['output']>;
   bio?: Maybe<Scalars['String']['output']>;
   createdAt: Scalars['DateTime']['output'];
+  dob?: Maybe<Scalars['String']['output']>;
   email: Scalars['String']['output'];
+  gender?: Maybe<Scalars['String']['output']>;
+  location?: Maybe<Scalars['String']['output']>;
   name: Scalars['String']['output'];
   password: Scalars['String']['output'];
   profile?: Maybe<Profile>;
@@ -223,14 +231,21 @@ export type EmailVerificationMutation = { __typename?: 'Mutation', emailVerifica
 export type CurrentuserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CurrentuserQuery = { __typename?: 'Query', currentUser?: { __typename?: 'User', _id: string, name: string, username: string, email: string, bio?: string | null, verified: boolean, createdAt: any, updatedAt: any, profile?: { __typename?: 'Profile', url: string, filename: string, createdAt: any, updatedAt: any } | null } | null };
+export type CurrentuserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', _id: string, name: string, username: string, email: string, bio?: string | null, age?: number | null, gender?: string | null, dob?: string | null, location?: string | null, verified: boolean, createdAt: any, updatedAt: any, profile?: { __typename?: 'Profile', url: string, filename: string, createdAt: any, updatedAt: any } | null } };
+
+export type UpdateUserMutationVariables = Exact<{
+  updateUserData: UpdateUserInput;
+}>;
+
+
+export type UpdateUserMutation = { __typename?: 'Mutation', updateUser: { __typename?: 'User', _id: string, username: string, name: string, dob?: string | null, age?: number | null, location?: string | null, gender?: string | null, bio?: string | null, profile?: { __typename?: 'Profile', filename: string, url: string } | null } };
 
 export type UserQueryVariables = Exact<{
   FindUserData: SearchUserInput;
 }>;
 
 
-export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', _id: string, name: string, username: string, email: string, bio?: string | null, verified: boolean, createdAt: any, updatedAt: any, profile?: { __typename?: 'Profile', url: string, filename: string, createdAt: any, updatedAt: any } | null } | null };
+export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', _id: string, name: string, username: string, email: string, age?: number | null, bio?: string | null, dob?: string | null, location?: string | null, gender?: string | null, verified: boolean, createdAt: any, updatedAt: any, profile?: { __typename?: 'Profile', url: string, filename: string, createdAt: any, updatedAt: any } | null } | null };
 
 export const RefreshDocument = gql`
     query refresh {
@@ -377,6 +392,10 @@ export const CurrentuserDocument = gql`
       updatedAt
     }
     bio
+    age
+    gender
+    dob
+    location
     verified
     createdAt
     updatedAt
@@ -389,6 +408,35 @@ export const CurrentuserDocument = gql`
   })
   export class CurrentuserGQL extends Apollo.Query<CurrentuserQuery, CurrentuserQueryVariables> {
     document = CurrentuserDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UpdateUserDocument = gql`
+    mutation updateUser($updateUserData: UpdateUserInput!) {
+  updateUser(updateUserData: $updateUserData) {
+    _id
+    username
+    name
+    dob
+    age
+    location
+    gender
+    bio
+    profile {
+      filename
+      url
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateUserGQL extends Apollo.Mutation<UpdateUserMutation, UpdateUserMutationVariables> {
+    document = UpdateUserDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
@@ -407,7 +455,11 @@ export const UserDocument = gql`
       createdAt
       updatedAt
     }
+    age
     bio
+    dob
+    location
+    gender
     verified
     createdAt
     updatedAt

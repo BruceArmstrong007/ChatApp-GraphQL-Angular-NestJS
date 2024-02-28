@@ -55,7 +55,7 @@ type Profile {
 }
 
 type Query {
-  currentUser: User
+  currentUser: User!
   login(loginAuthData: LoginAuthInput!): Login!
   refresh: Refresh!
   user(findUserData: SearchUserInput!): User
@@ -84,7 +84,11 @@ input SearchUserInput {
 
 input UpdateUserInput {
   _id: String!
+  age: Float
   bio: String
+  dob: String
+  gender: String
+  location: String
   name: String
   profile_filename: String
   profile_url: String
@@ -93,9 +97,13 @@ input UpdateUserInput {
 
 type User {
   _id: ID!
+  age: Float
   bio: String
   createdAt: DateTime!
+  dob: String
   email: String!
+  gender: String
+  location: String
   name: String!
   password: String!
   profile: Profile

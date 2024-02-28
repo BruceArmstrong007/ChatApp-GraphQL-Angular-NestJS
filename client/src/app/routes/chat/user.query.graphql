@@ -10,7 +10,11 @@ query user($FindUserData: SearchUserInput!) {
       createdAt
       updatedAt
     }
+    age
     bio
+    dob
+    location
+    gender
     verified
     createdAt
     updatedAt

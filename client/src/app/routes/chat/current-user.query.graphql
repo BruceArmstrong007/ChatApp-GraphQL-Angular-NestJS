@@ -11,6 +11,10 @@ query currentuser {
       updatedAt
     }
     bio
+    age
+    gender
+    dob
+    location
     verified
     createdAt
     updatedAt
