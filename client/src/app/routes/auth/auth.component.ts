@@ -10,16 +10,18 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
   template: `
     <div class="flex flex-column h-full">
       <app-navbar>
-        <button
-          type="button"
-          mat-button
-          routerLink="./register"
-          color="success">
-          Register
-        </button>
-        <button type="button" mat-button routerLink="./login" color="accent">
-          Login
-        </button>
+        <ng-container ngProjectAs="'right'">
+          <button
+            type="button"
+            mat-button
+            routerLink="./register"
+            color="success">
+            Register
+          </button>
+          <button type="button" mat-button routerLink="./login" color="accent">
+            Login
+          </button>
+        </ng-container>
       </app-navbar>
       <div class="flex justify-center flex-grow">
         <router-outlet />
