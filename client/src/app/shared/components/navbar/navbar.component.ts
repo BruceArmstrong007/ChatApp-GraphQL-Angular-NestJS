@@ -12,9 +12,7 @@ import { ThemeService } from '../../services/theme/theme.service';
   template: `
     <mat-toolbar>
       <div class="flex justify-between gap-2">
-        <div class="z-index-1 cursor-pointer" routerLink="/landing-page">
-          MyChat
-        </div>
+        <div class="cursor-pointer" routerLink="/landing-page">MyChat</div>
         <ng-content select="left" />
       </div>
       <span class="spacer"></span>

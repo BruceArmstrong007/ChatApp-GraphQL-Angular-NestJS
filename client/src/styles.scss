@@ -146,6 +146,10 @@ get ::-webkit-scrollbar-thumb {
   align-items: center;
 }
 
+.items-start {
+  align-items: start;
+}
+
 .w-full {
   width: 100% !important;
 }
@@ -194,3 +198,10 @@ get ::-webkit-scrollbar-thumb {
   padding: 10px !important;
 }
 
+.z-index-o {
+  z-index: 0 !important;
+}
+
+.bg-transparent {
+  background-color: transparent !important;
+}

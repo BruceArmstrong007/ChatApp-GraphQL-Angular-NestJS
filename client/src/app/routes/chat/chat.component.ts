@@ -23,14 +23,14 @@ import { MatBadgeModule } from '@angular/material/badge';
     MatBadgeModule,
   ],
   template: `
-    <div class="flex flex-column h-full">
+    <div class="flex flex-column h-full z-index-1">
       <app-navbar>
         <ngx-avatars
-          class="px-20 z-index-1"
+          class="px-20"
           [src]="profile()?.url"
           [value]="user()?.name?.charAt(0)"></ngx-avatars>
       </app-navbar>
-      <div class="w-full flex-grow flex justify-start z-index-1">
+      <div class="w-full flex-grow flex justify-start">
         <div class="control-container p-5">
           <mat-card class="w-full h-full">
             <mat-card-content
@@ -83,7 +83,7 @@ import { MatBadgeModule } from '@angular/material/badge';
             </mat-card-content>
           </mat-card>
         </div>
-        <div class="w-full flex-grow">
+        <div class="w-full h-full flex-grow p-5">
           <router-outlet />
         </div>
       </div>

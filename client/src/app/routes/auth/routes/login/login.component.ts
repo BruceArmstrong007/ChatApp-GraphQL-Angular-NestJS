@@ -11,7 +11,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatGridListModule } from '@angular/material/grid-list';
 import { loginState } from './login.state';
 import { Login, LoginForm } from './login.types';
 import { RouterLink } from '@angular/router';
@@ -26,7 +25,6 @@ import { RouterLink } from '@angular/router';
     MatFormFieldModule,
     MatIconModule,
     MatButtonModule,
-    MatGridListModule,
     MatCardModule,
     RouterLink,
   ],

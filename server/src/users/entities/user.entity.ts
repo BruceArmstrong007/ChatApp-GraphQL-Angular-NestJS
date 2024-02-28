@@ -24,6 +24,18 @@ export class User {
   @Field()
   verified: boolean;
 
+  @Field({ nullable: true })
+  location: string;
+
+  @Field({ nullable: true })
+  gender: string;
+
+  @Field({ nullable: true })
+  age: number;
+
+  @Field({ nullable: true })
+  dob: string;
+
   @Field()
   createdAt: Date;
 

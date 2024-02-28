@@ -8,7 +8,7 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
   standalone: true,
   imports: [MatButtonModule, RouterLink, RouterOutlet, NavbarComponent],
   template: `
-    <div class="flex flex-column h-full">
+    <div class="flex flex-column h-full z-index-1">
       <app-navbar>
         <ng-container ngProjectAs="'right'">
           <button
