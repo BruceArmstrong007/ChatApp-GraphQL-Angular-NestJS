@@ -14,6 +14,7 @@ export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   async validate(payload: any) {
+    if (payload['_doc']) payload = payload['_doc'];
     if (!payload?.verified)
       throw new UnauthorizedException('User is not verified.');
     return payload;
