@@ -43,6 +43,7 @@ export const loginState = signalStore(
               .pipe(
                 tap((response: ApolloQueryResult<LoginQuery>) => {
                   patchState(state, setLoaded());
+                  localStorage.setItem('isLoggedIn', 'true');
                   store.dispatch(
                     authActions.setRefreshToken(response.data.login)
                   );

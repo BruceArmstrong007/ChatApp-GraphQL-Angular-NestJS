@@ -5,7 +5,8 @@ import { CookieService } from 'ngx-cookie-service';
 export const authGuard: CanActivateFn = () => {
   const router = inject(Router);
   const cookieService = inject(CookieService);
-  const isLoggedIn = cookieService.get('isLoggedIn');
+  const isLoggedIn =
+    cookieService.get('isLoggedIn') ?? localStorage.getItem('isLoggedIn');
   if (isLoggedIn !== 'true') {
     return true;
   }
