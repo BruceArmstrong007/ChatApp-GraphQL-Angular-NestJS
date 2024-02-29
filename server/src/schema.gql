@@ -57,6 +57,7 @@ type Profile {
 type Query {
   currentUser: User!
   login(loginAuthData: LoginAuthInput!): Login!
+  logout: User!
   refresh: Refresh!
   user(findUserData: SearchUserInput!): User
   users(searchUsersData: SearchUserInput!): [User!]!

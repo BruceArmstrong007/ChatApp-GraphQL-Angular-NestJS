@@ -4,9 +4,10 @@ import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { UpdateUserInput } from './dto/update-user.input';
 import { CreateUserInput } from './dto/create-user.input';
-import { UseGuards } from '@nestjs/common';
+import { Res, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { CurrentUser, CurrentUserType } from '@app/common';
+import { Response } from 'express';
 
 @Resolver(() => User)
 @UseGuards(JwtAuthGuard)
@@ -38,7 +39,7 @@ export class UsersResolver {
     return await user;
   }
 
-  @Query(() => User, { name: 'currentUser' })
+  @Query(() => User)
   async currentUser(@CurrentUser() currentUser: CurrentUserType) {
     const user = await this.usersService.findOne(
       new SearchUserInput({
@@ -60,5 +61,10 @@ export class UsersResolver {
   @Mutation(() => User)
   async removeUser(@Args('id', { type: () => String }) id: string) {
     return await this.usersService.remove(id);
+  }
+
+  @Query(() => User)
+  async logout(@Res() response: Response) {
+    return await this.usersService.logout(response);
   }
 }

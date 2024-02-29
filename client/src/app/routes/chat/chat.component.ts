@@ -8,6 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
+import { userActions } from '../../state/user/user.action';
 
 @Component({
   selector: 'app-chat',
@@ -24,11 +25,17 @@ import { MatBadgeModule } from '@angular/material/badge';
   ],
   template: `
     <div class="flex flex-column h-full z-index-1">
-      <app-navbar>
-        <ngx-avatars
-          class="px-20"
-          [src]="profile()?.url"
-          [value]="user()?.name?.charAt(0)"></ngx-avatars>
+      <app-navbar class="z-index-1">
+        <ng-container ngProjectAs="right">
+          <button
+            (click)="logout()"
+            color="accent"
+            mat-mini-fab
+            aria-label="logout"
+            title="Logout">
+            <mat-icon>logout</mat-icon>
+          </button>
+        </ng-container>
       </app-navbar>
       <div class="w-full flex-grow flex justify-start">
         <div class="control-container p-5">
@@ -101,5 +108,11 @@ class ChatComponent {
   private readonly store = inject(Store);
   readonly profile = this.store.selectSignal(userFeature.userProfile);
   readonly user = this.store.selectSignal(userFeature.selectDetails);
+
+
+  logout() {
+    this.store.dispatch(userActions.logout());
+  }
+
 }
 export default ChatComponent;

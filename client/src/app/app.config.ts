@@ -26,6 +26,7 @@ import { userFeature } from './state/user/user.reducer';
 import { HttpLink } from 'apollo-angular/http';
 import { factoryFn } from './shared/services/apollo/apollo-graphql.service';
 import { CookieService } from 'ngx-cookie-service';
+import * as userEffects from './state/user/user.effect';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -45,7 +46,7 @@ export const appConfig: ApplicationConfig = {
       user: userFeature.reducer,
     }),
     provideRouterStore({ serializer: CustomRouterStateSerializer }),
-    provideEffects(),
+    provideEffects(userEffects),
     isDevMode()
       ? provideStoreDevtools({
           maxAge: 25,

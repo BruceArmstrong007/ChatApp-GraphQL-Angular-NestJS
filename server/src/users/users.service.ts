@@ -3,6 +3,7 @@ import { SearchUserInput } from './dto/search-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { UserRepository } from './database/user.repository';
 import { CreateUserInput } from './dto/create-user.input';
+import { Response } from 'express';
 
 @Injectable()
 export class UsersService {
@@ -67,5 +68,11 @@ export class UsersService {
 
   async resetPassword(id: string, password: string) {
     return await this.userRepo.resetPassword(id, password);
+  }
+
+  async logout(response: Response) {
+    response.clearCookie('isLoggedIn');
+    response.clearCookie('refreshToken');
+    return await { message: 'Successfully logged out.' };
   }
 }

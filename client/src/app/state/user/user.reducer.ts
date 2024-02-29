@@ -26,11 +26,6 @@ export const userFeature = createFeature({
       })
     ),
     on(
-      userActions.updateUserFailure,
-      userActions.updateUserFailure,
-      (state): UserState => ({ ...state })
-    ),
-    on(
       userActions.resetState,
       (state): UserState => ({
         ...state,

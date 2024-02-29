@@ -109,6 +109,7 @@ export type Query = {
   __typename?: 'Query';
   currentUser: User;
   login: Login;
+  logout: User;
   refresh: Refresh;
   user?: Maybe<User>;
   users: Array<User>;
@@ -232,6 +233,11 @@ export type CurrentuserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type CurrentuserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', _id: string, name: string, username: string, email: string, bio?: string | null, age?: number | null, gender?: string | null, dob?: string | null, location?: string | null, verified: boolean, createdAt: any, updatedAt: any, profile?: { __typename?: 'Profile', url: string, filename: string, createdAt: any, updatedAt: any } | null } };
+
+export type LogoutQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutQuery = { __typename?: 'Query', logout: { __typename?: 'User', _id: string, name: string, username: string, email: string, age?: number | null, bio?: string | null, dob?: string | null, location?: string | null, gender?: string | null, verified: boolean, createdAt: any, updatedAt: any, profile?: { __typename?: 'Profile', url: string, filename: string, createdAt: any, updatedAt: any } | null } };
 
 export type UpdateUserMutationVariables = Exact<{
   updateUserData: UpdateUserInput;
@@ -408,6 +414,41 @@ export const CurrentuserDocument = gql`
   })
   export class CurrentuserGQL extends Apollo.Query<CurrentuserQuery, CurrentuserQueryVariables> {
     document = CurrentuserDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const LogoutDocument = gql`
+    query logout {
+  logout {
+    _id
+    name
+    username
+    email
+    profile {
+      url
+      filename
+      createdAt
+      updatedAt
+    }
+    age
+    bio
+    dob
+    location
+    gender
+    verified
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class LogoutGQL extends Apollo.Query<LogoutQuery, LogoutQueryVariables> {
+    document = LogoutDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
