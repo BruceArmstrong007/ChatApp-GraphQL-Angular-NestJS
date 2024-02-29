@@ -41,17 +41,19 @@ export class AuthService {
     const { accessToken, refreshToken } =
       await this.authRepo.generateJWT(payload);
 
-    const expires = Number(this.config.get('COOKIE_EXPIRATION'));
+    const expires = new Date(
+      Number(new Date()) + Number(this.config.get('COOKIE_EXPIRATION')),
+    );
     await context['res'].cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: true,
       sameSite: 'none',
-      maxAge: expires,
+      expires: expires,
     });
     await context['res'].cookie('isLoggedIn', true, {
       sameSite: 'none',
       secure: true,
-      maxAge: expires,
+      expires: expires,
     });
 
     return await { accessToken, user };

@@ -38,9 +38,8 @@ export class UsersResolver {
     return await user;
   }
 
-  @Query(() => User, { name: 'currentUser', nullable: true })
+  @Query(() => User, { name: 'currentUser' })
   async currentUser(@CurrentUser() currentUser: CurrentUserType) {
-    
     const user = await this.usersService.findOne(
       new SearchUserInput({
         value: currentUser._id,

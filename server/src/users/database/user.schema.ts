@@ -47,6 +47,18 @@ export class User extends Document {
   })
   bio: string;
 
+  @Prop()
+  dob: string;
+
+  @Prop()
+  location: string;
+
+  @Prop()
+  gender: string;
+
+  @Prop()
+  age: number;
+
   @Prop({ type: ProfileSchema })
   profile: Profile;
 
@@ -54,3 +66,5 @@ export class User extends Document {
   verified: boolean;
 }
 export const UserSchema = SchemaFactory.createForClass(User);
+
+export type Gender = 'Male' | 'Female' | 'Other';

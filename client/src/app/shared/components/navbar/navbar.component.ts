@@ -11,17 +11,18 @@ import { ThemeService } from '../../services/theme/theme.service';
   imports: [MatToolbarModule, MatIconModule, MatButtonModule, RouterLink],
   template: `
     <mat-toolbar>
-      <div class="z-index-1 cursor-pointer" routerLink="/landing-page">
-        MyChat
+      <div class="flex justify-between gap-2">
+        <div class="cursor-pointer" routerLink="/landing-page">MyChat</div>
+        <ng-content select="left" />
       </div>
       <span class="spacer"></span>
       <div class="flex justify-between gap-2">
+        <ng-content select="right" />
         <button type="button" mat-icon-button (click)="theme.switchMode()">
           <mat-icon>{{
             theme.darkMode() ? 'light_mode' : 'dark_mode'
           }}</mat-icon>
         </button>
-        <ng-content />
       </div>
     </mat-toolbar>
   `,

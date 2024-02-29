@@ -5,6 +5,8 @@ import {
   MaxLength,
   IsOptional,
   MinLength,
+  IsNumber,
+  IsIn,
 } from 'class-validator';
 
 @InputType()
@@ -32,6 +34,27 @@ export class UpdateUserInput {
   @IsOptional()
   @IsString()
   bio?: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsString()
+  location?: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsString()
+  @IsIn(['Male', 'Female', 'Others'])
+  gender?: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsString()
+  dob?: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  @IsNumber()
+  age?: number;
 
   @Field({ nullable: true })
   @IsOptional()

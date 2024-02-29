@@ -10,7 +10,6 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
@@ -27,7 +26,6 @@ import { CustomValidationService } from '../../../../shared/services/validator/c
     MatFormFieldModule,
     MatIconModule,
     MatButtonModule,
-    MatGridListModule,
     MatCardModule,
     RouterLink,
   ],

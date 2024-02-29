@@ -10,6 +10,7 @@ import { createClient } from 'graphql-ws';
 import { authActions } from '../../../state/auth/auth.action';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import extractFiles from 'extract-files/extractFiles.mjs';
 
 export const factoryFn = (
   store: Store,
@@ -77,7 +78,11 @@ export const factoryFn = (
   const http = ApolloLink.from([
     basic,
     auth,
-    httpLink.create({ uri: environment.apiURL, withCredentials: true }),
+    httpLink.create({
+      uri: environment.apiURL,
+      withCredentials: true,
+      extractFiles,
+    }),
   ]);
 
   const ws = new GraphQLWsLink(

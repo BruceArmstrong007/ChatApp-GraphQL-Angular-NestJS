@@ -8,18 +8,20 @@ import { NavbarComponent } from '../../shared/components/navbar/navbar.component
   standalone: true,
   imports: [MatButtonModule, RouterLink, RouterOutlet, NavbarComponent],
   template: `
-    <div class="flex flex-column h-full">
+    <div class="flex flex-column h-full z-index-1">
       <app-navbar>
-        <button
-          type="button"
-          mat-button
-          routerLink="./register"
-          color="success">
-          Register
-        </button>
-        <button type="button" mat-button routerLink="./login" color="accent">
-          Login
-        </button>
+        <ng-container ngProjectAs="'right'">
+          <button
+            type="button"
+            mat-button
+            routerLink="./register"
+            color="success">
+            Register
+          </button>
+          <button type="button" mat-button routerLink="./login" color="accent">
+            Login
+          </button>
+        </ng-container>
       </app-navbar>
       <div class="flex justify-center flex-grow">
         <router-outlet />
