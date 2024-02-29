@@ -13,7 +13,8 @@ export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt') {
     });
   }
 
-  async validate(payload: any) {
+  async validate(payloadData: any) {
+    const payload = payloadData['_doc'] ?? payloadData;
     if (!payload?.verified)
       throw new UnauthorizedException('User is not verified.');
     return payload;
