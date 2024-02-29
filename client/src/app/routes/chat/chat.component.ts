@@ -74,7 +74,7 @@ import { MatBadgeModule } from '@angular/material/badge';
                     <mat-icon>settings</mat-icon>
                   </button>
                 </a>
-                <a [routerLink]="['/profile']" title="Settings">
+                <a [routerLink]="['/profile']" title="Profile">
                   <ngx-avatars
                     [src]="profile()?.url"
                     [value]="user()?.name?.charAt(0)"></ngx-avatars>

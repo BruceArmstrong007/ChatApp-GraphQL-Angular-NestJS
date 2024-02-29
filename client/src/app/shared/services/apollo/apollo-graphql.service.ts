@@ -10,7 +10,10 @@ import { createClient } from 'graphql-ws';
 import { authActions } from '../../../state/auth/auth.action';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+// @ts-ignore
 import extractFiles from 'extract-files/extractFiles.mjs';
+// @ts-ignore
+import isExtractableFile from 'extract-files/isExtractableFile.mjs';
 
 export const factoryFn = (
   store: Store,
@@ -81,7 +84,7 @@ export const factoryFn = (
     httpLink.create({
       uri: environment.apiURL,
       withCredentials: true,
-      extractFiles,
+      extractFiles: body => extractFiles(body, isExtractableFile),
     }),
   ]);
 

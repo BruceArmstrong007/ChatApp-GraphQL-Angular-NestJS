@@ -56,7 +56,6 @@
     "@angular/cli": "^17.2.0",
     "@angular/compiler-cli": "^17.2.0",
     "@ngrx/schematics": "^17.1.0",
-    "@types/extract-files": "^13.0.1",
     "@types/jasmine": "~5.1.0",
     "@typescript-eslint/eslint-plugin": "6.19.0",
     "@typescript-eslint/parser": "6.19.0",
