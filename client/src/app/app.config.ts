@@ -25,10 +25,11 @@ import { authFeature } from './state/auth/auth.reducer';
 import { userFeature } from './state/user/user.reducer';
 import { HttpLink } from 'apollo-angular/http';
 import { factoryFn } from './shared/services/apollo/apollo-graphql.service';
+import { CookieService } from 'ngx-cookie-service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    Apollo,
+    CookieService,
     provideRouter(routes, withComponentInputBinding()),
     provideAnimationsAsync(),
     importProvidersFrom(ApolloModule, MatSnackBarModule),
