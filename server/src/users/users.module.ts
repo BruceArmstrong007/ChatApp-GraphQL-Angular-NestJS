@@ -4,9 +4,10 @@ import { UsersResolver } from './users.resolver';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './database/user.schema';
 import { UserRepository } from './database/user.repository';
+import { LogoutAuthStrategy } from './strategy/logout-auth.strategy';
 
 @Module({
-  providers: [UsersResolver, UsersService, UserRepository],
+  providers: [UsersResolver, UsersService, UserRepository, LogoutAuthStrategy],
   imports: [
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   ],

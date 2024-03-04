@@ -109,7 +109,7 @@ export type Query = {
   __typename?: 'Query';
   currentUser: User;
   login: Login;
-  logout: User;
+  logout: ResponseMessage;
   refresh: Refresh;
   user?: Maybe<User>;
   users: Array<User>;
@@ -144,6 +144,11 @@ export type ResetPasswordInput = {
 
 export type ResetPasswordLinkInput = {
   email: Scalars['String']['input'];
+};
+
+export type ResponseMessage = {
+  __typename?: 'ResponseMessage';
+  message: Scalars['String']['output'];
 };
 
 export type SearchUserInput = {
@@ -237,7 +242,7 @@ export type CurrentuserQuery = { __typename?: 'Query', currentUser: { __typename
 export type LogoutQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LogoutQuery = { __typename?: 'Query', logout: { __typename?: 'User', _id: string, name: string, username: string, email: string, age?: number | null, bio?: string | null, dob?: string | null, location?: string | null, gender?: string | null, verified: boolean, createdAt: any, updatedAt: any, profile?: { __typename?: 'Profile', url: string, filename: string, createdAt: any, updatedAt: any } | null } };
+export type LogoutQuery = { __typename?: 'Query', logout: { __typename?: 'ResponseMessage', message: string } };
 
 export type UpdateUserMutationVariables = Exact<{
   updateUserData: UpdateUserInput;
@@ -422,24 +427,7 @@ export const CurrentuserDocument = gql`
 export const LogoutDocument = gql`
     query logout {
   logout {
-    _id
-    name
-    username
-    email
-    profile {
-      url
-      filename
-      createdAt
-      updatedAt
-    }
-    age
-    bio
-    dob
-    location
-    gender
-    verified
-    createdAt
-    updatedAt
+    message
   }
 }
     `;

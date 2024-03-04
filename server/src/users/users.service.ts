@@ -70,9 +70,7 @@ export class UsersService {
     return await this.userRepo.resetPassword(id, password);
   }
 
-  async logout(response: Response) {
-    response.clearCookie('isLoggedIn');
-    response.clearCookie('refreshToken');
+  async logout() {
     return await { message: 'Successfully logged out.' };
   }
 }

@@ -8,13 +8,15 @@ import { Res, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { CurrentUser, CurrentUserType } from '@app/common';
 import { Response } from 'express';
+import { ResponseMessage } from './entities/response-message.entity';
+import { LogoutAuthGuard } from './guards/logout.guard';
 
-@Resolver(() => User)
-@UseGuards(JwtAuthGuard)
+@Resolver()
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
   @Mutation(() => User, { name: 'register' })
+  @UseGuards(JwtAuthGuard)
   async createUser(
     @Args('createUserData')
     createUserInput: CreateUserInput,
@@ -23,6 +25,7 @@ export class UsersResolver {
   }
 
   @Query(() => [User], { name: 'users' })
+  @UseGuards(JwtAuthGuard)
   async search(
     @Args('searchUsersData')
     searchUsersInput: SearchUserInput,
@@ -31,6 +34,7 @@ export class UsersResolver {
   }
 
   @Query(() => User, { name: 'user', nullable: true })
+  @UseGuards(JwtAuthGuard)
   async findOne(
     @Args('findUserData')
     searchUserInput: SearchUserInput,
@@ -40,6 +44,7 @@ export class UsersResolver {
   }
 
   @Query(() => User)
+  @UseGuards(JwtAuthGuard)
   async currentUser(@CurrentUser() currentUser: CurrentUserType) {
     const user = await this.usersService.findOne(
       new SearchUserInput({
@@ -51,6 +56,7 @@ export class UsersResolver {
   }
 
   @Mutation(() => User)
+  @UseGuards(JwtAuthGuard)
   async updateUser(
     @Args('updateUserData')
     updateUserInput: UpdateUserInput,
@@ -59,12 +65,14 @@ export class UsersResolver {
   }
 
   @Mutation(() => User)
+  @UseGuards(JwtAuthGuard)
   async removeUser(@Args('id', { type: () => String }) id: string) {
     return await this.usersService.remove(id);
   }
 
-  @Query(() => User)
-  async logout(@Res() response: Response) {
-    return await this.usersService.logout(response);
+  @Query(() => ResponseMessage)
+  @UseGuards(LogoutAuthGuard)
+  async logout() {
+    return await this.usersService.logout();
   }
 }

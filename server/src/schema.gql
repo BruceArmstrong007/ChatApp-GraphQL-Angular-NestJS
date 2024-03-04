@@ -57,7 +57,7 @@ type Profile {
 type Query {
   currentUser: User!
   login(loginAuthData: LoginAuthInput!): Login!
-  logout: User!
+  logout: ResponseMessage!
   refresh: Refresh!
   user(findUserData: SearchUserInput!): User
   users(searchUsersData: SearchUserInput!): [User!]!
@@ -76,6 +76,10 @@ input ResetPasswordInput {
 
 input ResetPasswordLinkInput {
   email: String!
+}
+
+type ResponseMessage {
+  message: String!
 }
 
 input SearchUserInput {
