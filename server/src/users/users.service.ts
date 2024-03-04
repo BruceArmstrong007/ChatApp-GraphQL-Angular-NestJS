@@ -3,7 +3,6 @@ import { SearchUserInput } from './dto/search-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { UserRepository } from './database/user.repository';
 import { CreateUserInput } from './dto/create-user.input';
-import { Response } from 'express';
 
 @Injectable()
 export class UsersService {
@@ -73,4 +72,10 @@ export class UsersService {
   async logout() {
     return await { message: 'Successfully logged out.' };
   }
+
+  async uploadProfile(userID: string, body: any) {
+    await this.userRepo.uploadProfile(userID, body?.filename, body?.url);
+    return { message: 'Profile picture updated.' };
+  }
+
 }

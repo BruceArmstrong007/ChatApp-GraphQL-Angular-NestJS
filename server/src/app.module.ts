@@ -7,6 +7,7 @@ import * as Joi from 'joi';
 import { MongoDBModule } from '@app/common';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { UploadModule } from './upload/upload.module';
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -54,6 +55,7 @@ import { UsersModule } from './users/users.module';
     MongoDBModule,
     AuthModule,
     UsersModule,
+    UploadModule
   ],
   controllers: [],
   providers: [],

@@ -109,4 +109,11 @@ export class UserRepository {
       .findByIdAndUpdate(id, { password }, { new: true })
       .exec();
   }
+
+  async uploadProfile(userID: string, filename: string, url: string) {
+    await this.userModel
+      .findByIdAndUpdate(userID, { profile: { filename, url } }, { new: true })
+      .exec();
+  }
+
 }
