@@ -60,9 +60,14 @@ export const resetPasswordState = signalStore(
           }),
           switchMap(c =>
             resetPasswordLink
-              .mutate({
-                resetPasswordLinkData: c,
-              })
+              .mutate(
+                {
+                  resetPasswordLinkData: c,
+                },
+                {
+                  fetchPolicy: 'no-cache',
+                }
+              )
               .pipe(
                 tap((response: MutationResult<ResetPasswordLinkMutation>) => {
                   patchState(state, setLoaded());
@@ -99,9 +104,14 @@ export const resetPasswordState = signalStore(
           }),
           switchMap(c =>
             resetPassword
-              .mutate({
-                resetPasswordData: c,
-              })
+              .mutate(
+                {
+                  resetPasswordData: c,
+                },
+                {
+                  fetchPolicy: 'no-cache',
+                }
+              )
               .pipe(
                 tap((response: MutationResult<ResetPasswordMutation>) => {
                   patchState(state, setLoaded());

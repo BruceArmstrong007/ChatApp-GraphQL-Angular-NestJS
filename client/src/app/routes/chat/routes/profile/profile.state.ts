@@ -34,9 +34,14 @@ export const profileState = signalStore(
           }),
           switchMap(c =>
             updateUser
-              .mutate({
-                updateUserData: c,
-              })
+              .mutate(
+                {
+                  updateUserData: c,
+                },
+                {
+                  fetchPolicy: 'no-cache',
+                }
+              )
               .pipe(
                 tap((response: MutationResult<UpdateUserMutation>) => {
                   patchState(state, setLoaded());

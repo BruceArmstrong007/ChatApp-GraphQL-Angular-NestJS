@@ -40,9 +40,14 @@ export const registerState = signalStore(
           }),
           switchMap(c =>
             register
-              .mutate({
-                createUserData: c,
-              })
+              .mutate(
+                {
+                  createUserData: c,
+                },
+                {
+                  fetchPolicy: 'no-cache',
+                }
+              )
               .pipe(
                 tap((response: MutationResult<RegisterMutation>) => {
                   patchState(state, setLoaded());

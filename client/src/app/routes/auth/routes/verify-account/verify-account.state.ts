@@ -41,9 +41,14 @@ export const verifyAccountState = signalStore(
           }),
           switchMap(c =>
             verifyEmailLink
-              .mutate({
-                emailVerificationLinkData: c,
-              })
+              .mutate(
+                {
+                  emailVerificationLinkData: c,
+                },
+                {
+                  fetchPolicy: 'no-cache',
+                }
+              )
               .pipe(
                 tap(
                   (response: MutationResult<EmailVerificationLinkMutation>) => {
@@ -73,9 +78,14 @@ export const verifyAccountState = signalStore(
           }),
           switchMap(c =>
             verifyEmail
-              .mutate({
-                emailVerificationData: c,
-              })
+              .mutate(
+                {
+                  emailVerificationData: c,
+                },
+                {
+                  fetchPolicy: 'no-cache',
+                }
+              )
               .pipe(
                 tap((response: MutationResult<EmailVerificationMutation>) => {
                   patchState(state, setLoaded());

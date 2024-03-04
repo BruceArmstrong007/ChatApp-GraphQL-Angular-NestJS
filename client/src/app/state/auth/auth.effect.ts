@@ -12,14 +12,18 @@ export const refreshToken = createEffect(
     return actions$.pipe(
       ofType(authActions.refreshToken),
       exhaustMap(() => {
-        return refreshToken.fetch().pipe(
-          map((response: ApolloQueryResult<RefreshQuery>) => {
-            return authActions.setRefreshToken(response?.data?.refresh);
-          }),
-          catchError(() => {
-            return of(authActions.refreshTokenFailure());
+        return refreshToken
+          .fetch(undefined, {
+            fetchPolicy: 'no-cache',
           })
-        );
+          .pipe(
+            map((response: ApolloQueryResult<RefreshQuery>) => {
+              return authActions.setRefreshToken(response?.data?.refresh);
+            }),
+            catchError(() => {
+              return of(authActions.refreshTokenFailure());
+            })
+          );
       })
     );
   },

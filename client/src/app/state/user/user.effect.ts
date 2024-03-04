@@ -16,37 +16,41 @@ export const logout = createEffect(
     logout = inject(LogoutGQL),
     alert = inject(MatSnackBar)
   ) => {
-    return actions$.pipe(
+    return actions$.pwipe(
       ofType(userActions.logout),
       exhaustMap(() => {
-        return logout.fetch().pipe(
-          map((response: ApolloQueryResult<LogoutQuery>) => {
-            alert.openFromComponent(AlertComponent, {
-              duration: 3000,
-              verticalPosition: 'bottom',
-              horizontalPosition: 'right',
-              data: {
-                title: 'Logged out',
-                message: 'Successfully logged out.',
-                type: 'SUCCESS',
-              },
-            });
-            return userActions.logoutSuccess();
-          }),
-          catchError(() => {
-            alert.openFromComponent(AlertComponent, {
-              duration: 3000,
-              verticalPosition: 'bottom',
-              horizontalPosition: 'right',
-              data: {
-                title: 'API Error',
-                message: 'Error while logging out.',
-                type: 'ERROR',
-              },
-            });
-            return of(userActions.logoutSuccess());
+        return logout
+          .fetch(undefined, {
+            fetchPolicy: 'no-cache',
           })
-        );
+          .pipe(
+            map((response: ApolloQueryResult<LogoutQuery>) => {
+              alert.openFromComponent(AlertComponent, {
+                duration: 3000,
+                verticalPosition: 'bottom',
+                horizontalPosition: 'right',
+                data: {
+                  title: 'Logged out',
+                  message: 'Successfully logged out.',
+                  type: 'SUCCESS',
+                },
+              });
+              return userActions.logoutSuccess();
+            }),
+            catchError(() => {
+              alert.openFromComponent(AlertComponent, {
+                duration: 3000,
+                verticalPosition: 'bottom',
+                horizontalPosition: 'right',
+                data: {
+                  title: 'API Error',
+                  message: 'Error while logging out.',
+                  type: 'ERROR',
+                },
+              });
+              return of(userActions.logoutSuccess());
+            })
+          );
       })
     );
   },

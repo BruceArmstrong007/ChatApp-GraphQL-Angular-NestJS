@@ -37,9 +37,14 @@ export const loginState = signalStore(
           }),
           switchMap(c =>
             login
-              .fetch({
-                LoginAuthData: c,
-              })
+              .fetch(
+                {
+                  LoginAuthData: c,
+                },
+                {
+                  fetchPolicy: 'no-cache',
+                }
+              )
               .pipe(
                 tap((response: ApolloQueryResult<LoginQuery>) => {
                   patchState(state, setLoaded());

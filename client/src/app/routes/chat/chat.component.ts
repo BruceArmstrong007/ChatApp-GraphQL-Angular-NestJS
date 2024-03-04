@@ -109,10 +109,8 @@ class ChatComponent {
   readonly profile = this.store.selectSignal(userFeature.userProfile);
   readonly user = this.store.selectSignal(userFeature.selectDetails);
 
-
   logout() {
     this.store.dispatch(userActions.logout());
   }
-
 }
 export default ChatComponent;
