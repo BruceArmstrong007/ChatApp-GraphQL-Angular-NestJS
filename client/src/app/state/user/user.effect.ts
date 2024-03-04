@@ -16,7 +16,7 @@ export const logout = createEffect(
     logout = inject(LogoutGQL),
     alert = inject(MatSnackBar)
   ) => {
-    return actions$.pwipe(
+    return actions$.pipe(
       ofType(userActions.logout),
       exhaustMap(() => {
         return logout
