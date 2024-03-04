@@ -18,10 +18,7 @@ import {
   MatDialogModule,
   MatDialogRef,
 } from '@angular/material/dialog';
-import {
-  InputFieldDialogComponent,
-  inputFieldKey,
-} from './components/input-field-dialog/input-field-dialog.component';
+import { InputFieldDialogComponent } from './components/input-field-dialog/input-field-dialog.component';
 import { profileState } from './profile.state';
 
 @Component({
@@ -30,7 +27,6 @@ import { profileState } from './profile.state';
   imports: [
     MatCardModule,
     TitleCasePipe,
-    AvatarModule,
     ReactiveFormsModule,
     MatInputModule,
     MatIconModule,
@@ -44,16 +40,7 @@ import { profileState } from './profile.state';
         >
       </mat-card-header>
       <mat-card-content class="w-full h-full flex flex-column gap-10">
-        <div class="flex flex-column">
-          <h3>Change Profile Picture</h3>
-          <ngx-avatars
-            class="cursor-pointer"
-            [size]="150"
-            [src]="profile()?.url"
-            [value]="user()?.name?.charAt(0)"></ngx-avatars>
-          <p>{{ user()?.name }}</p>
-          <sub>{{ '@' + user()?.username }}</sub>
-        </div>
+
         <div class="flex flex-column gap-5">
           <table class="w-full editable">
             <tr>

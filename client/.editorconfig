@@ -10,7 +10,6 @@ trim_trailing_whitespace = true
 
 [*.ts]
 quote_type = single
-end_of_line = unset
 
 [*.md]
 max_line_length = off
