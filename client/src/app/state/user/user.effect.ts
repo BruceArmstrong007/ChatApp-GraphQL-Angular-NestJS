@@ -6,6 +6,9 @@ import { ApolloQueryResult } from '@apollo/client/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AlertComponent } from '../../shared/components/alert/alert.component';
 import { userActions } from './user.action';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { authActions } from '../auth/auth.action';
 
 export const logout = createEffect(
   (
@@ -49,5 +52,27 @@ export const logout = createEffect(
   },
   {
     functional: true,
+  }
+);
+
+export const logoutSuccess = createEffect(
+  (
+    actions$ = inject(Actions),
+    router = inject(Router),
+    store = inject(Store)
+  ) => {
+    return actions$.pipe(
+      ofType(userActions.logoutSuccess),
+      tap(() => {
+        localStorage.removeItem('isLoggedIn');
+        store.dispatch(userActions.resetState());
+        store.dispatch(authActions.resetState());
+        router.navigateByUrl('/landing-page');
+      })
+    );
+  },
+  {
+    functional: true,
+    dispatch: false,
   }
 );
