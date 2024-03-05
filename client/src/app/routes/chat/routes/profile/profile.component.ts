@@ -3,7 +3,6 @@ import { MatCardModule } from '@angular/material/card';
 import { Store } from '@ngrx/store';
 import { userFeature } from '../../../../state/user/user.reducer';
 import { TitleCasePipe } from '@angular/common';
-import { AvatarModule } from 'ngx-avatars';
 import {
   FormControl,
   FormGroup,
@@ -20,6 +19,11 @@ import {
 } from '@angular/material/dialog';
 import { InputFieldDialogComponent } from './components/input-field-dialog/input-field-dialog.component';
 import { profileState } from './profile.state';
+import {
+  ProfileEvent,
+  ProfilePictureComponent,
+} from './components/profile-picture/profile-picture.component';
+import { AlertType } from '../../../../shared/state/api-call.state';
 
 @Component({
   selector: 'app-profile',
@@ -31,6 +35,7 @@ import { profileState } from './profile.state';
     MatInputModule,
     MatIconModule,
     MatDialogModule,
+    ProfilePictureComponent,
   ],
   template: `
     <mat-card>
@@ -40,7 +45,10 @@ import { profileState } from './profile.state';
         >
       </mat-card-header>
       <mat-card-content class="w-full h-full flex flex-column gap-10">
-
+        <app-profile-picture
+          (profilePictureEvent)="profileEvent($event)"
+          [user]="user()"
+          [profile]="profile()" />
         <div class="flex flex-column gap-5">
           <table class="w-full editable">
             <tr>
@@ -215,6 +223,31 @@ class ProfileComponent {
         _id: this.user()?._id,
       } as Profile);
     });
+  }
+
+  profileEvent(event: ProfileEvent) {
+    switch (event.action) {
+      case 'alert':
+        this.profileState.openAlert(
+          event?.data['title'],
+          event?.data['message'],
+          event?.data['type'] as AlertType
+        );
+        break;
+
+      case 'uploadProfile':
+        if (event.data) {
+          const prevFilename = this.profile()?.filename ?? '';
+          const form = {
+            profile: event.data,
+            prevFilename,
+          };
+          this.profileState.updateProfile(form);
+        }
+        break;
+      default:
+        break;
+    }
   }
 }
 

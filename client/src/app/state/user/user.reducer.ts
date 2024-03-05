@@ -26,6 +26,18 @@ export const userFeature = createFeature({
       })
     ),
     on(
+      userActions.updateProfile,
+      (state, action): UserState => ({
+        ...state,
+        details: state.details
+          ? {
+              ...state.details,
+              ...updateProfile(state, action),
+            }
+          : null,
+      })
+    ),
+    on(
       userActions.resetState,
       (state): UserState => ({
         ...state,
@@ -40,3 +52,17 @@ export const userFeature = createFeature({
     ),
   }),
 });
+
+function updateProfile(state: UserState, action: any) {
+  if (state.details?.profile) {
+    return {
+      profile: {
+        ...state.details?.profile,
+        filename: action.filename,
+        url: action.url,
+      },
+    };
+  } else {
+    return [];
+  }
+}

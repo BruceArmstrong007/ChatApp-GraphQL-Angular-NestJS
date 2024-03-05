@@ -146,6 +146,11 @@ get ::-webkit-scrollbar-thumb {
   align-items: center;
 }
 
+.items-end {
+  align-items: end;
+
+}
+
 .items-start {
   align-items: start;
 }
@@ -190,6 +195,10 @@ get ::-webkit-scrollbar-thumb {
   z-index: 100 !important;
 }
 
+.z-index-negative {
+  z-index: -100 !important;
+}
+
 .px-20 {
   padding: 0px 20px !important;
 }
@@ -204,4 +213,20 @@ get ::-webkit-scrollbar-thumb {
 
 .bg-transparent {
   background-color: transparent !important;
+}
+
+.w-half {
+  width: 50%;
+}
+
+.h-half {
+  height: 50%;
+}
+
+.h-75 {
+  height: 75%;
+}
+
+.h-10 {
+  height: 10%;
 }

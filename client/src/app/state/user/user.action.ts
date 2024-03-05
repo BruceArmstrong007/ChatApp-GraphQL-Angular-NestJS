@@ -1,5 +1,6 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { User } from './user.model';
+import { ProfileResponse } from '../../routes/chat/routes/profile/profile.types';
 
 export const userActions = createActionGroup({
   source: 'User Actions',
@@ -12,5 +13,6 @@ export const userActions = createActionGroup({
     UpdateUser: props<Partial<User>>(),
     UpdateUserSuccess: props<{ response: User }>(),
     UpdateUserFailure: emptyProps(),
+    UpdateProfile: props<Pick<ProfileResponse, 'filename' | 'url'>>(),
   },
 });

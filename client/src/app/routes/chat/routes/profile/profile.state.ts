@@ -12,16 +12,23 @@ import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { catchError, of, switchMap, tap } from 'rxjs';
 import { inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Profile, ProfileState } from './profile.types';
+import {
+  Profile,
+  ProfileResponse,
+  ProfileState,
+  UploadProfile,
+} from './profile.types';
 import { MutationResult } from 'apollo-angular';
 import { userActions } from '../../../../state/user/user.action';
 import { User } from '../../../../state/user/user.model';
+import { ProfileRestApiService } from './services/profile-rest-api.service';
 
 export const profileState = signalStore(
   withState<ProfileState>({}),
   withCallState(),
   withMethods(state => {
     const updateUser = inject(UpdateUserGQL);
+    const restAPIService = inject(ProfileRestApiService);
     const store = inject(Store);
     return {
       errorAlert: (title: string, message: string) => {
@@ -67,6 +74,37 @@ export const profileState = signalStore(
                   return of(errorMsg);
                 })
               )
+          )
+        )
+      ),
+      updateProfile: rxMethod<UploadProfile>(c$ =>
+        c$.pipe(
+          tap(() => {
+            patchState(state, setLoading());
+          }),
+          switchMap(c =>
+            restAPIService.uploadProfile(c).pipe(
+              tap((response: ProfileResponse) => {
+                patchState(state, setLoaded());
+                store.dispatch(
+                  userActions.updateProfile({
+                    filename: response.filename,
+                    url: response.url,
+                  })
+                );
+                state.openAlert(
+                  'Upload Successful',
+                  response.message ?? 'Successfully uploaded user profile!.',
+                  'SUCCESS'
+                );
+              }),
+              catchError(error => {
+                const errorMsg = error.message;
+                state.setError(errorMsg);
+                state.openAlert('API Error', errorMsg, 'ERROR');
+                return of(errorMsg);
+              })
+            )
           )
         )
       ),
