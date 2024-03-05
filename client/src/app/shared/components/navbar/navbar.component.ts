@@ -11,7 +11,7 @@ import { ThemeService } from '../../services/theme/theme.service';
   imports: [MatToolbarModule, MatIconModule, MatButtonModule, RouterLink],
   template: `
     <mat-toolbar>
-      <div class="flex justify-between gap-2">
+      <div class="flex justify-between gap-2 z-index-1">
         <div class="cursor-pointer" routerLink="/landing-page">MyChat</div>
         <ng-content select="left" />
       </div>
