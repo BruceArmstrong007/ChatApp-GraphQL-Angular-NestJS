@@ -11,7 +11,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { UploadService } from './upload.service';
+import { ProfileResponse, UploadService } from './upload.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
   ApiExceptionFilter,
@@ -43,7 +43,7 @@ export class UploadController {
       }),
     )
     profile: Express.Multer.File,
-  ): Promise<object> {
+  ): Promise<ProfileResponse> {
     const validation = await RequestValidator(Profile, body);
     if (validation) throw new BadRequestException(validation);
     return await this.uploadService.profileUpload(

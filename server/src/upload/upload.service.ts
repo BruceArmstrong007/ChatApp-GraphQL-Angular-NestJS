@@ -2,6 +2,12 @@ import { Injectable, forwardRef, Inject } from '@nestjs/common';
 import { UploadRepository } from './Storage/upload.repository';
 import { UsersService } from 'src/users/users.service';
 
+export interface ProfileResponse {
+  message: string;
+  filename: string;
+  url: string;
+}
+
 @Injectable()
 export class UploadService {
   constructor(
@@ -14,7 +20,7 @@ export class UploadService {
     userID: string,
     file: Express.Multer.File,
     prevFilename?: string,
-  ): Promise<any> {
+  ): Promise<ProfileResponse> {
     try {
       const fileName = userID + '.' + file?.mimetype.split('/')[1];
 

@@ -75,7 +75,7 @@ export class UsersService {
 
   async uploadProfile(userID: string, body: any) {
     await this.userRepo.uploadProfile(userID, body?.filename, body?.url);
-    return { message: 'Profile picture updated.' };
+    return { message: 'Profile picture updated.', filename: body?.filename, url: body?.url };
   }
 
 }
