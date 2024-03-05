@@ -83,7 +83,7 @@ import { userActions } from '../../state/user/user.action';
                 </a>
                 <a [routerLink]="['/profile']" title="Profile">
                   <ngx-avatars
-                    [src]="profile()?.url"
+                    [src]="profile()?.url ?? 'assets/default-profile.jpg'"
                     [value]="user()?.name?.charAt(0)"></ngx-avatars>
                 </a>
               </div>
