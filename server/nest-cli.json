@@ -7,7 +7,8 @@
     "webpack": true,
     "assets": [
       "auth/mail/templates/**/*"
-    ]
+    ],
+    "watchAssets": true
   },
   "projects": {
     "common": {
