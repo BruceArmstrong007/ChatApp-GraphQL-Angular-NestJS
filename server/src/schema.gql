@@ -2,6 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Contact {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input CreateContactInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 input CreateUserInput {
   confirmPassword: String!
   email: String!
@@ -38,12 +48,15 @@ type Message {
 }
 
 type Mutation {
+  createContact(createContactInput: CreateContactInput!): Contact!
   emailVerification(emailVerificationData: EmailVerificationInput!): Message!
   emailVerificationLink(emailVerificationLinkData: EmailVerificationLinkInput!): Message!
   register(createUserData: CreateUserInput!): User!
+  removeContact(id: Int!): Contact!
   removeUser(id: String!): User!
   resetPassword(resetPasswordData: ResetPasswordInput!): Message!
   resetPasswordLink(resetPasswordLinkData: ResetPasswordLinkInput!): Message!
+  updateContact(updateContactInput: UpdateContactInput!): Contact!
   updateUser(updateUserData: UpdateUserInput!): User!
 }
 
@@ -55,6 +68,8 @@ type Profile {
 }
 
 type Query {
+  contact(id: Int!): Contact!
+  contacts: [Contact!]!
   currentUser: User!
   login(loginAuthData: LoginAuthInput!): Login!
   logout: ResponseMessage!
@@ -85,6 +100,12 @@ type ResponseMessage {
 input SearchUserInput {
   type: String!
   value: String!
+}
+
+input UpdateContactInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }
 
 input UpdateUserInput {

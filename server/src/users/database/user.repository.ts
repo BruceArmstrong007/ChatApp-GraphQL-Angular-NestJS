@@ -116,4 +116,8 @@ export class UserRepository {
       .exec();
   }
 
+  async existAndVerified(userID: string) {
+    return (await this.userModel.exists({_id: userID}) as User)?.verified ? true : false;
+  }
+
 }

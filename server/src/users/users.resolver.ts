@@ -4,10 +4,9 @@ import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { UpdateUserInput } from './dto/update-user.input';
 import { CreateUserInput } from './dto/create-user.input';
-import { Res, UseGuards } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { CurrentUser, CurrentUserType } from '@app/common';
-import { Response } from 'express';
 import { ResponseMessage } from './entities/response-message.entity';
 import { LogoutAuthGuard } from './guards/logout.guard';
 
