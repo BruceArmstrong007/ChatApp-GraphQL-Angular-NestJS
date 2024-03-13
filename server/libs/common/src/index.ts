@@ -5,3 +5,4 @@ export * from './validation/password-match.validator';
 export * from './decorator/current-user.decorator';
 export * from './utils/variables';
 export * from './utils/functions';
+export * from './response/response-message.entity';

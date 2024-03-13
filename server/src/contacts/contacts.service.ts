@@ -60,7 +60,7 @@ export class ContactsService {
           contactExist?.['sender'].toString() === userID
         ) {
           await this.contactRepo.seenRequest(contactID);
-          return await { message: 'Request cancelled successfully.' };
+          return await { message: 'Request seen successfully.' };
         }
       }
       throw new BadRequestException('Invalid Request.');

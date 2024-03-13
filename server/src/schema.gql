@@ -51,17 +51,17 @@ type Message {
 }
 
 type Mutation {
-  acceptRequest(acceptRequestData: ContactInput!): Contact!
-  cancelRequest(cancelRequestData: ContactInput!): Contact!
+  acceptRequest(acceptRequestData: ContactInput!): ResponseMessage!
+  cancelRequest(cancelRequestData: ContactInput!): ResponseMessage!
   emailVerification(emailVerificationData: EmailVerificationInput!): Message!
   emailVerificationLink(emailVerificationLinkData: EmailVerificationLinkInput!): Message!
   register(createUserData: CreateUserInput!): User!
-  rejectRequest(rejectRequestData: ContactInput!): Contact!
+  rejectRequest(rejectRequestData: ContactInput!): ResponseMessage!
   removeUser(id: String!): User!
   resetPassword(resetPasswordData: ResetPasswordInput!): Message!
   resetPasswordLink(resetPasswordLinkData: ResetPasswordLinkInput!): Message!
-  seenRequest(seenRequestData: ContactInput!): Contact!
-  sendRequest(sendRequestData: ContactInput!): Contact!
+  seenRequest(seenRequestData: ContactInput!): ResponseMessage!
+  sendRequest(sendRequestData: ContactInput!): ResponseMessage!
   updateUser(updateUserData: UpdateUserInput!): User!
 }
 

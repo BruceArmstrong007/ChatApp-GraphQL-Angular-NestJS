@@ -5,6 +5,7 @@ import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { CurrentUser, CurrentUserType } from '@app/common';
 import { ContactInput } from './dto/contact.input';
+import { ResponseMessage } from '@app/common';
 /**
  * Completed: 6 API endpoints
  *   1.) Send request to contact
@@ -21,7 +22,7 @@ import { ContactInput } from './dto/contact.input';
 export class ContactsResolver {
   constructor(private readonly contactsService: ContactsService) {}
 
-  @Mutation(() => Contact, { name: 'sendRequest' })
+  @Mutation(() => ResponseMessage, { name: 'sendRequest' })
   async sendRequest(
     @CurrentUser() user: CurrentUserType,
     @Args('sendRequestData') sendRequestInput: ContactInput,
@@ -32,7 +33,7 @@ export class ContactsResolver {
     );
   }
 
-  @Mutation(() => Contact, { name: 'cancelRequest' })
+  @Mutation(() => ResponseMessage, { name: 'cancelRequest' })
   async cancelRequest(
     @CurrentUser() user: CurrentUserType,
     @Args('cancelRequestData') cancelRequestInput: ContactInput,
@@ -43,7 +44,7 @@ export class ContactsResolver {
     );
   }
 
-  @Mutation(() => Contact, { name: 'seenRequest' })
+  @Mutation(() => ResponseMessage, { name: 'seenRequest' })
   async seenRequest(
     @CurrentUser() user: CurrentUserType,
     @Args('seenRequestData') seenRequestInput: ContactInput,
@@ -54,7 +55,7 @@ export class ContactsResolver {
     );
   }
 
-  @Mutation(() => Contact, { name: 'acceptRequest' })
+  @Mutation(() => ResponseMessage, { name: 'acceptRequest' })
   async acceptRequest(
     @CurrentUser() user: CurrentUserType,
     @Args('acceptRequestData') acceptRequestInput: ContactInput,
@@ -65,7 +66,7 @@ export class ContactsResolver {
     );
   }
 
-  @Mutation(() => Contact, { name: 'rejectRequest' })
+  @Mutation(() => ResponseMessage, { name: 'rejectRequest' })
   async rejectRequest(
     @CurrentUser() user: CurrentUserType,
     @Args('rejectRequestData') rejectRequestInput: ContactInput,
@@ -81,6 +82,8 @@ export class ContactsResolver {
     @Args('getAllContactsData')
     getAllContactsInput: ContactInput,
   ) {
-    return await this.contactsService.getAllContacts(getAllContactsInput?.contactID);
+    return await this.contactsService.getAllContacts(
+      getAllContactsInput?.contactID,
+    );
   }
 }

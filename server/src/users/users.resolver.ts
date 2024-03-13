@@ -7,7 +7,7 @@ import { CreateUserInput } from './dto/create-user.input';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { CurrentUser, CurrentUserType } from '@app/common';
-import { ResponseMessage } from './entities/response-message.entity';
+import { ResponseMessage } from '@app/common';
 import { LogoutAuthGuard } from './guards/logout.guard';
 
 @Resolver()
