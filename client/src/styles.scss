@@ -230,3 +230,22 @@ get ::-webkit-scrollbar-thumb {
 .h-10 {
   height: 10%;
 }
+.overflow-y-auto {
+  overflow-y: auto;
+}
+.font-size-xl {
+  font-size: x-large;
+}
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis !important;
+  white-space: nowrap;
+}
+
+.max-w-full {
+  max-width: 100%;
+}
+
+.float-right {
+  float: right;
+}

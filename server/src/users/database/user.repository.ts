@@ -117,7 +117,9 @@ export class UserRepository {
   }
 
   async existAndVerified(userID: string) {
-    return (await this.userModel.exists({_id: userID}) as User)?.verified ? true : false;
-  }
+    const user = (await this.userModel.exists({ _id: userID })) as User;
+    console.log(user, userID);
 
+    return user?.verified ? true : false;
+  }
 }

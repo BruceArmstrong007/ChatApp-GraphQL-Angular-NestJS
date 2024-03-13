@@ -38,7 +38,7 @@ import { AlertType } from '../../../../shared/state/api-call.state';
     ProfilePictureComponent,
   ],
   template: `
-    <mat-card>
+    <mat-card class="max-w-full">
       <mat-card-header>
         <mat-card-title
           >{{ user()?.name | titlecase }}'s profile</mat-card-title

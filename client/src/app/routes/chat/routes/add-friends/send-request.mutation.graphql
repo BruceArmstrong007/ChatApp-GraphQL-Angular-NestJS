@@ -1,0 +1,5 @@
+mutation sendRequest($sendRequestData: ContactInput!) {
+  sendRequest(sendRequestData: $sendRequestData) {
+    message
+  }
+}

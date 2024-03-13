@@ -1,0 +1,22 @@
+query users($SearchUsersData: SearchUserInput!) {
+  users(searchUsersData: $SearchUsersData) {
+    _id
+    name
+    username
+    email
+    profile {
+      url
+      filename
+      createdAt
+      updatedAt
+    }
+    age
+    bio
+    dob
+    location
+    gender
+    verified
+    createdAt
+    updatedAt
+  }
+}

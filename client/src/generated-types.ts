@@ -19,6 +19,20 @@ export type Scalars = {
   DateTime: { input: any; output: any; }
 };
 
+export type Contact = {
+  __typename?: 'Contact';
+  _id: Scalars['ID']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  receiver: Scalars['String']['output'];
+  sender: Scalars['String']['output'];
+  status: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+export type ContactInput = {
+  contactID: Scalars['String']['input'];
+};
+
 export type CreateUserInput = {
   confirmPassword: Scalars['String']['input'];
   email: Scalars['String']['input'];
@@ -53,13 +67,28 @@ export type Message = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  acceptRequest: ResponseMessage;
+  cancelRequest: ResponseMessage;
   emailVerification: Message;
   emailVerificationLink: Message;
   register: User;
+  rejectRequest: ResponseMessage;
   removeUser: User;
   resetPassword: Message;
   resetPasswordLink: Message;
+  seenRequest: ResponseMessage;
+  sendRequest: ResponseMessage;
   updateUser: User;
+};
+
+
+export type MutationAcceptRequestArgs = {
+  acceptRequestData: ContactInput;
+};
+
+
+export type MutationCancelRequestArgs = {
+  cancelRequestData: ContactInput;
 };
 
 
@@ -78,6 +107,11 @@ export type MutationRegisterArgs = {
 };
 
 
+export type MutationRejectRequestArgs = {
+  rejectRequestData: ContactInput;
+};
+
+
 export type MutationRemoveUserArgs = {
   id: Scalars['String']['input'];
 };
@@ -90,6 +124,16 @@ export type MutationResetPasswordArgs = {
 
 export type MutationResetPasswordLinkArgs = {
   resetPasswordLinkData: ResetPasswordLinkInput;
+};
+
+
+export type MutationSeenRequestArgs = {
+  seenRequestData: ContactInput;
+};
+
+
+export type MutationSendRequestArgs = {
+  sendRequestData: ContactInput;
 };
 
 
@@ -108,11 +152,17 @@ export type Profile = {
 export type Query = {
   __typename?: 'Query';
   currentUser: User;
+  getAllContacts: Array<Contact>;
   login: Login;
   logout: ResponseMessage;
   refresh: Refresh;
-  user?: Maybe<User>;
-  users: Array<User>;
+  user?: Maybe<SearchUser>;
+  users: Array<SearchUser>;
+};
+
+
+export type QueryGetAllContactsArgs = {
+  getAllContactsData: ContactInput;
 };
 
 
@@ -149,6 +199,23 @@ export type ResetPasswordLinkInput = {
 export type ResponseMessage = {
   __typename?: 'ResponseMessage';
   message: Scalars['String']['output'];
+};
+
+export type SearchUser = {
+  __typename?: 'SearchUser';
+  _id: Scalars['ID']['output'];
+  age?: Maybe<Scalars['Float']['output']>;
+  bio?: Maybe<Scalars['String']['output']>;
+  createdAt: Scalars['DateTime']['output'];
+  dob?: Maybe<Scalars['String']['output']>;
+  email: Scalars['String']['output'];
+  gender?: Maybe<Scalars['String']['output']>;
+  location?: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
+  profile?: Maybe<Profile>;
+  updatedAt: Scalars['DateTime']['output'];
+  username: Scalars['String']['output'];
+  verified?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type SearchUserInput = {
@@ -244,6 +311,13 @@ export type LogoutQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type LogoutQuery = { __typename?: 'Query', logout: { __typename?: 'ResponseMessage', message: string } };
 
+export type SendRequestMutationVariables = Exact<{
+  sendRequestData: ContactInput;
+}>;
+
+
+export type SendRequestMutation = { __typename?: 'Mutation', sendRequest: { __typename?: 'ResponseMessage', message: string } };
+
 export type UpdateUserMutationVariables = Exact<{
   updateUserData: UpdateUserInput;
 }>;
@@ -256,7 +330,14 @@ export type UserQueryVariables = Exact<{
 }>;
 
 
-export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'User', _id: string, name: string, username: string, email: string, age?: number | null, bio?: string | null, dob?: string | null, location?: string | null, gender?: string | null, verified: boolean, createdAt: any, updatedAt: any, profile?: { __typename?: 'Profile', url: string, filename: string, createdAt: any, updatedAt: any } | null } | null };
+export type UserQuery = { __typename?: 'Query', user?: { __typename?: 'SearchUser', _id: string, name: string, username: string, email: string, age?: number | null, bio?: string | null, dob?: string | null, location?: string | null, gender?: string | null, verified?: boolean | null, createdAt: any, updatedAt: any, profile?: { __typename?: 'Profile', url: string, filename: string, createdAt: any, updatedAt: any } | null } | null };
+
+export type UsersQueryVariables = Exact<{
+  SearchUsersData: SearchUserInput;
+}>;
+
+
+export type UsersQuery = { __typename?: 'Query', users: Array<{ __typename?: 'SearchUser', _id: string, name: string, username: string, email: string, age?: number | null, bio?: string | null, dob?: string | null, location?: string | null, gender?: string | null, verified?: boolean | null, createdAt: any, updatedAt: any, profile?: { __typename?: 'Profile', url: string, filename: string, createdAt: any, updatedAt: any } | null }> };
 
 export const RefreshDocument = gql`
     query refresh {
@@ -442,6 +523,24 @@ export const LogoutDocument = gql`
       super(apollo);
     }
   }
+export const SendRequestDocument = gql`
+    mutation sendRequest($sendRequestData: ContactInput!) {
+  sendRequest(sendRequestData: $sendRequestData) {
+    message
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SendRequestGQL extends Apollo.Mutation<SendRequestMutation, SendRequestMutationVariables> {
+    document = SendRequestDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const UpdateUserDocument = gql`
     mutation updateUser($updateUserData: UpdateUserInput!) {
   updateUser(updateUserData: $updateUserData) {
@@ -501,6 +600,41 @@ export const UserDocument = gql`
   })
   export class UserGQL extends Apollo.Query<UserQuery, UserQueryVariables> {
     document = UserDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const UsersDocument = gql`
+    query users($SearchUsersData: SearchUserInput!) {
+  users(searchUsersData: $SearchUsersData) {
+    _id
+    name
+    username
+    email
+    profile {
+      url
+      filename
+      createdAt
+      updatedAt
+    }
+    age
+    bio
+    dob
+    location
+    gender
+    verified
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UsersGQL extends Apollo.Query<UsersQuery, UsersQueryVariables> {
+    document = UsersDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

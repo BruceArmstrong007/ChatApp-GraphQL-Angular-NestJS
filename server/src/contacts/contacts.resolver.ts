@@ -1,7 +1,7 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { ContactsService } from './contacts.service';
 import { Contact } from './entities/contact.entity';
-import { UseGuards } from '@nestjs/common';
+import { Logger, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { CurrentUser, CurrentUserType } from '@app/common';
 import { ContactInput } from './dto/contact.input';
@@ -17,7 +17,7 @@ import { ResponseMessage } from '@app/common';
  * @export
  * @class ContactsResolver
  */
-@Resolver(() => Contact)
+@Resolver()
 @UseGuards(JwtAuthGuard)
 export class ContactsResolver {
   constructor(private readonly contactsService: ContactsService) {}
@@ -27,6 +27,8 @@ export class ContactsResolver {
     @CurrentUser() user: CurrentUserType,
     @Args('sendRequestData') sendRequestInput: ContactInput,
   ) {
+    console.log(user, sendRequestInput);
+    
     return await this.contactsService.sendRequest(
       user?._id,
       sendRequestInput?.contactID,

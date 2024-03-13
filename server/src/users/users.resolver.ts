@@ -9,6 +9,7 @@ import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { CurrentUser, CurrentUserType } from '@app/common';
 import { ResponseMessage } from '@app/common';
 import { LogoutAuthGuard } from './guards/logout.guard';
+import { SearchUser } from './entities/searchUser.entity';
 
 @Resolver()
 export class UsersResolver {
@@ -23,7 +24,7 @@ export class UsersResolver {
     return await this.usersService.create(createUserInput);
   }
 
-  @Query(() => [User], { name: 'users' })
+  @Query(() => [SearchUser], { name: 'users' })
   @UseGuards(JwtAuthGuard)
   async search(
     @Args('searchUsersData')
@@ -32,7 +33,7 @@ export class UsersResolver {
     return await this.usersService.search(searchUsersInput);
   }
 
-  @Query(() => User, { name: 'user', nullable: true })
+  @Query(() => SearchUser, { name: 'user', nullable: true })
   @UseGuards(JwtAuthGuard)
   async findOne(
     @Args('findUserData')

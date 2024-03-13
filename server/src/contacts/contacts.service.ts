@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, forwardRef } from '@nestjs/common';
 import { ContactRepository } from './database/contact.repository';
 import { UsersService } from 'src/users/users.service';
 import { ContactStatus } from '@app/common';
@@ -7,11 +7,14 @@ import { ContactStatus } from '@app/common';
 export class ContactsService {
   constructor(
     private readonly contactRepo: ContactRepository,
-    private readonly userService: UsersService,
+    @Inject(forwardRef(() => UsersService)) private readonly userService: UsersService,
   ) {}
 
   async sendRequest(userID: string, contactID: string) {
-    if (await this.userService.existAndVerified(contactID)) {
+    const existAndVerified = await this.userService.existAndVerified(contactID);
+    console.log(existAndVerified);
+    
+    if (existAndVerified) {
       const contactExist = await this.contactRepo.contactExist(
         userID,
         contactID,
@@ -28,7 +31,8 @@ export class ContactsService {
   }
 
   async cancelRequest(userID: string, contactID: string) {
-    if (await this.userService.existAndVerified(contactID)) {
+    const existAndVerified = await this.userService.existAndVerified(contactID);
+    if (existAndVerified) {
       const contactExist = await this.contactRepo.contactExist(
         userID,
         contactID,
@@ -49,7 +53,8 @@ export class ContactsService {
   }
 
   async seenRequest(userID: string, contactID: string) {
-    if (await this.userService.existAndVerified(contactID)) {
+    const existAndVerified = await this.userService.existAndVerified(contactID);
+    if (existAndVerified) {
       const contactExist = await this.contactRepo.contactExist(
         userID,
         contactID,
@@ -70,7 +75,8 @@ export class ContactsService {
   }
 
   async acceptRequest(userID: string, contactID: string) {
-    if (await this.userService.existAndVerified(contactID)) {
+    const existAndVerified = await this.userService.existAndVerified(contactID);
+    if (existAndVerified) {
       const contactExist = await this.contactRepo.contactExist(
         userID,
         contactID,
@@ -91,7 +97,8 @@ export class ContactsService {
   }
 
   async rejectRequest(userID: string, contactID: string) {
-    if (await this.userService.existAndVerified(contactID)) {
+    const existAndVerified = await this.userService.existAndVerified(contactID);
+    if (existAndVerified) {
       const contactExist = await this.contactRepo.contactExist(
         userID,
         contactID,

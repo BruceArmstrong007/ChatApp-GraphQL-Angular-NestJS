@@ -6,12 +6,6 @@ import { CreateUserInput } from './dto/create-user.input';
 
 @Injectable()
 export class UsersService {
-  getUsers(contactIDs: any[]) {
-    throw new Error('Method not implemented.');
-  }
-  getUser(contactID: string) {
-    throw new Error('Method not implemented.');
-  }
   constructor(private readonly userRepo: UserRepository) {}
 
   async create(createUserInput: CreateUserInput) {
@@ -85,7 +79,7 @@ export class UsersService {
   }
 
   async existAndVerified(userID: string) {
-    return await this.existAndVerified(userID);
+    return await this.userRepo.existAndVerified(userID);
   }
 
 

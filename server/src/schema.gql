@@ -78,8 +78,8 @@ type Query {
   login(loginAuthData: LoginAuthInput!): Login!
   logout: ResponseMessage!
   refresh: Refresh!
-  user(findUserData: SearchUserInput!): User
-  users(searchUsersData: SearchUserInput!): [User!]!
+  user(findUserData: SearchUserInput!): SearchUser
+  users(searchUsersData: SearchUserInput!): [SearchUser!]!
 }
 
 type Refresh {
@@ -99,6 +99,22 @@ input ResetPasswordLinkInput {
 
 type ResponseMessage {
   message: String!
+}
+
+type SearchUser {
+  _id: ID!
+  age: Float
+  bio: String
+  createdAt: DateTime!
+  dob: String
+  email: String!
+  gender: String
+  location: String
+  name: String!
+  profile: Profile
+  updatedAt: DateTime!
+  username: String!
+  verified: Boolean
 }
 
 input SearchUserInput {
