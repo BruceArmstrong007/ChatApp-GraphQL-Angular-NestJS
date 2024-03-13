@@ -148,7 +148,6 @@ get ::-webkit-scrollbar-thumb {
 
 .items-end {
   align-items: end;
-
 }
 
 .items-start {
@@ -248,4 +247,12 @@ get ::-webkit-scrollbar-thumb {
 
 .float-right {
   float: right;
+}
+
+.pl-1 {
+  padding-left: 5px;
+}
+
+.pr-1 {
+  padding-right: 5px;
 }
