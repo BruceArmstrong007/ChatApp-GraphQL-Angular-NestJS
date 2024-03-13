@@ -3,13 +3,16 @@
 # ------------------------------------------------------
 
 type Contact {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  _id: ID!
+  createdAt: DateTime!
+  receiver: String!
+  sender: String!
+  status: String!
+  updatedAt: DateTime!
 }
 
-input CreateContactInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+input ContactInput {
+  contactID: String!
 }
 
 input CreateUserInput {
@@ -48,15 +51,17 @@ type Message {
 }
 
 type Mutation {
-  createContact(createContactInput: CreateContactInput!): Contact!
+  acceptRequest(acceptRequestData: ContactInput!): Contact!
+  cancelRequest(cancelRequestData: ContactInput!): Contact!
   emailVerification(emailVerificationData: EmailVerificationInput!): Message!
   emailVerificationLink(emailVerificationLinkData: EmailVerificationLinkInput!): Message!
   register(createUserData: CreateUserInput!): User!
-  removeContact(id: Int!): Contact!
+  rejectRequest(rejectRequestData: ContactInput!): Contact!
   removeUser(id: String!): User!
   resetPassword(resetPasswordData: ResetPasswordInput!): Message!
   resetPasswordLink(resetPasswordLinkData: ResetPasswordLinkInput!): Message!
-  updateContact(updateContactInput: UpdateContactInput!): Contact!
+  seenRequest(seenRequestData: ContactInput!): Contact!
+  sendRequest(sendRequestData: ContactInput!): Contact!
   updateUser(updateUserData: UpdateUserInput!): User!
 }
 
@@ -68,9 +73,8 @@ type Profile {
 }
 
 type Query {
-  contact(id: Int!): Contact!
-  contacts: [Contact!]!
   currentUser: User!
+  getAllContacts(getAllContactsData: ContactInput!): [Contact!]!
   login(loginAuthData: LoginAuthInput!): Login!
   logout: ResponseMessage!
   refresh: Refresh!
@@ -100,12 +104,6 @@ type ResponseMessage {
 input SearchUserInput {
   type: String!
   value: String!
-}
-
-input UpdateContactInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
 }
 
 input UpdateUserInput {

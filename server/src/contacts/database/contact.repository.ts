@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Contact } from './contact.schema';
 import { ContactStatus } from '@app/common';
-import { User } from 'src/users/database/user.schema';
+
 @Injectable()
 export class ContactRepository {
   protected readonly logger = new Logger(ContactRepository.name);
@@ -24,7 +24,7 @@ export class ContactRepository {
     return await newUser.save();
   }
 
-  async contactExist(userID: string, contactID: string) : Promise<User | undefined> {
+  async contactExist(userID: string, contactID: string) {
     const userObjectID = new Types.ObjectId(userID);
     const contactObjectID = new Types.ObjectId(contactID);
     return (
@@ -45,105 +45,59 @@ export class ContactRepository {
     )?.[0];
   }
 
-  // async getContacts(contactID: string): Promise<Contact[] | null> {
-  //   const contactObjectID = new Types.ObjectId(contactID);
+  async cancelRequest(senderID: string) {
+    const senderObjectID = new Types.ObjectId(senderID);
+    await this.contactModel
+      .findOne({ receiver: senderObjectID })
+      .deleteOne()
+      .exec();
+  }
 
-  //   return await this.contactModel
-  //     .find({
-  //       $or: [
-  //         {
-  //           receiver: contactObjectID,
-  //         },
-  //         {
-  //           sender: contactObjectID,
-  //         },
-  //       ],
-  //     })
-  //     .exec();
-  // }
+  async acceptRequest(senderID: string) {
+    const senderObjectID = new Types.ObjectId(senderID);
+    await this.contactModel
+      .findOneAndUpdate(
+        { sender: senderObjectID },
+        {
+          status: ContactStatus.ACCEPTED,
+        },
+      )
+      .exec();
+  }
 
-  // async checkContacts(
-  //   contactID1: string,
-  //   contactID2: string,
-  // ): Promise<Contact[]> {
-  //   const contactObjectID1 = new Types.ObjectId(contactID1);
-  //   const contactObjectID2 = new Types.ObjectId(contactID2);
-  //   return await this.contactModel
-  //     .find({
-  //       $or: [
-  //         {
-  //           sender: contactObjectID1,
-  //           receiver: contactObjectID2,
-  //         },
-  //         {
-  //           sender: contactObjectID2,
-  //           receiver: contactObjectID1,
-  //         },
-  //       ],
-  //     })
-  //     .exec();
-  // }
+  async rejectRequest(senderID: string) {
+    const senderObjectID = new Types.ObjectId(senderID);
+    await this.contactModel
+      .findOne({ sender: senderObjectID })
+      .deleteOne()
+      .exec();
+  }
 
-  // async checkContact(
-  //   contactID1: string,
-  //   contactID2: string,
-  // ): Promise<Contact | null> {
-  //   const contactObjectID1 = new Types.ObjectId(contactID1);
-  //   const contactObjectID2 = new Types.ObjectId(contactID2);
-  //   return await this.contactModel
-  //     .findOne({ sender: contactObjectID1, receiver: contactObjectID2 })
-  //     .exec();
-  // }
+  async seenRequest(senderID: string) {
+    const senderObjectID = new Types.ObjectId(senderID);
+    await this.contactModel
+      .findOneAndUpdate(
+        { receiver: senderObjectID },
+        {
+          status: ContactStatus.FRIENDS,
+        },
+      )
+      .exec();
+  }
 
-  // async deleteUserContact(contactID: string) {
-  //   const contactObjectID = new Types.ObjectId(contactID);
-  //   await this.contactModel
-  //     .find({
-  //       $or: [{ sender: contactObjectID }, { receiver: contactObjectID }],
-  //     })
-  //     .deleteMany()
-  //     .exec();
-  // }
-
-  // async updateContact(
-  //   contactID1: string,
-  //   contactID2: string,
-  //   status: ContactStatus,
-  // ) {
-  //   const contactObjectID1 = new Types.ObjectId(contactID1);
-  //   const contactObjectID2 = new Types.ObjectId(contactID2);
-  //   await this.contactModel
-  //     .findOneAndUpdate(
-  //       { sender: contactObjectID1, receiver: contactObjectID2 },
-  //       { status: status },
-  //       { new: true },
-  //     )
-  //     .exec();
-  // }
-
-  // async blockContact(contactID1: string, contactID2: string) {
-  //   const contactObjectID1 = new Types.ObjectId(contactID1);
-  //   const contactObjectID2 = new Types.ObjectId(contactID2);
-  //   await this.contactModel
-  //     .findOneAndUpdate(
-  //       { sender: contactObjectID1, receiver: contactObjectID2 },
-  //       { blocked: true },
-  //       { new: true },
-  //     )
-  //     .exec();
-  // }
-
-  // async deleteContact(contactID1: string, contactID2: string) {
-  //   const contactObjectID1 = new Types.ObjectId(contactID1);
-  //   const contactObjectID2 = new Types.ObjectId(contactID2);
-  //   await this.contactModel
-  //     .find({
-  //       $or: [
-  //         { sender: contactObjectID1, receiver: contactObjectID2 },
-  //         { sender: contactObjectID2, receiver: contactObjectID1 },
-  //       ],
-  //     })
-  //     .deleteMany()
-  //     .exec();
-  // }
+  async getAllContacts(contaactID: string) {
+    const contactObjectID = new Types.ObjectId(contaactID);
+    return await this.contactModel
+      .find({
+        $or: [
+          {
+            sender: contactObjectID,
+          },
+          {
+            receiver: contactObjectID,
+          },
+        ],
+      })
+      .exec();
+  }
 }

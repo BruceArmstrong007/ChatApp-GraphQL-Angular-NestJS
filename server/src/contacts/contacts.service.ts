@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ContactRepository } from './database/contact.repository';
 import { UsersService } from 'src/users/users.service';
+import { ContactStatus } from '@app/common';
 
 @Injectable()
 export class ContactsService {
@@ -25,23 +26,92 @@ export class ContactsService {
       throw new BadRequestException('Invalid Request.');
     }
   }
-  // create(createContactInput: CreateContactInput) {
-  //   return 'This action adds a new contact';
-  // }
 
-  // findAll() {
-  //   return `This action returns all contacts`;
-  // }
+  async cancelRequest(userID: string, contactID: string) {
+    if (await this.userService.existAndVerified(contactID)) {
+      const contactExist = await this.contactRepo.contactExist(
+        userID,
+        contactID,
+      );
+      if (contactExist) {
+        if (
+          contactExist?.['status'] === ContactStatus.SENT &&
+          contactExist?.['sender'].toString() === userID
+        ) {
+          await this.contactRepo.cancelRequest(contactID);
+          return await { message: 'Request cancelled successfully.' };
+        }
+      }
+      throw new BadRequestException('Invalid Request.');
+    } else {
+      throw new BadRequestException('Invalid Request.');
+    }
+  }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} contact`;
-  // }
+  async seenRequest(userID: string, contactID: string) {
+    if (await this.userService.existAndVerified(contactID)) {
+      const contactExist = await this.contactRepo.contactExist(
+        userID,
+        contactID,
+      );
+      if (contactExist) {
+        if (
+          contactExist?.['status'] === ContactStatus.ACCEPTED &&
+          contactExist?.['sender'].toString() === userID
+        ) {
+          await this.contactRepo.seenRequest(contactID);
+          return await { message: 'Request cancelled successfully.' };
+        }
+      }
+      throw new BadRequestException('Invalid Request.');
+    } else {
+      throw new BadRequestException('Invalid Request.');
+    }
+  }
 
-  // update(id: number, updateContactInput: UpdateContactInput) {
-  //   return `This action updates a #${id} contact`;
-  // }
+  async acceptRequest(userID: string, contactID: string) {
+    if (await this.userService.existAndVerified(contactID)) {
+      const contactExist = await this.contactRepo.contactExist(
+        userID,
+        contactID,
+      );
+      if (contactExist) {
+        if (
+          contactExist?.['status'] === ContactStatus.SENT &&
+          contactExist?.['sender'].toString() === contactID
+        ) {
+          await this.contactRepo.acceptRequest(contactID);
+          return await { message: 'Request accepted successfully.' };
+        }
+      }
+      throw new BadRequestException('Invalid Request.');
+    } else {
+      throw new BadRequestException('Invalid Request.');
+    }
+  }
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} contact`;
-  // }
+  async rejectRequest(userID: string, contactID: string) {
+    if (await this.userService.existAndVerified(contactID)) {
+      const contactExist = await this.contactRepo.contactExist(
+        userID,
+        contactID,
+      );
+      if (contactExist) {
+        if (
+          contactExist?.['status'] === ContactStatus.SENT &&
+          contactExist?.['sender'].toString() === contactID
+        ) {
+          await this.contactRepo.rejectRequest(contactID);
+          return await { message: 'Request rejected successfully.' };
+        }
+      }
+      throw new BadRequestException('Invalid Request.');
+    } else {
+      throw new BadRequestException('Invalid Request.');
+    }
+  }
+
+  async getAllContacts(contactID: string) {
+    return await this.contactRepo.getAllContacts(contactID);
+  }
 }

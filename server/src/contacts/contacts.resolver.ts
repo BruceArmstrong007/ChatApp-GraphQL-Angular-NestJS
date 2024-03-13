@@ -1,18 +1,18 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { ContactsService } from './contacts.service';
 import { Contact } from './entities/contact.entity';
-import { SendRequestInput } from './dto/send-request.input';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { CurrentUser, CurrentUserType } from '@app/common';
+import { ContactInput } from './dto/contact.input';
 /**
- * Todo: 6 API endpoints
+ * Completed: 6 API endpoints
  *   1.) Send request to contact
  *   2.) Cancel sent request to contact
  *   3.) Accept incoming request from contact
  *   4.) Send seen request to convert accepted to friends
  *   5.) Reject incoming request from contact
- *   6.) Get all contacts for the user
+ *   6.) Get all contacts related to the user
  * @export
  * @class ContactsResolver
  */
@@ -24,18 +24,63 @@ export class ContactsResolver {
   @Mutation(() => Contact, { name: 'sendRequest' })
   async sendRequest(
     @CurrentUser() user: CurrentUserType,
-    @Args('sendRequestInput') sendRequestInput: SendRequestInput,
+    @Args('sendRequestData') sendRequestInput: ContactInput,
   ) {
-    return await this.contactsService.sendRequest(user?._id, sendRequestInput?.contactID);
+    return await this.contactsService.sendRequest(
+      user?._id,
+      sendRequestInput?.contactID,
+    );
   }
 
-  // @Mutation(() => Contact)
-  // updateContact(@Args('updateContactInput') updateContactInput: UpdateContactInput) {
-  //   return this.contactsService.update(updateContactInput.id, updateContactInput);
-  // }
+  @Mutation(() => Contact, { name: 'cancelRequest' })
+  async cancelRequest(
+    @CurrentUser() user: CurrentUserType,
+    @Args('cancelRequestData') cancelRequestInput: ContactInput,
+  ) {
+    return await this.contactsService.cancelRequest(
+      user?._id,
+      cancelRequestInput?.contactID,
+    );
+  }
 
-  // @Mutation(() => Contact)
-  // removeContact(@Args('id', { type: () => Int }) id: number) {
-  //   return this.contactsService.remove(id);
-  // }
+  @Mutation(() => Contact, { name: 'seenRequest' })
+  async seenRequest(
+    @CurrentUser() user: CurrentUserType,
+    @Args('seenRequestData') seenRequestInput: ContactInput,
+  ) {
+    return await this.contactsService.seenRequest(
+      user?._id,
+      seenRequestInput?.contactID,
+    );
+  }
+
+  @Mutation(() => Contact, { name: 'acceptRequest' })
+  async acceptRequest(
+    @CurrentUser() user: CurrentUserType,
+    @Args('acceptRequestData') acceptRequestInput: ContactInput,
+  ) {
+    return await this.contactsService.acceptRequest(
+      user?._id,
+      acceptRequestInput?.contactID,
+    );
+  }
+
+  @Mutation(() => Contact, { name: 'rejectRequest' })
+  async rejectRequest(
+    @CurrentUser() user: CurrentUserType,
+    @Args('rejectRequestData') rejectRequestInput: ContactInput,
+  ) {
+    return await this.contactsService.rejectRequest(
+      user?._id,
+      rejectRequestInput?.contactID,
+    );
+  }
+
+  @Query(() => [Contact], { name: 'getAllContacts' })
+  async getAllContacts(
+    @Args('getAllContactsData')
+    getAllContactsInput: ContactInput,
+  ) {
+    return await this.contactsService.getAllContacts(getAllContactsInput?.contactID);
+  }
 }
