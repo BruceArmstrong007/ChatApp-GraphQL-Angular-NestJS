@@ -67,12 +67,12 @@ import { userActions } from '../../state/user/user.action';
               </div>
               <div class="flex flex-column gap-10">
                 <hr class="w-full" />
-                <a [routerLink]="['/find-friends']" title="Find friends">
+                <a [routerLink]="['/add-friends']" title="Add friends">
                   <button
                     mat-fab
                     disabled
-                    aria-label="find friends"
-                    title="Find friends">
+                    aria-label="Add friends"
+                    title="Add friends">
                     <mat-icon>add</mat-icon>
                   </button>
                 </a>
