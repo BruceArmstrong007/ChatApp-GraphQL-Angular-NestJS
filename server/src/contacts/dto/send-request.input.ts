@@ -1,7 +1,7 @@
 import { InputType, Field } from '@nestjs/graphql';
 
 @InputType()
-export class ContactInput {
+export class SendRequestInput {
   @Field()
   contactID: string;
 

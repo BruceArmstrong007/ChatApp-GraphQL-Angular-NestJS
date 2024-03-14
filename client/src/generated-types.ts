@@ -29,10 +29,6 @@ export type Contact = {
   updatedAt: Scalars['DateTime']['output'];
 };
 
-export type ContactInput = {
-  contactID: Scalars['String']['input'];
-};
-
 export type CreateUserInput = {
   confirmPassword: Scalars['String']['input'];
   email: Scalars['String']['input'];
@@ -83,12 +79,12 @@ export type Mutation = {
 
 
 export type MutationAcceptRequestArgs = {
-  acceptRequestData: ContactInput;
+  acceptRequestData: SendRequestInput;
 };
 
 
 export type MutationCancelRequestArgs = {
-  cancelRequestData: ContactInput;
+  cancelRequestData: SendRequestInput;
 };
 
 
@@ -108,7 +104,7 @@ export type MutationRegisterArgs = {
 
 
 export type MutationRejectRequestArgs = {
-  rejectRequestData: ContactInput;
+  rejectRequestData: SendRequestInput;
 };
 
 
@@ -128,12 +124,12 @@ export type MutationResetPasswordLinkArgs = {
 
 
 export type MutationSeenRequestArgs = {
-  seenRequestData: ContactInput;
+  seenRequestData: SendRequestInput;
 };
 
 
 export type MutationSendRequestArgs = {
-  sendRequestData: ContactInput;
+  sendRequestData: SendRequestInput;
 };
 
 
@@ -162,7 +158,7 @@ export type Query = {
 
 
 export type QueryGetAllContactsArgs = {
-  getAllContactsData: ContactInput;
+  getAllContactsData: SendRequestInput;
 };
 
 
@@ -221,6 +217,10 @@ export type SearchUser = {
 export type SearchUserInput = {
   type: Scalars['String']['input'];
   value: Scalars['String']['input'];
+};
+
+export type SendRequestInput = {
+  contactID: Scalars['String']['input'];
 };
 
 export type UpdateUserInput = {
@@ -312,7 +312,7 @@ export type LogoutQueryVariables = Exact<{ [key: string]: never; }>;
 export type LogoutQuery = { __typename?: 'Query', logout: { __typename?: 'ResponseMessage', message: string } };
 
 export type SendRequestMutationVariables = Exact<{
-  sendRequestData: ContactInput;
+  sendRequestData: SendRequestInput;
 }>;
 
 
@@ -524,7 +524,7 @@ export const LogoutDocument = gql`
     }
   }
 export const SendRequestDocument = gql`
-    mutation sendRequest($sendRequestData: ContactInput!) {
+    mutation sendRequest($sendRequestData: SendRequestInput!) {
   sendRequest(sendRequestData: $sendRequestData) {
     message
   }

@@ -11,10 +11,6 @@ type Contact {
   updatedAt: DateTime!
 }
 
-input ContactInput {
-  contactID: String!
-}
-
 input CreateUserInput {
   confirmPassword: String!
   email: String!
@@ -51,17 +47,17 @@ type Message {
 }
 
 type Mutation {
-  acceptRequest(acceptRequestData: ContactInput!): ResponseMessage!
-  cancelRequest(cancelRequestData: ContactInput!): ResponseMessage!
+  acceptRequest(acceptRequestData: SendRequestInput!): ResponseMessage!
+  cancelRequest(cancelRequestData: SendRequestInput!): ResponseMessage!
   emailVerification(emailVerificationData: EmailVerificationInput!): Message!
   emailVerificationLink(emailVerificationLinkData: EmailVerificationLinkInput!): Message!
   register(createUserData: CreateUserInput!): User!
-  rejectRequest(rejectRequestData: ContactInput!): ResponseMessage!
+  rejectRequest(rejectRequestData: SendRequestInput!): ResponseMessage!
   removeUser(id: String!): User!
   resetPassword(resetPasswordData: ResetPasswordInput!): Message!
   resetPasswordLink(resetPasswordLinkData: ResetPasswordLinkInput!): Message!
-  seenRequest(seenRequestData: ContactInput!): ResponseMessage!
-  sendRequest(sendRequestData: ContactInput!): ResponseMessage!
+  seenRequest(seenRequestData: SendRequestInput!): ResponseMessage!
+  sendRequest(sendRequestData: SendRequestInput!): ResponseMessage!
   updateUser(updateUserData: UpdateUserInput!): User!
 }
 
@@ -74,7 +70,7 @@ type Profile {
 
 type Query {
   currentUser: User!
-  getAllContacts(getAllContactsData: ContactInput!): [Contact!]!
+  getAllContacts(getAllContactsData: SendRequestInput!): [Contact!]!
   login(loginAuthData: LoginAuthInput!): Login!
   logout: ResponseMessage!
   refresh: Refresh!
@@ -120,6 +116,10 @@ type SearchUser {
 input SearchUserInput {
   type: String!
   value: String!
+}
+
+input SendRequestInput {
+  contactID: String!
 }
 
 input UpdateUserInput {

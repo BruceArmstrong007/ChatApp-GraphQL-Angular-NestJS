@@ -1,4 +1,4 @@
-mutation sendRequest($sendRequestData: ContactInput!) {
+mutation sendRequest($sendRequestData: SendRequestInput!) {
   sendRequest(sendRequestData: $sendRequestData) {
     message
   }

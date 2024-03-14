@@ -4,7 +4,7 @@ import { Contact } from './entities/contact.entity';
 import { Logger, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { CurrentUser, CurrentUserType } from '@app/common';
-import { ContactInput } from './dto/contact.input';
+import { SendRequestInput } from './dto/send-request.input';
 import { ResponseMessage } from '@app/common';
 /**
  * Completed: 6 API endpoints
@@ -18,17 +18,17 @@ import { ResponseMessage } from '@app/common';
  * @class ContactsResolver
  */
 @Resolver()
-@UseGuards(JwtAuthGuard)
 export class ContactsResolver {
   constructor(private readonly contactsService: ContactsService) {}
 
   @Mutation(() => ResponseMessage, { name: 'sendRequest' })
+  @UseGuards(JwtAuthGuard)
   async sendRequest(
     @CurrentUser() user: CurrentUserType,
-    @Args('sendRequestData') sendRequestInput: ContactInput,
+    @Args('sendRequestData') sendRequestInput: SendRequestInput,
   ) {
     console.log(user, sendRequestInput);
-    
+
     return await this.contactsService.sendRequest(
       user?._id,
       sendRequestInput?.contactID,
@@ -38,7 +38,7 @@ export class ContactsResolver {
   @Mutation(() => ResponseMessage, { name: 'cancelRequest' })
   async cancelRequest(
     @CurrentUser() user: CurrentUserType,
-    @Args('cancelRequestData') cancelRequestInput: ContactInput,
+    @Args('cancelRequestData') cancelRequestInput: SendRequestInput,
   ) {
     return await this.contactsService.cancelRequest(
       user?._id,
@@ -49,7 +49,7 @@ export class ContactsResolver {
   @Mutation(() => ResponseMessage, { name: 'seenRequest' })
   async seenRequest(
     @CurrentUser() user: CurrentUserType,
-    @Args('seenRequestData') seenRequestInput: ContactInput,
+    @Args('seenRequestData') seenRequestInput: SendRequestInput,
   ) {
     return await this.contactsService.seenRequest(
       user?._id,
@@ -60,7 +60,7 @@ export class ContactsResolver {
   @Mutation(() => ResponseMessage, { name: 'acceptRequest' })
   async acceptRequest(
     @CurrentUser() user: CurrentUserType,
-    @Args('acceptRequestData') acceptRequestInput: ContactInput,
+    @Args('acceptRequestData') acceptRequestInput: SendRequestInput,
   ) {
     return await this.contactsService.acceptRequest(
       user?._id,
@@ -71,7 +71,7 @@ export class ContactsResolver {
   @Mutation(() => ResponseMessage, { name: 'rejectRequest' })
   async rejectRequest(
     @CurrentUser() user: CurrentUserType,
-    @Args('rejectRequestData') rejectRequestInput: ContactInput,
+    @Args('rejectRequestData') rejectRequestInput: SendRequestInput,
   ) {
     return await this.contactsService.rejectRequest(
       user?._id,
@@ -82,7 +82,7 @@ export class ContactsResolver {
   @Query(() => [Contact], { name: 'getAllContacts' })
   async getAllContacts(
     @Args('getAllContactsData')
-    getAllContactsInput: ContactInput,
+    getAllContactsInput: SendRequestInput,
   ) {
     return await this.contactsService.getAllContacts(
       getAllContactsInput?.contactID,

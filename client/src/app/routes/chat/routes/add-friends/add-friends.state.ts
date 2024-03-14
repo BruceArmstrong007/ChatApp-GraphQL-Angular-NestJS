@@ -1,6 +1,6 @@
 import { AddFriendsState } from './add-friends.type';
 import {
-  ContactInput,
+  SendRequestInput,
   SendRequestGQL,
   SendRequestMutation,
   UsersGQL,
@@ -84,7 +84,7 @@ export const addFriends = signalStore(
           )
         )
       ),
-      addFriend: rxMethod<ContactInput>(c$ =>
+      addFriend: rxMethod<SendRequestInput>(c$ =>
         c$.pipe(
           tap(() => {
             patchState(state, setLoading());
