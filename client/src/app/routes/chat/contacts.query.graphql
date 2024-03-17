@@ -1,0 +1,10 @@
+query contacts($ContactsData: ContactsInput!) {
+  contacts(contactsData: $ContactsData) {
+    _id
+    sender
+    receiver
+    status
+    createdAt
+    updatedAt
+  }
+}

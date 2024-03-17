@@ -11,6 +11,10 @@ type Contact {
   updatedAt: DateTime!
 }
 
+input ContactsInput {
+  contactID: String
+}
+
 input CreateUserInput {
   confirmPassword: String!
   email: String!
@@ -69,8 +73,8 @@ type Profile {
 }
 
 type Query {
+  contacts(contactsData: ContactsInput!): [Contact!]!
   currentUser: User!
-  getAllContacts(getAllContactsData: SendRequestInput!): [Contact!]!
   login(loginAuthData: LoginAuthInput!): Login!
   logout: ResponseMessage!
   refresh: Refresh!

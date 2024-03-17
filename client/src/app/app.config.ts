@@ -1,4 +1,4 @@
-import { APOLLO_OPTIONS, Apollo, ApolloModule } from 'apollo-angular';
+import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
 import {
   ApplicationConfig,
   importProvidersFrom,
@@ -27,6 +27,9 @@ import { HttpLink } from 'apollo-angular/http';
 import { factoryFn } from './shared/services/apollo/apollo-graphql.service';
 import { CookieService } from 'ngx-cookie-service';
 import * as userEffects from './state/user/user.effect';
+import * as contactEffects from './state/contact/contact.effect';
+import { contact } from './state/contact/contact.effect';
+import { contactFeature } from './state/contact/contact.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -44,9 +47,10 @@ export const appConfig: ApplicationConfig = {
       router: routerReducer,
       auth: authFeature.reducer,
       user: userFeature.reducer,
+      contact: contactFeature.reducer,
     }),
     provideRouterStore({ serializer: CustomRouterStateSerializer }),
-    provideEffects(userEffects),
+    provideEffects(userEffects, contactEffects),
     isDevMode()
       ? provideStoreDevtools({
           maxAge: 25,

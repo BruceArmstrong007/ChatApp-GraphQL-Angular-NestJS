@@ -31,7 +31,7 @@ import { friendsState } from './friends.state';
             <div
               class="w-full h-full flex justify-center items-center font-size-xl">
               <mat-icon class="mat-18">group</mat-icon>
-              <span class="pl-1">Contact list empty</span>
+              <span class="pl-1">Friend list is empty</span>
             </div>
           }
         </div>

@@ -29,6 +29,10 @@ export type Contact = {
   updatedAt: Scalars['DateTime']['output'];
 };
 
+export type ContactsInput = {
+  contactID?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type CreateUserInput = {
   confirmPassword: Scalars['String']['input'];
   email: Scalars['String']['input'];
@@ -147,8 +151,8 @@ export type Profile = {
 
 export type Query = {
   __typename?: 'Query';
+  contacts: Array<Contact>;
   currentUser: User;
-  getAllContacts: Array<Contact>;
   login: Login;
   logout: ResponseMessage;
   refresh: Refresh;
@@ -157,8 +161,8 @@ export type Query = {
 };
 
 
-export type QueryGetAllContactsArgs = {
-  getAllContactsData: SendRequestInput;
+export type QueryContactsArgs = {
+  contactsData: ContactsInput;
 };
 
 
@@ -300,6 +304,13 @@ export type EmailVerificationMutationVariables = Exact<{
 
 
 export type EmailVerificationMutation = { __typename?: 'Mutation', emailVerification: { __typename?: 'Message', message: string } };
+
+export type ContactsQueryVariables = Exact<{
+  ContactsData: ContactsInput;
+}>;
+
+
+export type ContactsQuery = { __typename?: 'Query', contacts: Array<{ __typename?: 'Contact', _id: string, sender: string, receiver: string, status: string, createdAt: any, updatedAt: any }> };
 
 export type CurrentuserQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -465,6 +476,29 @@ export const EmailVerificationDocument = gql`
   })
   export class EmailVerificationGQL extends Apollo.Mutation<EmailVerificationMutation, EmailVerificationMutationVariables> {
     document = EmailVerificationDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const ContactsDocument = gql`
+    query contacts($ContactsData: ContactsInput!) {
+  contacts(contactsData: $ContactsData) {
+    _id
+    sender
+    receiver
+    status
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ContactsGQL extends Apollo.Query<ContactsQuery, ContactsQueryVariables> {
+    document = ContactsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
