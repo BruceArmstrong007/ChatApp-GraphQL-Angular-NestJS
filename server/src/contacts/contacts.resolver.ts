@@ -6,6 +6,7 @@ import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { CurrentUser, CurrentUserType } from '@app/common';
 import { SendRequestInput } from './dto/send-request.input';
 import { ResponseMessage } from '@app/common';
+import { ContactsInput } from './dto/contacts.input';
 /**
  * Completed: 6 API endpoints
  *   1.) Send request to contact
@@ -27,7 +28,6 @@ export class ContactsResolver {
     @Args('sendRequestData') sendRequestInput: SendRequestInput,
     @CurrentUser() user: CurrentUserType,
   ) {
-    
     return await this.contactsService.sendRequest(
       user?._id,
       sendRequestInput.contactID,
@@ -78,13 +78,14 @@ export class ContactsResolver {
     );
   }
 
-  @Query(() => [Contact], { name: 'getAllContacts' })
-  async getAllContacts(
-    @Args('getAllContactsData')
-    getAllContactsInput: SendRequestInput,
+  @Query(() => [Contact])
+  async contacts(
+    @Args('contactsData')
+    contactsInput: ContactsInput,
+    @CurrentUser() user: CurrentUserType,
   ) {
     return await this.contactsService.getAllContacts(
-      getAllContactsInput.contactID,
+      contactsInput.contactID ?? user?._id,
     );
   }
 }

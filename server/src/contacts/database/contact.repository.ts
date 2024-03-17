@@ -85,8 +85,8 @@ export class ContactRepository {
       .exec();
   }
 
-  async getAllContacts(contaactID: string) {
-    const contactObjectID = new Types.ObjectId(contaactID);
+  async getAllContacts(contactID: string) {
+    const contactObjectID = new Types.ObjectId(contactID);
     return await this.contactModel
       .find({
         $or: [
