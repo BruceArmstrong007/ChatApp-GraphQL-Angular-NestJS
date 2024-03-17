@@ -19,5 +19,6 @@ import { JwtAuthStrategy } from 'src/auth/strategy/jwt-auth.strategy';
     MongooseModule.forFeature([{ name: Contact.name, schema: ContactSchema }]),
     forwardRef(() => UsersModule),
   ],
+  exports: [ContactRepository, ContactsService],
 })
 export class ContactsModule {}

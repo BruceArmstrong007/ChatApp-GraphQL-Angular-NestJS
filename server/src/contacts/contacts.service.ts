@@ -1,4 +1,9 @@
-import { BadRequestException, Inject, Injectable, forwardRef } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  forwardRef,
+} from '@nestjs/common';
 import { ContactRepository } from './database/contact.repository';
 import { UsersService } from 'src/users/users.service';
 import { ContactStatus } from '@app/common';
@@ -7,21 +12,24 @@ import { ContactStatus } from '@app/common';
 export class ContactsService {
   constructor(
     private readonly contactRepo: ContactRepository,
-    @Inject(forwardRef(() => UsersService)) private readonly userService: UsersService,
+    @Inject(forwardRef(() => UsersService))
+    private readonly userService: UsersService,
   ) {}
 
   async sendRequest(userID: string, contactID: string) {
     const existAndVerified = await this.userService.existAndVerified(contactID);
-    console.log(existAndVerified);
-    
+
     if (existAndVerified) {
       const contactExist = await this.contactRepo.contactExist(
         userID,
         contactID,
       );
+
       if (!contactExist) {
-        return await this.contactRepo.sentRequest(userID, contactID);
+        await this.contactRepo.sentRequest(userID, contactID);
+        return { message: 'Request sent successfully.' };
       }
+
       throw new BadRequestException(
         'You have already sent or you are already friends with this user.',
       );

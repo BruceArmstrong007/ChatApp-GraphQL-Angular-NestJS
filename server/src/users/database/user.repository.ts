@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { v4 as uuidv4 } from 'uuid';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
 import { User } from './user.schema';
@@ -117,9 +117,7 @@ export class UserRepository {
   }
 
   async existAndVerified(userID: string) {
-    const user = (await this.userModel.exists({ _id: userID })) as User;
-    console.log(user, userID);
-
+    const user = await this.userModel.findById(new Types.ObjectId(userID));
     return user?.verified ? true : false;
   }
 }

@@ -1,4 +1,3 @@
-import { AddFriendsState } from './add-friends.type';
 import {
   SendRequestInput,
   SendRequestGQL,
@@ -25,6 +24,7 @@ import {
 import { inject } from '@angular/core';
 import { ApolloQueryResult } from '@apollo/client/core';
 import { MutationResult } from 'apollo-angular';
+import { AddFriendsState } from './add-friends.type';
 
 export const addFriends = signalStore(
   withState<AddFriendsState>({
@@ -84,7 +84,7 @@ export const addFriends = signalStore(
           )
         )
       ),
-      addFriend: rxMethod<SendRequestInput>(c$ =>
+      sendRequest: rxMethod<SendRequestInput>(c$ =>
         c$.pipe(
           tap(() => {
             patchState(state, setLoading());

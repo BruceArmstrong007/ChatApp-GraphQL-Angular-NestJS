@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { ContactsService } from './contacts.service';
 import { Contact } from './entities/contact.entity';
-import { Logger, UseGuards } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { CurrentUser, CurrentUserType } from '@app/common';
 import { SendRequestInput } from './dto/send-request.input';
@@ -21,17 +21,16 @@ import { ResponseMessage } from '@app/common';
 export class ContactsResolver {
   constructor(private readonly contactsService: ContactsService) {}
 
-  @Mutation(() => ResponseMessage, { name: 'sendRequest' })
+  @Mutation(() => ResponseMessage)
   @UseGuards(JwtAuthGuard)
   async sendRequest(
-    @CurrentUser() user: CurrentUserType,
     @Args('sendRequestData') sendRequestInput: SendRequestInput,
+    @CurrentUser() user: CurrentUserType,
   ) {
-    console.log(user, sendRequestInput);
-
+    
     return await this.contactsService.sendRequest(
       user?._id,
-      sendRequestInput?.contactID,
+      sendRequestInput.contactID,
     );
   }
 
@@ -42,7 +41,7 @@ export class ContactsResolver {
   ) {
     return await this.contactsService.cancelRequest(
       user?._id,
-      cancelRequestInput?.contactID,
+      cancelRequestInput.contactID,
     );
   }
 
@@ -53,7 +52,7 @@ export class ContactsResolver {
   ) {
     return await this.contactsService.seenRequest(
       user?._id,
-      seenRequestInput?.contactID,
+      seenRequestInput.contactID,
     );
   }
 
@@ -64,7 +63,7 @@ export class ContactsResolver {
   ) {
     return await this.contactsService.acceptRequest(
       user?._id,
-      acceptRequestInput?.contactID,
+      acceptRequestInput.contactID,
     );
   }
 
@@ -75,7 +74,7 @@ export class ContactsResolver {
   ) {
     return await this.contactsService.rejectRequest(
       user?._id,
-      rejectRequestInput?.contactID,
+      rejectRequestInput.contactID,
     );
   }
 
@@ -85,7 +84,7 @@ export class ContactsResolver {
     getAllContactsInput: SendRequestInput,
   ) {
     return await this.contactsService.getAllContacts(
-      getAllContactsInput?.contactID,
+      getAllContactsInput.contactID,
     );
   }
 }

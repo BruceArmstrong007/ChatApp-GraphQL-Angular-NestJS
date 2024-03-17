@@ -86,7 +86,7 @@ class AddFriendsComponent {
 
   addFriend(userID: string | undefined) {
     if (!userID) return;
-    this.addFriendsState.addFriend({
+    this.addFriendsState.sendRequest({
       contactID: userID,
     });
   }
