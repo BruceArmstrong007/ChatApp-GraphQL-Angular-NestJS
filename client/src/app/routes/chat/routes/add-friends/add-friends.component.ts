@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { addFriends } from './add-friends.state';
+import { addFriendsState } from './add-friends.state';
 import { UserCardComponent } from '../../../../shared/components/user-card/user-card.component';
 
 @Component({
@@ -71,10 +71,10 @@ import { UserCardComponent } from '../../../../shared/components/user-card/user-
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [addFriends],
+  providers: [addFriendsState],
 })
 class AddFriendsComponent {
-  readonly addFriendsState = inject(addFriends);
+  readonly addFriendsState = inject(addFriendsState);
   searchUser(target: EventTarget | null) {
     const input = target as HTMLInputElement;
     if (input.value) {

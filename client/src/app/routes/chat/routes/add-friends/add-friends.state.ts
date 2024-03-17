@@ -26,7 +26,7 @@ import { ApolloQueryResult } from '@apollo/client/core';
 import { MutationResult } from 'apollo-angular';
 import { AddFriendsState } from './add-friends.type';
 
-export const addFriends = signalStore(
+export const addFriendsState = signalStore(
   withState<AddFriendsState>({
     users: [],
   }),
